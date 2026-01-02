@@ -1,0 +1,12 @@
+# Dependencies
+node_modules/
+venv/
+__pycache__/
+
+# Environment Variables (NEVER COMMIT THESE)
+.env
+.env.local
+.env.*.local
+
+# System
+.DS_Store
