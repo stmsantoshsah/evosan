@@ -1,4 +1,7 @@
 fastapi
 uvicorn
+motor
+python-dotenv
 pydantic
-pymongo
+pydantic-settings
+dnspython
