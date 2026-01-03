@@ -2,7 +2,8 @@
 import './globals.css';
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
-import Sidebar from '@/components/Sidebar'; // Import the sidebar
+import Sidebar from '@/components/Sidebar';
+import MobileNav from '@/components/MobileNav'; // <--- Import this
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -20,15 +21,22 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${inter.className} bg-zinc-950 text-zinc-200`}>
         <div className="flex min-h-screen">
-          {/* 1. The Sidebar (Fixed width) */}
+          
+          {/* Desktop Sidebar (Hidden on Mobile) */}
           <Sidebar />
 
-          {/* 2. The Main Content (Fills rest of screen) */}
-          <main className="flex-1 ml-64 p-8 overflow-y-auto h-screen">
+          {/* Main Content Area */}
+          {/* md:ml-64 = Left margin only on Desktop */}
+          {/* pb-20 = Padding bottom so content isn't hidden behind Mobile Nav */}
+          <main className="flex-1 md:ml-64 p-4 md:p-8 pb-24 md:pb-8 overflow-y-auto h-screen">
             <div className="max-w-5xl mx-auto">
               {children}
             </div>
           </main>
+
+          {/* Mobile Bottom Nav (Hidden on Desktop) */}
+          <MobileNav />
+          
         </div>
       </body>
     </html>

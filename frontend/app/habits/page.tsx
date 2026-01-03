@@ -71,7 +71,7 @@ export default function HabitsPage() {
       <h1 className="text-3xl font-bold mb-8 text-cyan-400">Habit Protocol</h1>
 
       {/* --- ADD NEW HABIT --- */}
-      <form onSubmit={createHabit} className="flex gap-4 mb-10 bg-zinc-900/50 p-4 rounded-lg border border-zinc-800">
+      <form onSubmit={createHabit} className="flex flex-col md:flex-row gap-4 mb-10 bg-zinc-900/50 p-4 rounded-lg border border-zinc-800">
         <input
           type="text"
           placeholder="New Habit (e.g. Read 10 pages)"

@@ -15,7 +15,7 @@ export default function Sidebar() {
   const pathname = usePathname();
 
   return (
-    <aside className="w-64 h-screen bg-zinc-900 border-r border-zinc-800 flex flex-col fixed left-0 top-0">
+    <aside className="hidden md:flex w-64 h-screen bg-zinc-900 border-r border-zinc-800 flex-col fixed left-0 top-0 z-40">
       <div className="p-6 border-b border-zinc-800 flex items-center gap-2">
         <Activity className="text-emerald-500 w-6 h-6" />
         <span className="text-xl font-bold tracking-tight text-zinc-100">EVOSAN</span>

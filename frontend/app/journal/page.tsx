@@ -71,7 +71,7 @@ export default function JournalPage() {
       <form onSubmit={handleSubmit} className="mb-12 bg-zinc-900 p-6 rounded-xl border border-zinc-800">
         <label className="block text-sm text-zinc-500 mb-2">How are you thinking today?</label>
         <textarea
-          className="w-full bg-zinc-950 border border-zinc-800 rounded-md p-4 text-zinc-300 focus:outline-none focus:border-emerald-500 transition-colors h-32 resize-none"
+          className="w-full bg-zinc-950 border border-zinc-800 rounded-md p-4 text-base md:text-sm text-zinc-300 focus:outline-none focus:border-emerald-500 transition-colors h-40 md:h-32 resize-none"
           placeholder="Write your thoughts..."
           value={content}
           onChange={(e) => setContent(e.target.value)}
