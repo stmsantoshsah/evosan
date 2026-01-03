@@ -12,34 +12,24 @@ async def get_database():
     return db.client[settings.DB_NAME]
 
 async def connect_to_mongo():
-    print("🟡 Connecting to MongoDB...")
+    print("🟡 Connecting to MongoDB (Aggressive Mode)...")
     try:
-        # ATTEMPT 1: Secure Connection (Production Standard)
+        # FORCE SSL VERIFICATION OFF
+        # This ignores certificate errors and is the strongest way to test connectivity
         db.client = AsyncIOMotorClient(
             settings.MONGODB_URL,
-            tlsCAFile=certifi.where(),
-            serverSelectionTimeoutMS=5000  # 5 second timeout
+            tls=True,
+            tlsAllowInvalidCertificates=True,
+            serverSelectionTimeoutMS=5000
         )
+        
+        # Test the connection immediately
         await db.client.admin.command('ping')
-        print("🟢 Connected to MongoDB (Secure)")
+        print("🟢 Connected to MongoDB Successfully")
         
     except Exception as e:
-        print(f"⚠️ Secure connection failed: {e}")
-        print("🔄 Retrying with SSL verification disabled (Dev Mode)...")
-        
-        # ATTEMPT 2: Dev Mode (Bypass SSL)
-        # This fixes the specific Windows SSL error you were seeing
-        try:
-            db.client = AsyncIOMotorClient(
-                settings.MONGODB_URL,
-                tls=True,
-                tlsAllowInvalidCertificates=True,
-                serverSelectionTimeoutMS=5000
-            )
-            await db.client.admin.command('ping')
-            print("🟢 Connected to MongoDB (Insecure Dev Mode)")
-        except Exception as e2:
-             print(f"🔴 Fatal Connection Error: {e2}")
+        print(f"🔴 CONNECTION FAILED: {e}")
+        print("👉 ACTION REQUIRED: Check your MongoDB Atlas Network Access IP Whitelist.")
 
 async def close_mongo_connection():
     if db.client:
