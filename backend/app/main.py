@@ -4,8 +4,12 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from contextlib import asynccontextmanager
 from app.db.database import connect_to_mongo,close_mongo_connection
+from app.api.habits import router as habits_router
 
-# Import 
+
+# IMPORT THE NEW ROUTER
+from app.api.journal import router as journal_router 
+from app.api.habits import router as habits_router 
 
 # Lifespan events replace the old startup/shutdown events
 
@@ -24,6 +28,9 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers =["*"]
 )
+# REGISTER THE ROUTER
+app.include_router(journal_router, prefix="/journal", tags=["Journal"])
+app.include_router(habits_router, prefix="/habits", tags=["Habits"])
 
 @app.get("/")
 def read_root():
