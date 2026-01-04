@@ -15,3 +15,8 @@ class NutritionLog(BaseModel):
     protein_grams: int
     water_liters: float
     notes: Optional[str] = "Chicken & Rice"
+
+class WorkoutPlan(BaseModel):
+    day: str = Field(..., example="Monday") # Monday, Tuesday, etc.
+    routine_name: str = Field(..., example="Push Day")
+    exercises: str = Field(..., example="Bench Press: 3x10")

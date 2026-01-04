@@ -30,11 +30,10 @@ export default function Sidebar() {
             <Link
               key={item.href}
               href={item.href}
-              className={`flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium transition-all ${
-                isActive
+              className={`flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium transition-all ${isActive
                   ? 'bg-zinc-800 text-emerald-400 border border-zinc-700'
                   : 'text-zinc-400 hover:text-zinc-100 hover:bg-zinc-800/50'
-              }`}
+                }`}
             >
               <item.icon size={18} />
               {item.name}
@@ -44,10 +43,10 @@ export default function Sidebar() {
       </nav>
 
       <div className="p-4 border-t border-zinc-800">
-        <button className="flex items-center gap-3 px-4 py-3 text-zinc-500 text-sm hover:text-zinc-300 w-full transition-colors">
+        <Link href="/settings" className="flex items-center gap-3 px-4 py-3 text-zinc-500 text-sm hover:text-zinc-300 w-full transition-colors">
           <Settings size={18} />
           Settings
-        </button>
+        </Link>
       </div>
     </aside>
   );
