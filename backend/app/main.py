@@ -10,6 +10,7 @@ from app.api.habits import router as habits_router
 # IMPORT THE NEW ROUTER
 from app.api.journal import router as journal_router 
 from app.api.habits import router as habits_router 
+from app.api.insights import router as insights_router
 
 # Lifespan events replace the old startup/shutdown events
 
@@ -31,6 +32,7 @@ app.add_middleware(
 # REGISTER THE ROUTER
 app.include_router(journal_router, prefix="/journal", tags=["Journal"])
 app.include_router(habits_router, prefix="/habits", tags=["Habits"])
+app.include_router(insights_router, prefix="/insights", tags=["Insights"])
 
 @app.get("/")
 def read_root():

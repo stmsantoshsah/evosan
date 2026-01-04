@@ -3,12 +3,14 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { LayoutDashboard, BookOpen, CheckSquare } from 'lucide-react';
+import { LayoutDashboard, BookOpen, CheckSquare, Sparkles } from 'lucide-react';
 
 const navItems = [
   { name: 'Home', href: '/', icon: LayoutDashboard },
   { name: 'Journal', href: '/journal', icon: BookOpen },
   { name: 'Habits', href: '/habits', icon: CheckSquare },
+  { name: 'Insights', href: '/insights', icon: Sparkles },
+
 ];
 
 export default function MobileNav() {

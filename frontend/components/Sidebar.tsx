@@ -3,12 +3,13 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { LayoutDashboard, BookOpen, CheckSquare, Settings, Activity } from 'lucide-react';
+import { LayoutDashboard, BookOpen, CheckSquare, Settings, Activity, Sparkles } from 'lucide-react';
 
 const navItems = [
   { name: 'Dashboard', href: '/', icon: LayoutDashboard },
   { name: 'Journal', href: '/journal', icon: BookOpen },
   { name: 'Habits', href: '/habits', icon: CheckSquare },
+  { name: 'Insights', href: '/insights', icon: Sparkles },
 ];
 
 export default function Sidebar() {
