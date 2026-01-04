@@ -2,7 +2,8 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { ArrowUpRight, CheckCircle2, TrendingUp, BrainCircuit } from 'lucide-react';
+import { ArrowUpRight, CheckCircle2, TrendingUp, BrainCircuit, Activity } from 'lucide-react';
+import HistoryChart from '@/components/HistoryChart';
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:8000';
 
@@ -14,6 +15,7 @@ export default function Dashboard() {
     latestJournal: "No entries yet."
   });
 
+  const [chartData, setChartData] = useState([]);
   useEffect(() => {
     async function loadDashboardData() {
       const today = new Date().toISOString().split('T')[0];
@@ -26,6 +28,11 @@ export default function Dashboard() {
         // 2. Fetch recent journals
         const journalRes = await fetch(`${API_URL}/journal/`);
         const journals = await journalRes.json();
+
+        // 3. NEW: Fetch Chart Data
+        const chartRes = await fetch(`${API_URL}/stats/weekly`);
+        const chartDataRaw = await chartRes.json();
+        setChartData(chartDataRaw);
 
         // Calculate Stats
         const completed = habits.filter((h: any) => h.completed).length;
@@ -53,6 +60,21 @@ export default function Dashboard() {
         <h1 className="text-3xl font-bold text-white">Dashboard</h1>
         <p className="text-zinc-400 mt-1">System Overview for {new Date().toLocaleDateString()}</p>
       </div>
+      {/* --- NEW CHART SECTION --- */}
+      <div className="bg-zinc-900 border border-zinc-800 rounded-xl p-6">
+        <div className="flex items-center justify-between mb-6">
+          <h3 className="text-lg font-semibold text-zinc-200 flex items-center gap-2">
+            <Activity className="text-cyan-400" size={20}/>
+            Performance Trend
+          </h3>
+          <div className="flex gap-4 text-xs font-medium">
+             <div className="flex items-center gap-1 text-zinc-400"><span className="w-2 h-2 rounded-full bg-cyan-500"></span> Habits</div>
+             <div className="flex items-center gap-1 text-zinc-400"><span className="w-2 h-2 rounded-full bg-emerald-500"></span> Mood</div>
+          </div>
+        </div>
+        <HistoryChart data={chartData} />
+      </div>
+      {/* ------------------------- */}
 
       {/* STATS GRID */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
