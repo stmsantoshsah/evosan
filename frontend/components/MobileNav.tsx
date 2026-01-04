@@ -3,7 +3,7 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { LayoutDashboard, BookOpen, CheckSquare, Sparkles, Dumbbell } from 'lucide-react';
+import { LayoutDashboard, BookOpen, CheckSquare, Sparkles, Dumbbell, Settings } from 'lucide-react';
 
 const navItems = [
   { name: 'Home', href: '/', icon: LayoutDashboard },
@@ -11,6 +11,7 @@ const navItems = [
   { name: 'Habits', href: '/habits', icon: CheckSquare },
   { name: 'Insights', href: '/insights', icon: Sparkles },
   { name: 'Health', href: '/health', icon: Dumbbell },
+  { name: 'Set', href: '/settings', icon: Settings },
 ];
 
 export default function MobileNav() {
