@@ -3,14 +3,14 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { LayoutDashboard, BookOpen, CheckSquare, Sparkles } from 'lucide-react';
+import { LayoutDashboard, BookOpen, CheckSquare, Sparkles, Dumbbell } from 'lucide-react';
 
 const navItems = [
   { name: 'Home', href: '/', icon: LayoutDashboard },
   { name: 'Journal', href: '/journal', icon: BookOpen },
   { name: 'Habits', href: '/habits', icon: CheckSquare },
   { name: 'Insights', href: '/insights', icon: Sparkles },
-
+  { name: 'Health', href: '/health', icon: Dumbbell },
 ];
 
 export default function MobileNav() {
@@ -25,9 +25,8 @@ export default function MobileNav() {
             <Link
               key={item.href}
               href={item.href}
-              className={`flex flex-col items-center justify-center w-full h-full space-y-1 ${
-                isActive ? 'text-emerald-400' : 'text-zinc-500'
-              }`}
+              className={`flex flex-col items-center justify-center w-full h-full space-y-1 ${isActive ? 'text-emerald-400' : 'text-zinc-500'
+                }`}
             >
               <item.icon size={20} strokeWidth={isActive ? 2.5 : 2} />
               <span className="text-[10px] font-medium">{item.name}</span>
