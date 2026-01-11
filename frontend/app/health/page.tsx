@@ -94,6 +94,32 @@ export default function HealthPage() {
     });
     setLoading(false);
   };
+const importRoutine = async () => {
+    // 1. Get today's day name (e.g., "Monday")
+    const dayName = new Date().toLocaleDateString('en-US', { weekday: 'long' });
+    
+    setLoading(true);
+    try {
+      // 2. Fetch the plan from Settings
+      const res = await fetch(`${API_URL}/health/plan/${dayName}`);
+      const data = await res.json();
+      
+      if (data) {
+        // 3. Update the state with the plan
+        setWorkout(prev => ({
+          ...prev,
+          routine_name: data.routine_name, // "Push Day"
+          exercises: data.exercises        // "Bench Press..."
+        }));
+      } else {
+        alert(`No plan found for ${dayName}. Go to Settings to define it.`);
+      }
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <div className="space-y-6">
@@ -127,6 +153,17 @@ export default function HealthPage() {
       {/* --- WORKOUT FORM --- */}
       {activeTab === 'workout' && (
         <form onSubmit={saveWorkout} className="bg-zinc-900/50 border border-zinc-800 p-6 rounded-xl space-y-4 animate-in fade-in">
+          {/* NEW BUTTON HERE */}
+          <div className="flex justify-end">
+            <button 
+              type="button" // Important: type="button" prevents form submission
+              onClick={importRoutine}
+              className="text-xs flex items-center gap-2 bg-blue-900/30 text-blue-300 border border-blue-800/50 px-3 py-1.5 rounded hover:bg-blue-900/50 transition-colors"
+            >
+              <Dumbbell size={12} />
+              Load Today's Routine
+            </button>
+          </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
               <label className="block text-xs text-zinc-500 mb-1">Routine Name</label>

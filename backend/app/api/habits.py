@@ -11,7 +11,15 @@ router = APIRouter()
 # 1. Create a Habit
 @router.post("/", status_code=status.HTTP_201_CREATED)
 async def create_habit(habit: Habit):
-    habit_dict = habit.dict()
+    # 1. Check if habit with this name already exists
+    existing = await db.client["evosan_db"]["habits"].find_one({"name": habit.name})
+    
+    if existing:
+        # If it exists, don't create a new one. Just return the existing ID.
+        return {"id": str(existing["_id"]), "message": "Habit already exists"}
+
+    # 2. If not, create it
+    habit_dict = habit.model_dump()
     new_habit = await db.client["evosan_db"]["habits"].insert_one(habit_dict)
     return {"id": str(new_habit.inserted_id), "message": "Habit created"}
 
