@@ -13,6 +13,7 @@ from app.api.habits import router as habits_router
 from app.api.insights import router as insights_router
 from app.api.health import router as health_router
 from app.api.stats import  router as stats_router
+from app.api.auth import router as auth_router
 
 # Lifespan events replace the old startup/shutdown events
 
@@ -37,6 +38,7 @@ app.include_router(habits_router, prefix="/habits", tags=["Habits"])
 app.include_router(insights_router, prefix="/insights", tags=["Insights"])
 app.include_router(health_router, prefix="/health", tags=["Health"])
 app.include_router(stats_router, prefix="/stats", tags=["Stats"])
+app.include_router(auth_router, prefix="/auth", tags=["Auth"])
 
 @app.get("/")
 def read_root():
