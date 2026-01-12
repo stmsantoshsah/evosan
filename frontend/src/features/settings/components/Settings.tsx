@@ -2,50 +2,50 @@
 
 import { useState, useEffect } from 'react';
 import { CalendarDays, Save, Check } from 'lucide-react';
-import axiosInstance from '@/api/axios/axiosInstance';
+import {
+    useGetWorkoutPlanQuery,
+    useSaveWorkoutPlanMutation
+} from '@/features/health/slices/healthApiSlice';
 
 const DAYS = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
 
 export default function Settings() {
     const [selectedDay, setSelectedDay] = useState('Monday');
-    const [loading, setLoading] = useState(false);
     const [msg, setMsg] = useState('');
 
-    const [plan, setPlan] = useState({
+    const [formState, setFormState] = useState({
         routine_name: '',
         exercises: ''
     });
 
-    // Load plan when day changes
-    useEffect(() => {
-        async function fetchPlan() {
-            try {
-                const res = await axiosInstance.get(`/health/plan/${selectedDay}`);
-                const data = res.data;
-                if (data) {
-                    setPlan({ routine_name: data.routine_name, exercises: data.exercises });
-                } else {
-                    setPlan({ routine_name: '', exercises: '' });
-                }
-            } catch (e) {
-                setPlan({ routine_name: '', exercises: '' });
-            }
-        }
-        fetchPlan();
-    }, [selectedDay]);
+    // RTK Query hooks
+    const { data: plan, isLoading: isFetching } = useGetWorkoutPlanQuery(selectedDay);
+    const [savePlan, { isLoading: isSaving }] = useSaveWorkoutPlanMutation();
 
-    const savePlan = async () => {
-        setLoading(true);
+    // Sync form state when data is loaded
+    useEffect(() => {
+        if (plan) {
+            setFormState({
+                routine_name: plan.routine_name || '',
+                exercises: plan.exercises || ''
+            });
+        } else {
+            setFormState({ routine_name: '', exercises: '' });
+        }
+    }, [plan, selectedDay]);
+
+    const handleSave = async () => {
         try {
-            await axiosInstance.post('/health/plan', { day: selectedDay, ...plan });
+            await savePlan({ day: selectedDay, ...formState }).unwrap();
             setMsg('Saved!');
             setTimeout(() => setMsg(''), 2000);
         } catch (e) {
             console.error(e);
             setMsg('Error saving');
         }
-        setLoading(false);
     };
+
+    const isLoading = isFetching || isSaving;
 
     return (
         <div className="space-y-6">
@@ -64,8 +64,8 @@ export default function Settings() {
                             key={day}
                             onClick={() => setSelectedDay(day)}
                             className={`w-full text-left px-4 py-3 rounded-lg text-sm font-medium transition-colors ${selectedDay === day
-                                    ? 'bg-blue-600 text-white'
-                                    : 'bg-zinc-900 text-zinc-400 hover:bg-zinc-800'
+                                ? 'bg-blue-600 text-white'
+                                : 'bg-zinc-900 text-zinc-400 hover:bg-zinc-800'
                                 }`}
                         >
                             {day}
@@ -86,8 +86,9 @@ export default function Settings() {
                                 type="text"
                                 placeholder="e.g. Chest & Triceps"
                                 className="w-full bg-zinc-950 border border-zinc-800 rounded p-3 text-zinc-200 outline-none focus:border-blue-500 p-2 text-white"
-                                value={plan.routine_name}
-                                onChange={e => setPlan({ ...plan, routine_name: e.target.value })}
+                                value={formState.routine_name}
+                                onChange={e => setFormState({ ...formState, routine_name: e.target.value })}
+                                disabled={isLoading}
                             />
                         </div>
 
@@ -96,17 +97,18 @@ export default function Settings() {
                             <textarea
                                 placeholder="List your exercises here..."
                                 className="w-full h-48 bg-zinc-950 border border-zinc-800 rounded p-3 text-zinc-200 outline-none focus:border-blue-500 resize-none font-mono text-sm p-2 text-white"
-                                value={plan.exercises}
-                                onChange={e => setPlan({ ...plan, exercises: e.target.value })}
+                                value={formState.exercises}
+                                onChange={e => setFormState({ ...formState, exercises: e.target.value })}
+                                disabled={isLoading}
                             />
                         </div>
 
                         <button
-                            onClick={savePlan}
-                            disabled={loading}
-                            className="flex items-center gap-2 bg-blue-600 hover:bg-blue-500 text-white px-6 py-2 rounded-lg font-bold transition-all ml-auto"
+                            onClick={handleSave}
+                            disabled={isLoading}
+                            className="flex items-center gap-2 bg-blue-600 hover:bg-blue-500 text-white px-6 py-2 rounded-lg font-bold transition-all ml-auto disabled:opacity-50"
                         >
-                            {loading ? 'Saving...' : <><Save size={18} /> Save Plan</>}
+                            {isSaving ? 'Saving...' : <><Save size={18} /> Save Plan</>}
                         </button>
                         {msg && <p className="text-green-500 text-sm text-right flex items-center justify-end gap-1"><Check size={14} /> {msg}</p>}
                     </div>

@@ -3,21 +3,20 @@
 import { useState } from 'react';
 import { Sparkles, Loader2 } from 'lucide-react';
 import ReactMarkdown from 'react-markdown'
-import axiosInstance from '@/api/axios/axiosInstance';
+import { useLazyGetWeeklyInsightsQuery } from '../slices/insightApiSlice';
 
 export default function Insights() {
     const [insight, setInsight] = useState('');
-    const [loading, setLoading] = useState(false);
+    const [triggerGenerate, { isFetching: isLoading }] = useLazyGetWeeklyInsightsQuery();
 
-    const generateInsight = async () => {
-        setLoading(true);
+    const handleGenerateInsight = async () => {
         try {
-            const res = await axiosInstance.get('/insights/weekly');
-            setInsight(res.data.insight);
+            const data = await triggerGenerate().unwrap();
+            if (data?.insight) {
+                setInsight(data.insight);
+            }
         } catch (err) {
-            console.error(err);
-        } finally {
-            setLoading(false);
+            console.error('Failed to generate insights:', err);
         }
     };
 
@@ -37,12 +36,12 @@ export default function Insights() {
                         Generate a briefing based on your recent journals and habits.
                     </p>
                     <button
-                        onClick={generateInsight}
-                        disabled={loading}
+                        onClick={handleGenerateInsight}
+                        disabled={isLoading}
                         className="bg-purple-600 hover:bg-purple-500 text-white px-6 py-3 rounded-lg font-bold transition-all flex items-center gap-2 mx-auto disabled:opacity-50"
                     >
-                        {loading ? <Loader2 className="animate-spin" /> : <Sparkles size={18} />}
-                        {loading ? 'Analyzing Data...' : 'Run Weekly Analysis'}
+                        {isLoading ? <Loader2 className="animate-spin" /> : <Sparkles size={18} />}
+                        {isLoading ? 'Analyzing Data...' : 'Run Weekly Analysis'}
                     </button>
                 </div>
             )}

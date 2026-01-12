@@ -1,55 +1,40 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useMemo } from 'react';
 import { ArrowUpRight, CheckCircle2, TrendingUp, BrainCircuit, Activity } from 'lucide-react';
 import HistoryChart from './HistoryChart';
-import axiosInstance from '@/api/axios/axiosInstance';
+import {
+    useGetDailyHabitsQuery,
+    useGetRecentJournalsQuery,
+    useGetWeeklyStatsQuery
+} from '../slices/dashboardApiSlice';
 
 export default function Dashboard() {
-    const [stats, setStats] = useState({
-        habitsDone: 0,
-        totalHabits: 0,
-        lastMood: 0,
-        latestJournal: "No entries yet."
-    });
+    const today = new Date().toISOString().split('T')[0];
 
-    const [chartData, setChartData] = useState([]);
+    // RTK Query hooks
+    const { data: habits = [], isLoading: isHabitsLoading } = useGetDailyHabitsQuery(today);
+    const { data: journals = [], isLoading: isJournalsLoading } = useGetRecentJournalsQuery();
+    const { data: chartData = [], isLoading: isChartLoading } = useGetWeeklyStatsQuery();
 
-    useEffect(() => {
-        async function loadDashboardData() {
-            const today = new Date().toISOString().split('T')[0];
+    // Derived Stats
+    const stats = useMemo(() => {
+        const completed = habits.filter((h: any) => h.completed).length;
+        const lastEntry = journals.length > 0 ? journals[0] : null;
 
-            try {
-                // 1. Fetch Habits for today
-                const habitsRes = await axiosInstance.get(`/habits/?date_str=${today}`);
-                const habits = habitsRes.data;
+        return {
+            habitsDone: completed,
+            totalHabits: habits.length,
+            lastMood: lastEntry ? lastEntry.mood : 0,
+            latestJournal: lastEntry ? lastEntry.content : "Start your journal to see insights."
+        };
+    }, [habits, journals]);
 
-                // 2. Fetch recent journals
-                const journalRes = await axiosInstance.get(`/journal/`);
-                const journals = journalRes.data;
+    const isLoading = isHabitsLoading || isJournalsLoading || isChartLoading;
 
-                // 3. NEW: Fetch Chart Data
-                const chartRes = await axiosInstance.get(`/stats/weekly`);
-                const chartDataRaw = chartRes.data;
-                setChartData(chartDataRaw);
-
-                // Calculate Stats
-                const completed = habits.filter((h: any) => h.completed).length;
-                const lastEntry = journals.length > 0 ? journals[0] : null;
-
-                setStats({
-                    habitsDone: completed,
-                    totalHabits: habits.length,
-                    lastMood: lastEntry ? lastEntry.mood : 0,
-                    latestJournal: lastEntry ? lastEntry.content : "Start your journal to see insights."
-                });
-
-            } catch (e) {
-                console.error("Dashboard fetch error", e);
-            }
-        }
-        loadDashboardData();
-    }, []);
+    if (isLoading) {
+        return <div className="p-8 text-zinc-400">Loading dashboard telemetry...</div>;
+    }
 
     return (
         <div className="space-y-8">
@@ -59,7 +44,8 @@ export default function Dashboard() {
                 <h1 className="text-3xl font-bold text-white">Dashboard</h1>
                 <p className="text-zinc-400 mt-1">System Overview for {new Date().toLocaleDateString()}</p>
             </div>
-            {/* --- NEW CHART SECTION --- */}
+
+            {/* --- CHART SECTION --- */}
             <div className="bg-zinc-900 border border-zinc-800 rounded-xl p-6">
                 <div className="flex items-center justify-between mb-6">
                     <h3 className="text-lg font-semibold text-zinc-200 flex items-center gap-2">
@@ -73,7 +59,6 @@ export default function Dashboard() {
                 </div>
                 <HistoryChart data={chartData} />
             </div>
-            {/* ------------------------- */}
 
             {/* STATS GRID */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -88,7 +73,6 @@ export default function Dashboard() {
                         <span className="text-4xl font-bold text-white">{stats.habitsDone}</span>
                         <span className="text-zinc-500 mb-1">/ {stats.totalHabits} completed</span>
                     </div>
-                    {/* Progress Bar */}
                     <div className="w-full bg-zinc-800 h-2 mt-4 rounded-full overflow-hidden">
                         <div
                             className="bg-cyan-500 h-full transition-all duration-500"

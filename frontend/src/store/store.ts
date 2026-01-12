@@ -1,17 +1,16 @@
 import { configureStore } from '@reduxjs/toolkit';
-
-// Placeholder reducer until slices are created
-const rootReducer = {
-    // Placeholder to prevent "Store does not have a valid reducer" error
-    app: (state = {}, action: any) => state,
-};
+import { apiSlice } from './apiSlice';
 
 export const store = configureStore({
-    reducer: rootReducer,
+    reducer: {
+        [apiSlice.reducerPath]: apiSlice.reducer,
+        // Add other slices here
+        app: (state = {}, action: any) => state,
+    },
     middleware: (getDefaultMiddleware) =>
         getDefaultMiddleware({
             serializableCheck: false,
-        }),
+        }).concat(apiSlice.middleware),
 });
 
 export type RootState = ReturnType<typeof store.getState>;

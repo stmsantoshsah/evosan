@@ -1,59 +1,39 @@
 'use client';
 
-import { useState, useEffect } from 'react';
-import axiosInstance from '@/api/axios/axiosInstance';
-
-// Define the shape of a journal entry for TypeScript
-interface JournalEntry {
-    title: string;
-    content: string;
-    mood: number;
-    tags: string[];
-    created_at: string;
-}
+import { useState } from 'react';
+import {
+    useGetJournalEntriesQuery,
+    useCreateJournalEntryMutation
+} from '../slices/journalApiSlice';
 
 export default function Journal() {
-    const [entries, setEntries] = useState<JournalEntry[]>([]);
     const [content, setContent] = useState('');
     const [mood, setMood] = useState(5);
-    const [loading, setLoading] = useState(false);
 
-    // Fetch entries on load
-    useEffect(() => {
-        fetchEntries();
-    }, []);
-
-    const fetchEntries = async () => {
-        try {
-            const res = await axiosInstance.get('/journal');
-            setEntries(res.data);
-        } catch (err) {
-            console.error("Failed to fetch journal", err);
-        }
-    };
+    // RTK Query hooks
+    const { data: entries = [], isLoading: isFetchingEntries } = useGetJournalEntriesQuery();
+    const [createEntry, { isLoading: isCreatingEntry }] = useCreateJournalEntryMutation();
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        setLoading(true);
 
         const newEntry = {
-            title: "Daily Log", // Simple default for now
+            title: "Daily Log",
             content,
             mood,
-            tags: ["daily"], // Default tag
+            tags: ["daily"],
             created_at: new Date().toISOString()
         };
 
         try {
-            await axiosInstance.post('/journal', newEntry);
-            setContent(''); // Clear form
-            fetchEntries(); // Refresh list
+            await createEntry(newEntry).unwrap();
+            setContent('');
         } catch (err) {
             console.error("Error saving entry", err);
-        } finally {
-            setLoading(false);
         }
     };
+
+    const isLoading = isFetchingEntries || isCreatingEntry;
 
     return (
         <div className="max-w-3xl mx-auto">
@@ -67,6 +47,7 @@ export default function Journal() {
                     placeholder="Write your thoughts..."
                     value={content}
                     onChange={(e) => setContent(e.target.value)}
+                    disabled={isLoading}
                     required
                 />
 
@@ -78,14 +59,15 @@ export default function Journal() {
                             value={mood}
                             onChange={(e) => setMood(parseInt(e.target.value))}
                             className="accent-emerald-500"
+                            disabled={isLoading}
                         />
                     </div>
                     <button
                         type="submit"
-                        disabled={loading}
-                        className="px-6 py-2 bg-emerald-600 hover:bg-emerald-500 text-white rounded-md text-sm font-bold transition-all"
+                        disabled={isLoading}
+                        className="px-6 py-2 bg-emerald-600 hover:bg-emerald-500 text-white rounded-md text-sm font-bold transition-all disabled:opacity-50"
                     >
-                        {loading ? 'Saving...' : 'Log Entry'}
+                        {isCreatingEntry ? 'Saving...' : 'Log Entry'}
                     </button>
                 </div>
             </form>
@@ -93,7 +75,10 @@ export default function Journal() {
             {/* --- READ AREA --- */}
             <div className="space-y-6">
                 <h2 className="text-xl text-zinc-500 border-b border-zinc-800 pb-2">Recent Logs</h2>
-                {entries.length === 0 && <p className="text-zinc-600 italic">No entries yet.</p>}
+
+                {isFetchingEntries && <p className="text-zinc-500 animate-pulse">Synchronizing stream...</p>}
+
+                {!isFetchingEntries && entries.length === 0 && <p className="text-zinc-600 italic">No entries yet.</p>}
 
                 {entries.map((entry, i) => (
                     <div key={i} className="p-6 bg-zinc-900/50 border border-zinc-800 rounded-lg hover:border-zinc-700 transition-colors">
