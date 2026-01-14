@@ -3,15 +3,11 @@
 import { useState } from 'react';
 import { Zap, Loader2, Sparkles } from 'lucide-react';
 import toast from 'react-hot-toast';
-import { useParseTextMutation } from '../slices/dashboardApiSlice';
-import { useSaveWorkoutMutation, useSaveNutritionMutation } from '../../health/slices/healthApiSlice';
+import confetti from 'canvas-confetti';
 
 export default function CommandBar() {
     const [input, setInput] = useState('');
     const [isProcessing, setIsProcessing] = useState(false);
-    // Removed existing mutations to use direct API call for Smart Parser
-    const [saveWorkout] = useSaveWorkoutMutation();
-    const [saveNutrition] = useSaveNutritionMutation();
 
     const today = new Date().toISOString().split('T')[0];
 
@@ -33,33 +29,44 @@ export default function CommandBar() {
             }
 
             const data = await response.json();
-            const result = data.data;
+            const xpDetails = data.gamification;
 
-            // Note: The Backend Route now handles the DB update (as per Task 1).
-            // So we just need to refresh the UI. 
-            // Ideally, we should invalidate tags here to trigger refetch.
-            // Since we can't easily dispatch from here without useDispatch, 
-            // and we want to "trigger a data refresh", we might reload the page 
-            // or rely on a global refresh. 
-            // For now, let's just clear input and maybe alert.
-            // To properly refresh data in RTK Query, we should use the refetch/invalidate logic.
-            // I'll reload window for simplicity or assume RTK Query polling?
-            // Prompt says: "On success: Clear the input field and trigger a data refresh (re-fetch dashboard data)."
-            // I can simply reload the page for a quick "refresh" or import useDispatch.
+            // Trigger XP Update Event for XPBar
+            window.dispatchEvent(new Event('xp-update'));
 
-            // Let's assume a page reload is acceptable or we add window.location.reload()
-            // But valid React way is invalidating tags.
+            if (xpDetails && xpDetails.levelUp) {
+                confetti({
+                    particleCount: 150,
+                    spread: 80,
+                    origin: { y: 0.6 }
+                });
+                toast.success(`LEVEL UP! You are now a ${xpDetails.title || 'Engineer'}`, {
+                    icon: '🚀',
+                    style: {
+                        border: '1px solid #F59E0B',
+                        color: '#F59E0B',
+                        background: '#18181b',
+                        fontWeight: 'bold'
+                    },
+                    duration: 6000
+                });
+            }
 
-            // I'll use window.location.reload() as a robust "Re-fetch" for this specific task scope
-            // unless I import useDispatch and apiSlice. 
-            // I'll add window.location.reload() to ensure data is fresh.
+            toast.success(`Log added! +${xpDetails?.xpGained || 0} XP`, {
+                icon: '⚡',
+                duration: 2500
+            });
 
             setInput('');
-            window.location.reload();
+
+            // Allow toast/confetti to be seen before reload
+            setTimeout(() => {
+                window.location.reload();
+            }, 2000);
 
         } catch (err) {
             console.error('Failed to process command:', err);
-            alert('Failed to process command. Please check your connection or try again.');
+            toast.error('Failed to process. Try again.');
         } finally {
             setIsProcessing(false);
         }

@@ -29,6 +29,14 @@ Example JSON:
 }
 `;
 
+const getRankTitle = (level: number) => {
+    if (level < 5) return "Script Kiddie";
+    if (level < 10) return "Code Monkey";
+    if (level < 20) return "Full Stack Warrior";
+    if (level < 50) return "System Architect";
+    return "10x Engineer";
+};
+
 export async function POST(req: NextRequest) {
     try {
         const body = await req.json();
@@ -63,9 +71,12 @@ export async function POST(req: NextRequest) {
         const now = new Date().toISOString();
 
         const promises = [];
+        let xpGained = 0;
 
         // A. Update Nutrition (Water, Calories, Protein)
         if (extractedData.water_ml || extractedData.calories || extractedData.protein_g) {
+            xpGained += 10; // Log Food/Water: +10 XP
+
             const updateDoc: any = { $inc: {}, $setOnInsert: { date: today } };
 
             if (extractedData.water_ml) {
@@ -88,6 +99,8 @@ export async function POST(req: NextRequest) {
 
         // B. Update Workouts
         if (extractedData.workout_name) {
+            xpGained += 50; // Standard Workout: +50 XP
+
             const workoutUpdate = {
                 $set: {
                     date: today,
@@ -111,6 +124,8 @@ export async function POST(req: NextRequest) {
 
         // C. Update Mood (Journal)
         if (extractedData.mood_rating) {
+            xpGained += 20; // Journal Entry: +20 XP
+
             // Find one for today by regex prefix
             const existingJournal = await db.collection('journal_entries').findOne({
                 created_at: { $regex: `^${today}` }
@@ -135,9 +150,54 @@ export async function POST(req: NextRequest) {
             }
         }
 
+        // 3. GAMIFICATION LOGIC
+        let levelUp = false;
+        let newLevel = 1;
+
+        if (xpGained > 0) {
+            // Find stats or create
+            const gamestats = await db.collection('gamestats').findOne({});
+
+            let currentXP = gamestats ? gamestats.xp : 0;
+            const previousLevel = Math.floor(currentXP / 1000) + 1;
+
+            currentXP += xpGained;
+            newLevel = Math.floor(currentXP / 1000) + 1;
+
+            if (newLevel > previousLevel) {
+                levelUp = true;
+            }
+
+            const currentTitle = getRankTitle(newLevel);
+
+            promises.push(
+                db.collection('gamestats').updateOne(
+                    {}, // Singleton for now
+                    {
+                        $set: {
+                            xp: currentXP,
+                            title: currentTitle,
+                            level: newLevel,
+                            lastUpdated: now
+                        }
+                    },
+                    { upsert: true }
+                )
+            );
+        }
+
         await Promise.all(promises);
 
-        return NextResponse.json({ success: true, data: extractedData });
+        return NextResponse.json({
+            success: true,
+            data: extractedData,
+            gamification: {
+                xpGained,
+                levelUp,
+                newLevel,
+                title: getRankTitle(newLevel)
+            }
+        });
 
     } catch (error: any) {
         console.error('Smart Parser Error:', error);

@@ -7,6 +7,7 @@ import HistoryChart from './HistoryChart';
 import CommandBar from './CommandBar';
 import InsightsPanel from './InsightsPanel';
 import HUD from './HUD';
+import XPBar from '../../gamification/components/XPBar';
 
 import {
     useGetDailyHabitsQuery,
@@ -45,6 +46,11 @@ export default function Dashboard() {
 
     return (
         <div className="space-y-6 md:space-y-8 px-4 md:px-0">
+
+            {/* GAMIFICATION BAR */}
+            <div className="-mx-4 md:mx-0 -mt-4 md:mt-0 mb-6">
+                <XPBar />
+            </div>
 
             {/* HEADER */}
             <div>
