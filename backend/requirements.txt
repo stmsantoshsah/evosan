@@ -14,3 +14,4 @@ mangum
 pandas
 numpy
 scipy
+email-validator
