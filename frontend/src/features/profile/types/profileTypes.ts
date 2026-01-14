@@ -7,6 +7,12 @@ export interface UserProfile {
     avatarUrl?: string;
     bio?: string;
     joinedAt: string;
+    stats?: {
+        totalHabits: number;
+        totalJournals: number;
+        currentStreak: number;
+        daysActive: number;
+    };
 }
 
 export interface UpdateProfilePayload {

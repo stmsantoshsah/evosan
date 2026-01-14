@@ -21,28 +21,28 @@ export default function InsightsPanel() {
     const insights = data?.insights || [];
 
     return (
-        <div className="bg-zinc-900 border border-zinc-800 rounded-xl p-6">
-            <h3 className="text-lg font-semibold text-zinc-200 mb-4 flex items-center gap-2">
-                <Lightbulb className="text-yellow-500" size={20} />
+        <div className="bg-zinc-900 border border-zinc-800 rounded-xl p-4 md:p-6">
+            <h3 className="text-base md:text-lg font-semibold text-zinc-200 mb-4 flex items-center gap-2">
+                <Lightbulb className="text-yellow-500" size={18} />
                 Neural Analysis
             </h3>
 
             {insights.length > 0 ? (
-                <div className="space-y-4">
+                <div className="space-y-3 md:space-y-4">
                     {insights.map((insight: string, idx: number) => {
                         const isPositive = insight.toLowerCase().includes('positive');
                         const isInfo = insight.toLowerCase().includes('insufficient data');
 
                         return (
-                            <div key={idx} className="flex gap-3 items-start p-3 bg-zinc-950/50 rounded-lg border border-zinc-800/50">
+                            <div key={idx} className="flex gap-2 md:gap-3 items-start p-3 bg-zinc-950/50 rounded-lg border border-zinc-800/50">
                                 {isInfo ? (
-                                    <AlertCircle className="text-zinc-500 mt-1 shrink-0" size={16} />
+                                    <AlertCircle className="text-zinc-500 mt-1 shrink-0" size={14} />
                                 ) : isPositive ? (
-                                    <TrendingUp className="text-emerald-500 mt-1 shrink-0" size={16} />
+                                    <TrendingUp className="text-emerald-500 mt-1 shrink-0" size={14} />
                                 ) : (
-                                    <TrendingDown className="text-orange-500 mt-1 shrink-0" size={16} />
+                                    <TrendingDown className="text-orange-500 mt-1 shrink-0" size={14} />
                                 )}
-                                <p className="text-sm text-zinc-400 leading-relaxed">
+                                <p className="text-xs md:text-sm text-zinc-400 leading-relaxed">
                                     {insight}
                                 </p>
                             </div>
@@ -50,16 +50,16 @@ export default function InsightsPanel() {
                     })}
                 </div>
             ) : (
-                <div className="flex flex-col items-center justify-center py-8 text-center">
-                    <AlertCircle className="text-zinc-600 mb-2" size={24} />
-                    <p className="text-sm text-zinc-500 max-w-[200px]">
+                <div className="flex flex-col items-center justify-center py-6 md:py-8 text-center">
+                    <AlertCircle className="text-zinc-600 mb-2" size={20} />
+                    <p className="text-xs md:text-sm text-zinc-500 max-w-[200px]">
                         Collecting data for pattern recognition. Keep logging your daily protocol.
                     </p>
                 </div>
             )}
 
-            <div className="mt-6 pt-4 border-t border-zinc-800">
-                <p className="text-[10px] text-zinc-600 uppercase tracking-widest font-medium">
+            <div className="mt-4 md:mt-6 pt-4 border-t border-zinc-800">
+                <p className="text-[9px] md:text-[10px] text-zinc-600 uppercase tracking-widest font-medium">
                     Correlation Engine v1.0 • System Operational
                 </p>
             </div>

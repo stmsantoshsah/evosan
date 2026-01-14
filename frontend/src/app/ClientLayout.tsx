@@ -14,7 +14,7 @@ export function ClientLayout({ children }: { children: React.ReactNode }) {
             <AuthGuard>
                 <div className="flex min-h-screen">
                     {!isAuthPage && <Sidebar />}
-                    <main className={`flex-1 ${!isAuthPage ? 'md:ml-64' : ''} p-8`}>
+                    <main className={`flex-1 ${!isAuthPage ? 'md:ml-64 pt-16 md:pt-0' : ''} p-4 md:p-8`}>
                         {children}
                     </main>
                 </div>

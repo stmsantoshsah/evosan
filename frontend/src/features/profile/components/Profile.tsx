@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { User, Mail, Shield, Award, Edit3, Save, Camera, Loader2 } from 'lucide-react';
+import { User, Mail, Shield, Award, Edit3, Save, Camera, Loader2, Calendar, BookOpen, CheckCircle, TrendingUp } from 'lucide-react';
 import { useGetProfileQuery, useUpdateProfileMutation } from '../slices/profileApiSlice';
 
 export default function Profile() {
@@ -41,58 +41,109 @@ export default function Profile() {
     if (!profile) return null;
 
     return (
-        <div className="max-w-4xl mx-auto space-y-8 animate-in fade-in duration-500">
+        <div className="max-w-4xl mx-auto space-y-6 md:space-y-8 animate-in fade-in duration-500">
             {/* --- HERO BANNER --- */}
-            <div className="relative h-48 rounded-2xl bg-gradient-to-r from-zinc-800 to-zinc-950 overflow-hidden border border-zinc-800">
+            <div className="relative h-32 md:h-48 rounded-2xl bg-gradient-to-r from-zinc-800 to-zinc-950 overflow-hidden border border-zinc-800">
                 <div className="absolute inset-0 opacity-20 bg-[url('https://images.unsplash.com/photo-1550745165-9bc0b252726f?q=80&w=1470&auto=format&fit=crop')] bg-cover bg-center"></div>
-                <div className="absolute bottom-0 left-0 w-full p-8 flex items-end gap-6 translate-y-12">
+                <div className="absolute bottom-0 left-0 w-full p-4 md:p-8 flex items-end gap-4 md:gap-6 translate-y-8 md:translate-y-12">
                     <div className="relative group">
-                        <div className="w-32 h-32 rounded-2xl bg-zinc-900 border-4 border-black flex items-center justify-center text-zinc-600 overflow-hidden">
+                        <div className="w-20 h-20 md:w-32 md:h-32 rounded-2xl bg-zinc-900 border-4 border-black flex items-center justify-center text-zinc-600 overflow-hidden">
                             {profile.avatarUrl ? (
                                 <img src={profile.avatarUrl} alt={profile.name} className="w-full h-full object-cover" />
                             ) : (
-                                <User size={64} />
+                                <User size={40} className="md:w-16 md:h-16" />
                             )}
                         </div>
-                        <button className="absolute bottom-2 right-2 p-2 bg-black/80 hover:bg-black rounded-lg text-white border border-zinc-700 opacity-0 group-hover:opacity-100 transition-all">
-                            <Camera size={16} />
+                        <button className="absolute bottom-1 right-1 md:bottom-2 md:right-2 p-1.5 md:p-2 bg-black/80 hover:bg-black rounded-lg text-white border border-zinc-700 opacity-0 group-hover:opacity-100 transition-all">
+                            <Camera size={14} className="md:w-4 md:h-4" />
                         </button>
                     </div>
-                    <div className="mb-14">
-                        <h1 className="text-3xl font-bold text-white">{profile.name}</h1>
-                        <p className="text-zinc-400 flex items-center gap-2">
-                            <Shield size={14} className="text-cyan-500" />
-                            {profile.role} • <span className="text-zinc-500 text-sm">Joined {new Date(profile.joinedAt).toLocaleDateString()}</span>
+                    <div className="mb-8 md:mb-14">
+                        <h1 className="text-xl md:text-3xl font-bold text-white">{profile.name}</h1>
+                        <p className="text-zinc-400 flex items-center gap-2 text-xs md:text-base">
+                            <Shield size={12} className="md:w-3.5 md:h-3.5 text-cyan-500" />
+                            {profile.role} • <span className="text-zinc-500 text-xs md:text-sm">Joined {new Date(profile.joinedAt).toLocaleDateString()}</span>
                         </p>
                     </div>
                 </div>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 pt-6">
+            {/* User Stats Cards */}
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4 pt-4 md:pt-6">
+                <div className="bg-zinc-900 border border-zinc-800 rounded-xl p-4">
+                    <div className="flex items-center gap-2 mb-2 text-cyan-400">
+                        <CheckCircle size={16} />
+                        <span className="text-[9px] md:text-[10px] font-bold uppercase tracking-widest text-zinc-500">Habits</span>
+                    </div>
+                    <p className="text-2xl md:text-3xl font-bold text-white">{profile.stats?.totalHabits || 0}</p>
+                </div>
+                <div className="bg-zinc-900 border border-zinc-800 rounded-xl p-4">
+                    <div className="flex items-center gap-2 mb-2 text-emerald-400">
+                        <BookOpen size={16} />
+                        <span className="text-[9px] md:text-[10px] font-bold uppercase tracking-widest text-zinc-500">Journals</span>
+                    </div>
+                    <p className="text-2xl md:text-3xl font-bold text-white">{profile.stats?.totalJournals || 0}</p>
+                </div>
+                <div className="bg-zinc-900 border border-zinc-800 rounded-xl p-4">
+                    <div className="flex items-center gap-2 mb-2 text-purple-400">
+                        <TrendingUp size={16} />
+                        <span className="text-[9px] md:text-[10px] font-bold uppercase tracking-widest text-zinc-500">Streak</span>
+                    </div>
+                    <p className="text-2xl md:text-3xl font-bold text-white">{profile.stats?.currentStreak || 0}</p>
+                </div>
+                <div className="bg-zinc-900 border border-zinc-800 rounded-xl p-4">
+                    <div className="flex items-center gap-2 mb-2 text-orange-400">
+                        <Calendar size={16} />
+                        <span className="text-[9px] md:text-[10px] font-bold uppercase tracking-widest text-zinc-500">Days</span>
+                    </div>
+                    <p className="text-2xl md:text-3xl font-bold text-white">{profile.stats?.daysActive || 0}</p>
+                </div>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
                 {/* --- SIDEBAR INFO --- */}
                 <div className="space-y-6">
-                    <div className="bg-zinc-900 border border-zinc-800 rounded-xl p-6">
-                        <h3 className="text-sm font-bold text-zinc-500 uppercase tracking-widest mb-4">Contact Information</h3>
+                    <div className="bg-zinc-900 border border-zinc-800 rounded-xl p-4 md:p-6">
+                        <h3 className="text-xs md:text-sm font-bold text-zinc-500 uppercase tracking-widest mb-4">Contact Information</h3>
                         <div className="space-y-4">
                             <div className="flex items-center gap-3 text-zinc-300">
-                                <Mail size={18} className="text-zinc-600" />
-                                <span className="text-sm">{profile.email}</span>
+                                <Mail size={16} className="md:w-[18px] md:h-[18px] text-zinc-600" />
+                                <span className="text-xs md:text-sm break-all">{profile.email}</span>
                             </div>
                             {profile.specialization && (
                                 <div className="flex items-center gap-3 text-zinc-300">
-                                    <Award size={18} className="text-zinc-600" />
-                                    <span className="text-sm">{profile.specialization}</span>
+                                    <Award size={16} className="md:w-[18px] md:h-[18px] text-zinc-600" />
+                                    <span className="text-xs md:text-sm">{profile.specialization}</span>
                                 </div>
                             )}
+                        </div>
+                    </div>
+
+                    {/* Account Info */}
+                    <div className="bg-zinc-900 border border-zinc-800 rounded-xl p-4 md:p-6">
+                        <h3 className="text-xs md:text-sm font-bold text-zinc-500 uppercase tracking-widest mb-4">Account Details</h3>
+                        <div className="space-y-3 text-xs md:text-sm">
+                            <div>
+                                <p className="text-zinc-600 text-[10px] uppercase mb-1">Status</p>
+                                <p className="text-emerald-400 font-medium">Active</p>
+                            </div>
+                            <div>
+                                <p className="text-zinc-600 text-[10px] uppercase mb-1">Member Since</p>
+                                <p className="text-zinc-300">{new Date(profile.joinedAt).toLocaleDateString('en-US', { month: 'long', year: 'numeric' })}</p>
+                            </div>
+                            <div>
+                                <p className="text-zinc-600 text-[10px] uppercase mb-1">Role</p>
+                                <p className="text-zinc-300">{profile.role}</p>
+                            </div>
                         </div>
                     </div>
                 </div>
 
                 {/* --- MAIN CONTENT --- */}
                 <div className="md:col-span-2 space-y-6">
-                    <div className="bg-zinc-900 border border-zinc-800 rounded-xl p-8">
+                    <div className="bg-zinc-900 border border-zinc-800 rounded-xl p-6 md:p-8">
                         <div className="flex items-center justify-between mb-6">
-                            <h3 className="text-xl font-bold text-white">Biography</h3>
+                            <h3 className="text-lg md:text-xl font-bold text-white">Biography</h3>
                             {!isEditing ? (
                                 <button
                                     onClick={() => setIsEditing(true)}
@@ -128,7 +179,7 @@ export default function Profile() {
                                         type="text"
                                         value={formData.name}
                                         onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                                        className="w-full bg-zinc-950 border border-zinc-800 rounded-lg p-3 text-sm text-white focus:border-cyan-500 outline-none transition-all p-2"
+                                        className="w-full bg-zinc-950 border border-zinc-800 rounded-lg p-3 text-sm text-white focus:border-cyan-500 outline-none transition-all"
                                     />
                                 </div>
                                 {profile.role === 'DOCTOR' && (
@@ -138,7 +189,7 @@ export default function Profile() {
                                             type="text"
                                             value={formData.specialization}
                                             onChange={(e) => setFormData({ ...formData, specialization: e.target.value })}
-                                            className="w-full bg-zinc-950 border border-zinc-800 rounded-lg p-3 text-sm text-white focus:border-cyan-500 outline-none transition-all p-2"
+                                            className="w-full bg-zinc-950 border border-zinc-800 rounded-lg p-3 text-sm text-white focus:border-cyan-500 outline-none transition-all"
                                         />
                                     </div>
                                 )}
@@ -147,12 +198,12 @@ export default function Profile() {
                                     <textarea
                                         value={formData.bio}
                                         onChange={(e) => setFormData({ ...formData, bio: e.target.value })}
-                                        className="w-full bg-zinc-950 border border-zinc-800 rounded-lg p-3 text-sm text-white focus:border-cyan-500 outline-none transition-all h-32 resize-none p-2"
+                                        className="w-full bg-zinc-950 border border-zinc-800 rounded-lg p-3 text-sm text-white focus:border-cyan-500 outline-none transition-all h-32 resize-none"
                                     />
                                 </div>
                             </div>
                         ) : (
-                            <p className="text-zinc-400 leading-relaxed italic">
+                            <p className="text-sm md:text-base text-zinc-400 leading-relaxed italic">
                                 {profile.bio || "No biography provided. Tell the system about your objectives and professional background."}
                             </p>
                         )}
