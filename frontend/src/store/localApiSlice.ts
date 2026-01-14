@@ -5,6 +5,6 @@ export const localApiSlice = createApi({
     baseQuery: fetchBaseQuery({
         baseUrl: '/api',
     }),
-    tagTypes: ['Missions', 'Archives'],
+    tagTypes: ['Missions', 'Archives', 'Codex'],
     endpoints: () => ({}),
 });

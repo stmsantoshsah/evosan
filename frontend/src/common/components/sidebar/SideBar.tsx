@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { LayoutDashboard, BookOpen, CheckSquare, Settings, Activity, Sparkles, Dumbbell, Menu, X, User, Cpu } from 'lucide-react';
+import { LayoutDashboard, BookOpen, CheckSquare, Settings, Activity, Sparkles, Dumbbell, Menu, X, User, Cpu, Terminal } from 'lucide-react';
 import { useState } from 'react';
 
 const navItems = [
@@ -12,6 +12,7 @@ const navItems = [
     { name: 'Insights', href: '/insights', icon: Sparkles },
     { name: 'Health', href: '/health', icon: Dumbbell },
     { name: 'Operations', href: '/operations', icon: Cpu },
+    { name: 'Codex', href: '/codex', icon: Terminal },
     { name: 'Profile', href: '/profile', icon: User },
 ];
 
