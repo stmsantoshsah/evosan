@@ -73,7 +73,7 @@ export const MuscleMatrix = () => {
     };
 
     return (
-        <div className="bg-black/40 border border-gray-800 p-6 rounded-xl h-full">
+        <div className="bg-black/40 border border-gray-800 p-6 rounded-xl h-auto">
             <h3 className="text-gray-200 font-bold mb-6 flex items-center gap-2">
                 <span className="w-2 h-2 bg-teal-500 rounded-full animate-pulse" />
                 HARDWARE STATUS
