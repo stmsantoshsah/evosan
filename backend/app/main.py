@@ -4,7 +4,6 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from contextlib import asynccontextmanager
 from app.db.database import connect_to_mongo,close_mongo_connection
-from app.api.habits import router as habits_router
 
 
 # IMPORT THE NEW ROUTER

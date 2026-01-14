@@ -21,19 +21,14 @@ async def signup(user_in: UserCreate, db: AsyncIOMotorDatabase = Depends(get_dat
         )
     
     # Create new user
-    user_dict = user_in.dict()
+    user_dict = user_in.model_dump()
     password = user_dict.pop("password")
     user_dict["hashed_password"] = get_password_hash(password)
     
     new_user = await db["users"].insert_one(user_dict)
     created_user = await db["users"].find_one({"_id": new_user.inserted_id})
     
-    return UserResponse(
-        id=str(created_user["_id"]),
-        email=created_user["email"],
-        full_name=created_user.get("full_name"),
-        is_active=created_user.get("is_active", True)
-    )
+    return UserResponse.from_mongo(created_user)
 
 @router.post("/login")
 async def login(form_data: OAuth2PasswordRequestForm = Depends(), db: AsyncIOMotorDatabase = Depends(get_database)):
