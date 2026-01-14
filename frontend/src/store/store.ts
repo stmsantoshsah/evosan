@@ -1,6 +1,7 @@
 import { configureStore } from '@reduxjs/toolkit';
 import { apiSlice } from './apiSlice';
 import authReducer from '@/features/auth/slices/authSlice';
+import { rtkQueryErrorLogger } from './middleware';
 
 export const store = configureStore({
     reducer: {
@@ -12,7 +13,7 @@ export const store = configureStore({
     middleware: (getDefaultMiddleware) =>
         getDefaultMiddleware({
             serializableCheck: false,
-        }).concat(apiSlice.middleware),
+        }).concat(apiSlice.middleware, rtkQueryErrorLogger),
 });
 
 export type RootState = ReturnType<typeof store.getState>;
