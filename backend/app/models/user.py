@@ -34,13 +34,33 @@ class UserInDB(UserBase):
     hashed_password: str
     created_at: datetime = Field(default_factory=datetime.utcnow)
 
-class UserResponse(UserBase):
+class UserResponse(BaseModel):
     id: str
+    email: EmailStr
+    name: Optional[str] = None
+    role: str = "ENGINEER" # Default role
+    joinedAt: datetime = Field(default_factory=datetime.utcnow)
+    bio: Optional[str] = None
+    specialization: Optional[str] = None
+    avatarUrl: Optional[str] = None
+    
+    # Allow extra fields if DB has more
+    model_config = ConfigDict(populate_by_name=True)
 
     @classmethod
     def from_mongo(cls, data: dict):
         """Helper to convert MongoDB _id to string id"""
         if not data:
             return data
+        
         id = data.pop('_id', None)
-        return cls(id=str(id), **data)
+        return cls(
+            id=str(id),
+            email=data.get('email'),
+            name=data.get('full_name', 'Unknown User'),
+            role=data.get('role', 'ENGINEER'),
+            joinedAt=data.get('created_at', datetime.utcnow()),
+            bio=data.get('bio'),
+            specialization=data.get('specialization'),
+            avatarUrl=data.get('avatar_url')
+        )

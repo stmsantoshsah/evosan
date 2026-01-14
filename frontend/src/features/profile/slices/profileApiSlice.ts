@@ -16,10 +16,22 @@ export const profileApiSlice = apiSlice.injectEndpoints({
             }),
             invalidatesTags: ['Profile'],
         }),
+        getGamificationStats: builder.query<any, void>({
+            queryFn: async () => {
+                const response = await fetch('/api/gamification');
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                const data = await response.json();
+                return { data };
+            },
+            providesTags: ['Gamification'],
+        }),
     }),
 });
 
 export const {
     useGetProfileQuery,
     useUpdateProfileMutation,
+    useGetGamificationStatsQuery,
 } = profileApiSlice;

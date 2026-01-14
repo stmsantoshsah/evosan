@@ -1,4 +1,4 @@
 export const PROFILE_ENDPOINTS = {
-    GET_PROFILE: '/profile',
-    UPDATE_PROFILE: '/profile',
+    GET_PROFILE: '/auth/me',
+    UPDATE_PROFILE: '/auth/me',
 };

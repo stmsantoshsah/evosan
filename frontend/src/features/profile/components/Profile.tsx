@@ -1,214 +1,237 @@
 'use client';
 
-import { useState, useEffect } from 'react';
-import { User, Mail, Shield, Award, Edit3, Save, Camera, Loader2, Calendar, BookOpen, CheckCircle, TrendingUp } from 'lucide-react';
-import { useGetProfileQuery, useUpdateProfileMutation } from '../slices/profileApiSlice';
+import { useState } from 'react'; // bio editing state could be kept or removed based on requirement, keeping for manifesto editing
+// Actually, user wants "Manifesto" as a text block. I'll make it editable.
+import { User, Shield, Zap, Activity, BookOpen, Dumbbell, Clock, Edit3, Save } from 'lucide-react';
+import { useGetProfileQuery, useUpdateProfileMutation, useGetGamificationStatsQuery } from '../slices/profileApiSlice';
+import { AchievementBadge } from './AchievementBadge';
 
 export default function Profile() {
-    const { data: profile, isLoading: isFetching } = useGetProfileQuery();
-    const [updateProfile, { isLoading: isUpdating }] = useUpdateProfileMutation();
+    const { data: profile, isLoading: isProfileLoading, error } = useGetProfileQuery();
+    const { data: gameData, isLoading: isGameLoading } = useGetGamificationStatsQuery();
+    const [updateProfile] = useUpdateProfileMutation();
 
-    const [isEditing, setIsEditing] = useState(false);
-    const [formData, setFormData] = useState({
-        name: '',
-        bio: '',
-        specialization: ''
-    });
+    // Manifesto State (using bio field for now as proxy)
+    const [isEditingManifesto, setIsEditingManifesto] = useState(false);
+    const [manifestoContent, setManifestoContent] = useState('');
 
-    useEffect(() => {
-        if (profile) {
-            setFormData({
-                name: profile.name || '',
-                bio: profile.bio || '',
-                specialization: profile.specialization || ''
-            });
-        }
-    }, [profile]);
+    const isLoading = isProfileLoading || isGameLoading;
 
-    const handleSave = async () => {
+    if (isLoading) {
+        return <div className="p-8 text-zinc-500 font-mono animate-pulse">Initializing Identity Layer...</div>;
+    }
+
+    if (error) {
+        return (
+            <div className="p-8 border border-red-500/20 bg-red-500/10 rounded-xl text-red-500 font-mono">
+                <h3 className="text-lg font-bold mb-2">Systems Critical</h3>
+                <p>Failed to load identity matrix.</p>
+                <code className="text-xs mt-2 block opacity-70">{JSON.stringify(error)}</code>
+            </div>
+        );
+    }
+
+    if (!profile) return (
+        <div className="p-8 text-zinc-500 font-mono">Profile not found.</div>
+    );
+
+    const stats = gameData?.data?.stats || {};
+    const badges = gameData?.data?.badges || [];
+    const gamification = gameData?.data || {};
+
+    const handleSaveManifesto = async () => {
         try {
-            await updateProfile(formData).unwrap();
-            setIsEditing(false);
+            await updateProfile({ bio: manifestoContent }).unwrap();
+            setIsEditingManifesto(false);
         } catch (err) {
-            console.error('Failed to update profile:', err);
+            console.error('Failed to update manifesto:', err);
         }
     };
 
-    if (isFetching) {
-        return <div className="p-8 text-zinc-500">Retrieving security clearance and profile data...</div>;
+    // Initialize manifesto on load
+    if (!manifestoContent && profile.bio) {
+        setManifestoContent(profile.bio);
     }
 
-    if (!profile) return null;
-
     return (
-        <div className="max-w-4xl mx-auto space-y-6 md:space-y-8 animate-in fade-in duration-500">
-            {/* --- HERO BANNER --- */}
-            <div className="relative h-32 md:h-48 rounded-2xl bg-gradient-to-r from-zinc-800 to-zinc-950 overflow-hidden border border-zinc-800">
-                <div className="absolute inset-0 opacity-20 bg-[url('https://images.unsplash.com/photo-1550745165-9bc0b252726f?q=80&w=1470&auto=format&fit=crop')] bg-cover bg-center"></div>
-                <div className="absolute bottom-0 left-0 w-full p-4 md:p-8 flex items-end gap-4 md:gap-6 translate-y-8 md:translate-y-12">
-                    <div className="relative group">
-                        <div className="w-20 h-20 md:w-32 md:h-32 rounded-2xl bg-zinc-900 border-4 border-black flex items-center justify-center text-zinc-600 overflow-hidden">
+        <div className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-6 md:gap-8 animate-in fade-in duration-500">
+
+            {/* --- LEFT COLUMN: PLAYER CARD (30%) --- */}
+            <div className="lg:col-span-4 space-y-6">
+                <div className="bg-zinc-900 border border-zinc-800 rounded-2xl overflow-hidden relative">
+                    {/* Header Gradient */}
+                    <div className="h-24 bg-gradient-to-b from-teal-900/40 to-zinc-900 border-b border-teal-500/20"></div>
+
+                    <div className="px-6 pb-6 -mt-12 flex flex-col items-center text-center">
+                        {/* Avatar */}
+                        <div className="w-32 h-32 rounded-2xl bg-zinc-950 border-4 border-zinc-900 shadow-xl overflow-hidden mb-4 relative group">
                             {profile.avatarUrl ? (
                                 <img src={profile.avatarUrl} alt={profile.name} className="w-full h-full object-cover" />
                             ) : (
-                                <User size={40} className="md:w-16 md:h-16" />
-                            )}
-                        </div>
-                        <button className="absolute bottom-1 right-1 md:bottom-2 md:right-2 p-1.5 md:p-2 bg-black/80 hover:bg-black rounded-lg text-white border border-zinc-700 opacity-0 group-hover:opacity-100 transition-all">
-                            <Camera size={14} className="md:w-4 md:h-4" />
-                        </button>
-                    </div>
-                    <div className="mb-8 md:mb-14">
-                        <h1 className="text-xl md:text-3xl font-bold text-white">{profile.name}</h1>
-                        <p className="text-zinc-400 flex items-center gap-2 text-xs md:text-base">
-                            <Shield size={12} className="md:w-3.5 md:h-3.5 text-cyan-500" />
-                            {profile.role} • <span className="text-zinc-500 text-xs md:text-sm">Joined {new Date(profile.joinedAt).toLocaleDateString()}</span>
-                        </p>
-                    </div>
-                </div>
-            </div>
-
-            {/* User Stats Cards */}
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4 pt-4 md:pt-6">
-                <div className="bg-zinc-900 border border-zinc-800 rounded-xl p-4">
-                    <div className="flex items-center gap-2 mb-2 text-cyan-400">
-                        <CheckCircle size={16} />
-                        <span className="text-[9px] md:text-[10px] font-bold uppercase tracking-widest text-zinc-500">Habits</span>
-                    </div>
-                    <p className="text-2xl md:text-3xl font-bold text-white">{profile.stats?.totalHabits || 0}</p>
-                </div>
-                <div className="bg-zinc-900 border border-zinc-800 rounded-xl p-4">
-                    <div className="flex items-center gap-2 mb-2 text-emerald-400">
-                        <BookOpen size={16} />
-                        <span className="text-[9px] md:text-[10px] font-bold uppercase tracking-widest text-zinc-500">Journals</span>
-                    </div>
-                    <p className="text-2xl md:text-3xl font-bold text-white">{profile.stats?.totalJournals || 0}</p>
-                </div>
-                <div className="bg-zinc-900 border border-zinc-800 rounded-xl p-4">
-                    <div className="flex items-center gap-2 mb-2 text-purple-400">
-                        <TrendingUp size={16} />
-                        <span className="text-[9px] md:text-[10px] font-bold uppercase tracking-widest text-zinc-500">Streak</span>
-                    </div>
-                    <p className="text-2xl md:text-3xl font-bold text-white">{profile.stats?.currentStreak || 0}</p>
-                </div>
-                <div className="bg-zinc-900 border border-zinc-800 rounded-xl p-4">
-                    <div className="flex items-center gap-2 mb-2 text-orange-400">
-                        <Calendar size={16} />
-                        <span className="text-[9px] md:text-[10px] font-bold uppercase tracking-widest text-zinc-500">Days</span>
-                    </div>
-                    <p className="text-2xl md:text-3xl font-bold text-white">{profile.stats?.daysActive || 0}</p>
-                </div>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
-                {/* --- SIDEBAR INFO --- */}
-                <div className="space-y-6">
-                    <div className="bg-zinc-900 border border-zinc-800 rounded-xl p-4 md:p-6">
-                        <h3 className="text-xs md:text-sm font-bold text-zinc-500 uppercase tracking-widest mb-4">Contact Information</h3>
-                        <div className="space-y-4">
-                            <div className="flex items-center gap-3 text-zinc-300">
-                                <Mail size={16} className="md:w-[18px] md:h-[18px] text-zinc-600" />
-                                <span className="text-xs md:text-sm break-all">{profile.email}</span>
-                            </div>
-                            {profile.specialization && (
-                                <div className="flex items-center gap-3 text-zinc-300">
-                                    <Award size={16} className="md:w-[18px] md:h-[18px] text-zinc-600" />
-                                    <span className="text-xs md:text-sm">{profile.specialization}</span>
+                                <div className="w-full h-full flex items-center justify-center bg-zinc-800">
+                                    <User size={48} className="text-zinc-600" />
                                 </div>
                             )}
-                        </div>
-                    </div>
-
-                    {/* Account Info */}
-                    <div className="bg-zinc-900 border border-zinc-800 rounded-xl p-4 md:p-6">
-                        <h3 className="text-xs md:text-sm font-bold text-zinc-500 uppercase tracking-widest mb-4">Account Details</h3>
-                        <div className="space-y-3 text-xs md:text-sm">
-                            <div>
-                                <p className="text-zinc-600 text-[10px] uppercase mb-1">Status</p>
-                                <p className="text-emerald-400 font-medium">Active</p>
-                            </div>
-                            <div>
-                                <p className="text-zinc-600 text-[10px] uppercase mb-1">Member Since</p>
-                                <p className="text-zinc-300">{new Date(profile.joinedAt).toLocaleDateString('en-US', { month: 'long', year: 'numeric' })}</p>
-                            </div>
-                            <div>
-                                <p className="text-zinc-600 text-[10px] uppercase mb-1">Role</p>
-                                <p className="text-zinc-300">{profile.role}</p>
+                            {/* Level Badge Overlay */}
+                            <div className="absolute -bottom-2 -right-2 bg-zinc-950 border border-teal-500/50 text-teal-400 text-xs font-bold px-2 py-1 rounded-lg shadow-lg">
+                                Lvl {gamification.level || 1}
                             </div>
                         </div>
-                    </div>
-                </div>
 
-                {/* --- MAIN CONTENT --- */}
-                <div className="md:col-span-2 space-y-6">
-                    <div className="bg-zinc-900 border border-zinc-800 rounded-xl p-6 md:p-8">
-                        <div className="flex items-center justify-between mb-6">
-                            <h3 className="text-lg md:text-xl font-bold text-white">Biography</h3>
-                            {!isEditing ? (
-                                <button
-                                    onClick={() => setIsEditing(true)}
-                                    className="flex items-center gap-2 text-xs font-bold text-cyan-500 hover:text-cyan-400 transition-colors uppercase"
-                                >
-                                    <Edit3 size={14} /> Edit Profile
-                                </button>
-                            ) : (
-                                <div className="flex gap-4">
-                                    <button
-                                        onClick={() => setIsEditing(false)}
-                                        className="text-xs font-bold text-zinc-500 hover:text-zinc-300 transition-colors uppercase"
-                                    >
-                                        Cancel
-                                    </button>
-                                    <button
-                                        onClick={handleSave}
-                                        disabled={isUpdating}
-                                        className="flex items-center gap-2 text-xs font-bold text-emerald-500 hover:text-emerald-400 transition-colors uppercase disabled:opacity-50"
-                                    >
-                                        {isUpdating ? <Loader2 className="animate-spin" size={14} /> : <Save size={14} />}
-                                        Save Changes
-                                    </button>
-                                </div>
-                            )}
+                        {/* Identity */}
+                        <h2 className="text-xl font-bold text-white mb-1">{profile.name}</h2>
+                        <div className="flex items-center gap-2 mb-6">
+                            <span className="px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider bg-teal-500/10 text-teal-400 border border-teal-500/20">
+                                {gamification.title || "Unknown Entity"}
+                            </span>
                         </div>
 
-                        {isEditing ? (
-                            <div className="space-y-4">
-                                <div>
-                                    <label className="block text-[10px] font-bold text-zinc-500 uppercase mb-1">Display Name</label>
-                                    <input
-                                        type="text"
-                                        value={formData.name}
-                                        onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                                        className="w-full bg-zinc-950 border border-zinc-800 rounded-lg p-3 text-sm text-white focus:border-cyan-500 outline-none transition-all"
-                                    />
-                                </div>
-                                {profile.role === 'DOCTOR' && (
-                                    <div>
-                                        <label className="block text-[10px] font-bold text-zinc-500 uppercase mb-1">Clinical Specialization</label>
-                                        <input
-                                            type="text"
-                                            value={formData.specialization}
-                                            onChange={(e) => setFormData({ ...formData, specialization: e.target.value })}
-                                            className="w-full bg-zinc-950 border border-zinc-800 rounded-lg p-3 text-sm text-white focus:border-cyan-500 outline-none transition-all"
-                                        />
-                                    </div>
-                                )}
-                                <div>
-                                    <label className="block text-[10px] font-bold text-zinc-500 uppercase mb-1">Professional Bio</label>
-                                    <textarea
-                                        value={formData.bio}
-                                        onChange={(e) => setFormData({ ...formData, bio: e.target.value })}
-                                        className="w-full bg-zinc-950 border border-zinc-800 rounded-lg p-3 text-sm text-white focus:border-cyan-500 outline-none transition-all h-32 resize-none"
-                                    />
-                                </div>
+                        {/* XP Bar */}
+                        <div className="w-full mb-6">
+                            <div className="flex justify-between text-[10px] uppercase text-zinc-500 font-bold mb-2">
+                                <span>Progress</span>
+                                <span>{gamification.xp} / {gamification.nextLevelXP} XP</span>
                             </div>
-                        ) : (
-                            <p className="text-sm md:text-base text-zinc-400 leading-relaxed italic">
-                                {profile.bio || "No biography provided. Tell the system about your objectives and professional background."}
+                            <div className="h-2 w-full bg-zinc-800 rounded-full overflow-hidden">
+                                <div
+                                    className="h-full bg-gradient-to-r from-teal-600 to-emerald-500 shadow-[0_0_10px_rgba(20,184,166,0.5)]"
+                                    style={{ width: `${(gamification.xp % 1000) / 10}%` }} // Simplified percentage logic
+                                ></div>
+                            </div>
+                            <p className="text-[10px] text-zinc-600 mt-2 text-center">
+                                {gamification.nextLevelXP - gamification.xp} XP to {gamification.title === "10x Engineer" ? "Self Actualization" : "Next Rank"}
                             </p>
+                        </div>
+
+                        {/* System Uptime */}
+                        <div className="w-full pt-4 border-t border-zinc-800">
+                            <div className="flex justify-between items-center text-xs">
+                                <span className="text-zinc-500 uppercase tracking-wider font-bold">System Uptime</span>
+                                <span className="text-teal-400 font-mono">{stats.uptime || 0} Days</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                {/* Contact/Compact Info */}
+                <div className="bg-zinc-900 border border-zinc-800 rounded-2xl p-6">
+                    <h3 className="text-[10px] font-bold text-zinc-500 uppercase tracking-widest mb-4">Identity Matrix</h3>
+                    <div className="space-y-3">
+                        <div className="flex items-center gap-3">
+                            <div className="p-2 rounded bg-zinc-800 text-zinc-500">
+                                <Shield size={14} />
+                            </div>
+                            <div className="flex-1">
+                                <p className="text-[10px] text-zinc-500 uppercase">Role</p>
+                                <p className="text-xs text-zinc-300 font-medium">{profile.role}</p>
+                            </div>
+                        </div>
+                        <div className="flex items-center gap-3">
+                            <div className="p-2 rounded bg-zinc-800 text-zinc-500">
+                                <Clock size={14} />
+                            </div>
+                            <div className="flex-1">
+                                <p className="text-[10px] text-zinc-500 uppercase">Joined</p>
+                                <p className="text-xs text-zinc-300 font-medium">{new Date(profile.joinedAt).toLocaleDateString()}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            {/* --- RIGHT COLUMN: TROPHY CASE (70%) --- */}
+            <div className="lg:col-span-8 space-y-6 md:space-y-8">
+
+                {/* 1. LIFETIME STATS (The "Black Box") */}
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                    <div className="bg-zinc-900 border border-zinc-800 p-4 rounded-xl">
+                        <div className="flex items-center gap-2 mb-3 text-orange-400">
+                            <Dumbbell size={16} />
+                            <span className="text-[10px] font-bold uppercase tracking-widest text-zinc-500">Workouts</span>
+                        </div>
+                        <p className="text-2xl font-bold text-white">{stats.totalWorkouts || 0}</p>
+                        <p className="text-[10px] text-zinc-600 mt-1">Sessions Completed</p>
+                    </div>
+                    <div className="bg-zinc-900 border border-zinc-800 p-4 rounded-xl">
+                        <div className="flex items-center gap-2 mb-3 text-cyan-400">
+                            <BookOpen size={16} />
+                            <span className="text-[10px] font-bold uppercase tracking-widest text-zinc-500">Knowledge</span>
+                        </div>
+                        <p className="text-2xl font-bold text-white">{stats.knowledgeIngested || 0}</p>
+                        <p className="text-[10px] text-zinc-600 mt-1">Pages Ingested</p>
+                    </div>
+                    <div className="bg-zinc-900 border border-zinc-800 p-4 rounded-xl">
+                        <div className="flex items-center gap-2 mb-3 text-purple-400">
+                            <Zap size={16} />
+                            <span className="text-[10px] font-bold uppercase tracking-widest text-zinc-500">Volume</span>
+                        </div>
+                        <p className="text-2xl font-bold text-white">{(stats.volumeMoved / 1000).toFixed(1)}k</p>
+                        <p className="text-[10px] text-zinc-600 mt-1">Kg Moved</p>
+                    </div>
+                    <div className="bg-zinc-900 border border-zinc-800 p-4 rounded-xl">
+                        <div className="flex items-center gap-2 mb-3 text-emerald-400">
+                            <Activity size={16} />
+                            <span className="text-[10px] font-bold uppercase tracking-widest text-zinc-500">Reliability</span>
+                        </div>
+                        <p className="text-2xl font-bold text-white">{stats.reliability || 0}%</p>
+                        <p className="text-[10px] text-zinc-600 mt-1">System Consistency</p>
+                    </div>
+                </div>
+
+                {/* 2. BADGE GRID */}
+                <div>
+                    <h3 className="text-sm font-bold text-zinc-400 uppercase tracking-widest mb-4 flex items-center gap-2">
+                        <span className="w-1.5 h-1.5 rounded-full bg-teal-500"></span>
+                        Achievement Protocol
+                    </h3>
+                    <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                        {badges.map((badge: any) => (
+                            <AchievementBadge
+                                key={badge.id}
+                                title={badge.title}
+                                description={badge.description}
+                                isUnlocked={badge.unlocked}
+                                icon={badge.icon}
+                            />
+                        ))}
+                    </div>
+                </div>
+
+                {/* 3. THE MANIFESTO */}
+                <div className="bg-zinc-900 border border-zinc-800 rounded-2xl p-6 relative group">
+                    <div className="flex items-center justify-between mb-4">
+                        <h3 className="text-sm font-bold text-zinc-400 uppercase tracking-widest flex items-center gap-2">
+                            <span className="w-1.5 h-1.5 rounded-full bg-indigo-500"></span>
+                            System Manifesto
+                        </h3>
+                        {!isEditingManifesto ? (
+                            <button onClick={() => setIsEditingManifesto(true)} className="text-zinc-600 hover:text-white transition-colors">
+                                <Edit3 size={14} />
+                            </button>
+                        ) : (
+                            <button onClick={handleSaveManifesto} className="text-emerald-500 hover:text-emerald-400 transition-colors flex items-center gap-1 text-xs font-bold uppercase">
+                                <Save size={14} /> Save Objective
+                            </button>
                         )}
                     </div>
+
+                    {isEditingManifesto ? (
+                        <textarea
+                            value={manifestoContent}
+                            onChange={(e) => setManifestoContent(e.target.value)}
+                            className="w-full bg-zinc-950 border border-zinc-700/50 rounded-lg p-4 text-zinc-300 font-mono text-sm leading-relaxed outline-none focus:border-indigo-500/50 min-h-[120px]"
+                            placeholder="Draft your mission statement..."
+                        />
+                    ) : (
+                        <div className="relative">
+                            <div className="absolute left-0 top-0 bottom-0 w-1 bg-indigo-500/20 rounded-full"></div>
+                            <p className="pl-6 text-zinc-300 font-mono text-sm md:text-base leading-relaxed italic opacity-80">
+                                "{manifestoContent || "I am building this system to become the most disciplined version of myself, ensuring my physical hardware (body) can support my software (mind)."}"
+                            </p>
+                        </div>
+                    )}
                 </div>
+
             </div>
         </div>
     );

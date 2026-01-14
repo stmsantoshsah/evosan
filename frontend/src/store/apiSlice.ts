@@ -6,11 +6,15 @@ export const apiSlice = createApi({
     reducerPath: 'api',
     baseQuery: fetchBaseQuery({
         baseUrl: API_URL,
-        prepareHeaders: (headers) => {
+        prepareHeaders: (headers, { getState }) => {
+            const token = (getState() as any).auth.token;
+            if (token) {
+                headers.set('authorization', `Bearer ${token}`);
+            }
             headers.set('Content-Type', 'application/json');
             return headers;
         },
     }),
-    tagTypes: ['Health', 'Habit', 'Journal', 'Stat', 'Patient', 'Profile'],
+    tagTypes: ['Health', 'Habit', 'Journal', 'Stat', 'Patient', 'Profile', 'Gamification'],
     endpoints: () => ({}),
 });

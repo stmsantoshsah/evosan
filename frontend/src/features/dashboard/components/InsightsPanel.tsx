@@ -27,10 +27,40 @@ export default function InsightsPanel() {
                 Neural Analysis
             </h3>
 
-            {insights.length > 0 ? (
+            {/* Fallback to old insights array if new structure isn't present, or use neural_analysis */}
+            {data?.neural_analysis ? (
+                <div className="space-y-4">
+                    {/* FRICTION */}
+                    <div className="pl-3 border-l-2 border-red-500/50">
+                        <h4 className="text-[10px] text-red-500 uppercase tracking-wider font-bold mb-1">🔴 System Friction</h4>
+                        <p className="text-xs md:text-sm text-zinc-300 font-mono leading-relaxed">
+                            {data.neural_analysis.friction}
+                        </p>
+                    </div>
+
+                    {/* FLOW */}
+                    <div className="pl-3 border-l-2 border-emerald-500/50">
+                        <h4 className="text-[10px] text-emerald-500 uppercase tracking-wider font-bold mb-1">🟢 Flow Trigger</h4>
+                        <p className="text-xs md:text-sm text-zinc-300 font-mono leading-relaxed">
+                            {data.neural_analysis.flow}
+                        </p>
+                    </div>
+
+                    {/* DIRECTIVE */}
+                    <div className="pl-3 border-l-2 border-purple-500/50 bg-purple-500/5 p-2 rounded-r">
+                        <h4 className="text-[10px] text-purple-400 uppercase tracking-wider font-bold mb-1 flex items-center gap-2">
+                            🚀 Primary Directive
+                        </h4>
+                        <p className="text-xs md:text-sm text-purple-200 font-mono font-bold leading-relaxed">
+                            {data.neural_analysis.directive}
+                        </p>
+                    </div>
+                </div>
+            ) : insights.length > 0 ? (
                 <div className="space-y-3 md:space-y-4">
                     {insights.map((insight: string, idx: number) => {
-                        const isPositive = insight.toLowerCase().includes('positive');
+                        // Fallback Compatibility Rendering
+                        const isPositive = insight.toLowerCase().includes('positive') || insight.toLowerCase().includes('flow');
                         const isInfo = insight.toLowerCase().includes('insufficient data');
 
                         return (
@@ -42,7 +72,7 @@ export default function InsightsPanel() {
                                 ) : (
                                     <TrendingDown className="text-orange-500 mt-1 shrink-0" size={14} />
                                 )}
-                                <p className="text-xs md:text-sm text-zinc-400 leading-relaxed">
+                                <p className="text-xs md:text-sm text-zinc-400 leading-relaxed font-mono">
                                     {insight}
                                 </p>
                             </div>
