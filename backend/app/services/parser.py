@@ -49,7 +49,7 @@ class ParserService:
                         "content": user_input,
                     }
                 ],
-                model="llama3-70b-8192",
+                model="llama-3.3-70b-versatile",
                 response_format={"type": "json_object"},
             )
             

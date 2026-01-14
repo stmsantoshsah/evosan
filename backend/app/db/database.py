@@ -34,4 +34,4 @@ async def connect_to_mongo():
 async def close_mongo_connection():
     if db.client:
         db.client.close()
-        print("🔴 Disconnected from MongoDB")
+        print("Disconnected from MongoDB")

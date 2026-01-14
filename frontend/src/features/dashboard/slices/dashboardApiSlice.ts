@@ -23,6 +23,14 @@ export const dashboardApiSlice = apiSlice.injectEndpoints({
                 body: { text },
             }),
         }),
+        getCorrelations: builder.query<any, number | void>({
+            query: (days = 30) => `${DASHBOARD_ENDPOINTS.GET_CORRELATIONS}?days=${days}`,
+            providesTags: ['Stat'],
+        }),
+        getDailySummary: builder.query<any, string>({
+            query: (date) => DASHBOARD_ENDPOINTS.GET_SUMMARY(date),
+            providesTags: ['Stat', 'Habit', 'Journal', 'Health'],
+        }),
     }),
 });
 
@@ -31,4 +39,6 @@ export const {
     useGetRecentJournalsQuery,
     useGetWeeklyStatsQuery,
     useParseTextMutation,
+    useGetCorrelationsQuery,
+    useGetDailySummaryQuery,
 } = dashboardApiSlice;

@@ -43,3 +43,48 @@ async def get_weekly_stats():
         })
 
     return results
+
+@router.get("/summary")
+async def get_daily_summary(date_str: str = None):
+    if not date_str:
+        date_str = datetime.now().strftime("%Y-%m-%d")
+        
+    # 1. Habits
+    total_habits = await db.client["evosan_db"]["habits"].count_documents({})
+    completed_habits = await db.client["evosan_db"]["habit_logs"].count_documents({
+        "date": date_str,
+        "completed": True
+    })
+    
+    # 2. Mood
+    journal = await db.client["evosan_db"]["journal_entries"].find_one({
+        "created_at": {"$regex": f"^{date_str}"}
+    })
+    mood = journal["mood"] if journal else 0
+    
+    # 3. Water
+    nutrition = await db.client["evosan_db"]["nutrition"].find_one({"date": date_str})
+    water = nutrition["water_liters"] if nutrition else 0.0
+    
+    # 4. Streak (Simplified calculation)
+    streak = 0
+    curr_date = datetime.now()
+    while True:
+        d_str = curr_date.strftime("%Y-%m-%d")
+        log = await db.client["evosan_db"]["habit_logs"].find_one({
+            "date": d_str,
+            "completed": True
+        })
+        if log:
+            streak += 1
+            curr_date -= timedelta(days=1)
+        else:
+            break
+            
+    return {
+        "habits_done": completed_habits,
+        "total_habits": total_habits,
+        "mood": mood,
+        "water": water,
+        "streak": streak
+    }
