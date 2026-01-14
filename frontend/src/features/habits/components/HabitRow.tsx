@@ -55,7 +55,7 @@ export const HabitRow = ({ id, habitName, streak, history, onToggle, completed }
                             title={index === 6 ? "Today" : `${6 - index} days ago`}
                             className={`
                                 w-6 h-6 rounded-[2px] flex items-center justify-center text-[10px] transition-all
-                                ${index === 6 ? 'ring-1 ring-white/50' : ''} /* Highlight Today */
+                                ${index === 6 ? 'border-2 border-zinc-400/50' : 'border border-transparent'} /* Highlight Today */
                                 ${status
                                     ? 'bg-teal-500/80 shadow-[0_0_8px_rgba(20,184,166,0.5)]'
                                     : 'bg-zinc-800/80'}
