@@ -86,7 +86,7 @@ export const BiometricTrendlines = () => {
     return (
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
             <TrendCard
-                title="Body Mass Index"
+                title="Total Body Mass"
                 value="75.4 kg"
                 subValue="↘ -0.6kg"
                 trend="down"

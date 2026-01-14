@@ -11,7 +11,7 @@ interface PRCardProps {
 const PRCard = ({ title, value, date, icon }: PRCardProps) => (
     <div className="bg-zinc-900/30 border border-zinc-800 p-4 rounded-lg flex flex-col justify-between hover:border-zinc-700 transition-colors">
         <div className="flex justify-between items-start mb-2">
-            <span className="text-xs font-mono text-zinc-500 uppercase">{title}</span>
+            <span className="text-xs font-mono text-zinc-500 uppercase tracking-wider">{title}</span>
             <span className="text-zinc-600">{icon}</span>
         </div>
         <div>
