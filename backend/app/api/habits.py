@@ -11,8 +11,10 @@ router = APIRouter()
 # 1. Create a Habit
 @router.post("/", status_code=status.HTTP_201_CREATED)
 async def create_habit(habit: Habit):
-    # 1. Check if habit with this name already exists
-    existing = await db.client["evosan_db"]["habits"].find_one({"name": habit.name})
+    # 1. Check if habit with this name already exists (case-insensitive)
+    existing = await db.client["evosan_db"]["habits"].find_one({
+        "name": {"$regex": f"^{habit.name}$", "$options": "i"}
+    })
     
     if existing:
         # If it exists, don't create a new one. Just return the existing ID.

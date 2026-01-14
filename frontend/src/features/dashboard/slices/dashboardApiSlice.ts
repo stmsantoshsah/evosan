@@ -16,6 +16,13 @@ export const dashboardApiSlice = apiSlice.injectEndpoints({
             query: () => DASHBOARD_ENDPOINTS.GET_WEEKLY_STATS,
             providesTags: ['Stat'],
         }),
+        parseText: builder.mutation<any, string>({
+            query: (text) => ({
+                url: DASHBOARD_ENDPOINTS.PARSE_TEXT,
+                method: 'POST',
+                body: { text },
+            }),
+        }),
     }),
 });
 
@@ -23,4 +30,5 @@ export const {
     useGetDailyHabitsQuery,
     useGetRecentJournalsQuery,
     useGetWeeklyStatsQuery,
+    useParseTextMutation,
 } = dashboardApiSlice;

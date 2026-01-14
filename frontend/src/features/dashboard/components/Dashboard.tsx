@@ -3,6 +3,8 @@
 import { useMemo } from 'react';
 import { ArrowUpRight, CheckCircle2, TrendingUp, BrainCircuit, Activity } from 'lucide-react';
 import HistoryChart from './HistoryChart';
+import CommandBar from './CommandBar';
+
 import {
     useGetDailyHabitsQuery,
     useGetRecentJournalsQuery,
@@ -45,7 +47,16 @@ export default function Dashboard() {
                 <p className="text-zinc-400 mt-1">System Overview for {new Date().toLocaleDateString()}</p>
             </div>
 
+            {/* COMMAND BAR */}
+            <div className="max-w-2xl mx-auto w-full">
+                <CommandBar />
+                <p className="text-[10px] text-zinc-600 mt-2 text-center uppercase tracking-widest font-medium">
+                    Smart Parser (Groq Powered) • Type naturally to log nutrition and workouts
+                </p>
+            </div>
+
             {/* --- CHART SECTION --- */}
+
             <div className="bg-zinc-900 border border-zinc-800 rounded-xl p-6">
                 <div className="flex items-center justify-between mb-6">
                     <h3 className="text-lg font-semibold text-zinc-200 flex items-center gap-2">
