@@ -10,3 +10,7 @@ groq
 passlib[bcrypt]
 python-jose[cryptography]
 python-multipart
+mangum
+pandas
+numpy
+scipy
