@@ -3,6 +3,8 @@ export interface Habit {
     name: string;
     category: string;
     completed: boolean;
+    streak?: number;
+    history?: boolean[];
 }
 
 export interface HabitLogPayload {
