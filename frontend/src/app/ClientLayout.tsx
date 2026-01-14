@@ -4,6 +4,7 @@ import Sidebar from '@/common/components/sidebar/SideBar';
 import { ReduxProvider } from '@/store/providers/ReduxProvider';
 import { AuthGuard } from '@/features/auth/components/AuthGuard';
 import { usePathname } from 'next/navigation';
+import { Toaster } from 'react-hot-toast';
 
 export function ClientLayout({ children }: { children: React.ReactNode }) {
     const pathname = usePathname();
@@ -18,6 +19,13 @@ export function ClientLayout({ children }: { children: React.ReactNode }) {
                         {children}
                     </main>
                 </div>
+                <Toaster position="bottom-right" toastOptions={{
+                    style: {
+                        background: '#18181b',
+                        color: '#fff',
+                        border: '1px solid #27272a'
+                    }
+                }} />
             </AuthGuard>
         </ReduxProvider>
     );

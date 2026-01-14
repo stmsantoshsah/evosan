@@ -72,7 +72,7 @@ export default function HUD({ habitsDone, totalHabits, lastMood, streak, waterIn
                 </div>
                 <div className="flex items-end gap-1 md:gap-2">
                     <span className="text-2xl md:text-4xl font-bold text-white">{waterIntake.toFixed(1)}</span>
-                    <span className="text-zinc-500 mb-0.5 md:mb-1 text-xs md:text-base">L</span>
+                    <span className="text-zinc-500 mb-0.5 md:mb-1 text-sm md:text-base">/ 3.0 L</span>
                 </div>
                 <div className="w-full bg-zinc-800 h-1.5 mt-3 md:mt-4 rounded-full overflow-hidden">
                     <div
