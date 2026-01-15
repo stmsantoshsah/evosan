@@ -15,8 +15,9 @@ export const HabitRow = ({ id, habitName, streak, history, onToggle, completed }
 
     return (
         <div
+            onClick={onToggle}
             className={`
-                flex flex-col md:flex-row items-start md:items-center justify-between p-4 bg-zinc-900 border border-zinc-800 rounded-lg mb-2 transition-all group
+                flex flex-col md:flex-row items-start md:items-center justify-between p-4 bg-zinc-900 border border-zinc-800 rounded-lg mb-2 transition-all group cursor-pointer
                 ${completed ? 'border-teal-900/30' : 'hover:border-teal-500/30'}
             `}
         >
@@ -24,9 +25,8 @@ export const HabitRow = ({ id, habitName, streak, history, onToggle, completed }
             {/* LEFT: Info */}
             <div className="flex items-center gap-4 mb-4 md:mb-0">
                 <div
-                    onClick={onToggle}
                     className={`
-                        w-12 h-12 rounded-xl flex items-center justify-center text-xl cursor-pointer transition-all
+                        w-12 h-12 rounded-xl flex items-center justify-center text-xl transition-all
                         ${completed
                             ? 'bg-teal-500/20 text-teal-400 border border-teal-500/50'
                             : 'bg-zinc-800 text-zinc-600 border border-zinc-700 group-hover:border-teal-500/50'}

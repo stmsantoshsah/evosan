@@ -171,7 +171,7 @@ export default function Habits() {
                                         habitName={habit.name}
                                         completed={habit.completed}
                                         streak={habit.streak || 0}
-                                        history={habit.history || [false, false, false, false, false, completed]} // Fallback if API hasn't synced
+                                        history={habit.history || [false, false, false, false, false, false, habit.completed]} // Fallback if API hasn't synced
                                         onToggle={() => handleToggleHabit(habit.id, habit.completed)}
                                     />
                                 ))}
