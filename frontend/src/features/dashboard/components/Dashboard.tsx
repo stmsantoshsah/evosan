@@ -8,6 +8,7 @@ import CommandBar from './CommandBar';
 import InsightsPanel from './InsightsPanel';
 import HUD from './HUD';
 import XPBar from '../../gamification/components/XPBar';
+import DashboardSkeleton from './DashboardSkeleton';
 
 import {
     useGetDailyHabitsQuery,
@@ -41,7 +42,7 @@ export default function Dashboard() {
     const isLoading = isHabitsLoading || isJournalsLoading || isChartLoading || isSummaryLoading;
 
     if (isLoading) {
-        return <div className="p-8 text-zinc-400">Loading dashboard telemetry...</div>;
+        return <DashboardSkeleton />;
     }
 
     return (
