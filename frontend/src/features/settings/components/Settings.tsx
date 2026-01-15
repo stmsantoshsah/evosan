@@ -6,6 +6,8 @@ import {
     useGetWorkoutPlanQuery,
     useSaveWorkoutPlanMutation
 } from '@/features/health/slices/healthApiSlice';
+import { useExportDataMutation, useFactoryResetMutation } from '../slices/settingsApiSlice';
+import toast from 'react-hot-toast';
 
 const DAYS = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
 
@@ -53,6 +55,45 @@ export default function Settings() {
             setFormState({ routine_name: '', exercises: '' });
         }
     }, [plan, selectedDay]);
+
+    // --- DATA MANAGEMENT STATE ---
+    const [exportData, { isLoading: isExporting }] = useExportDataMutation();
+    const [factoryReset, { isLoading: isResetting }] = useFactoryResetMutation();
+
+    const handleExport = async () => {
+        try {
+            const data = await exportData(undefined).unwrap();
+            // Create download link
+            const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `evosan_backup_${new Date().toISOString().split('T')[0]}.json`;
+            document.body.appendChild(a);
+            a.click();
+            window.URL.revokeObjectURL(url);
+            document.body.removeChild(a);
+            toast.success('Database exported successfully');
+        } catch (error) {
+            console.error(error);
+            toast.error('Failed to export database');
+        }
+    };
+
+    const handleReset = async () => {
+        if (!confirm('WARNING: This will permanently delete ALL your data. Are you sure?')) return;
+
+        try {
+            await factoryReset(undefined).unwrap();
+            toast.success('System reset complete. Rebooting...');
+            setTimeout(() => {
+                window.location.reload();
+            }, 1000);
+        } catch (error) {
+            console.error(error);
+            toast.error('Factory reset failed');
+        }
+    };
 
     const handleSaveProtocol = async () => {
         try {
@@ -136,8 +177,8 @@ export default function Settings() {
                                 key={day}
                                 onClick={() => setSelectedDay(day)}
                                 className={`p-3 text-left rounded-lg transition-all whitespace-nowrap ${selectedDay === day
-                                        ? 'bg-teal-500/20 text-teal-400 border border-teal-500/50'
-                                        : 'bg-zinc-900 text-zinc-500 hover:bg-zinc-800 hover:text-zinc-300'
+                                    ? 'bg-teal-500/20 text-teal-400 border border-teal-500/50'
+                                    : 'bg-zinc-900 text-zinc-500 hover:bg-zinc-800 hover:text-zinc-300'
                                     }`}
                             >
                                 {day}
@@ -186,15 +227,23 @@ export default function Settings() {
                 <div className="grid gap-6 max-w-2xl animate-in fade-in">
                     <SettingCard title="Export Database">
                         <p className="text-sm text-zinc-500 mb-4">Download a JSON dump of all your habits, workouts, and journals.</p>
-                        <button className="flex items-center gap-2 px-4 py-2 border border-zinc-700 rounded hover:bg-zinc-800 text-zinc-300 transition-colors">
-                            <Download size={16} /> Export JSON
+                        <button
+                            onClick={handleExport}
+                            disabled={isExporting}
+                            className="flex items-center gap-2 px-4 py-2 border border-zinc-700 rounded hover:bg-zinc-800 text-zinc-300 transition-colors disabled:opacity-50"
+                        >
+                            <Download size={16} /> {isExporting ? 'Exporting...' : 'Export JSON'}
                         </button>
                     </SettingCard>
 
                     <SettingCard title="Danger Zone">
                         <p className="text-sm text-zinc-500 mb-4">Irreversible action. Wipes all data from your local instance.</p>
-                        <button className="flex items-center gap-2 px-4 py-2 border border-red-900/50 text-red-500 bg-red-900/10 rounded hover:bg-red-900/20 transition-colors">
-                            <Trash2 size={16} /> Factory Reset System
+                        <button
+                            onClick={handleReset}
+                            disabled={isResetting}
+                            className="flex items-center gap-2 px-4 py-2 border border-red-900/50 text-red-500 bg-red-900/10 rounded hover:bg-red-900/20 transition-colors disabled:opacity-50"
+                        >
+                            <Trash2 size={16} /> {isResetting ? 'Resetting...' : 'Factory Reset System'}
                         </button>
                     </SettingCard>
                 </div>

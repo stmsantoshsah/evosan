@@ -15,6 +15,8 @@ from app.api.stats import  router as stats_router
 from app.api.auth import router as auth_router
 from app.api.parse import router as parse_router
 from app.api.correlations import router as correlations_router
+from app.api.data import router as data_router
+
 
 
 # Lifespan events replace the old startup/shutdown events
@@ -43,6 +45,7 @@ app.include_router(stats_router, prefix="/stats", tags=["Stats"])
 app.include_router(auth_router, prefix="/auth", tags=["Auth"])
 app.include_router(parse_router, prefix="/parse", tags=["Parse"])
 app.include_router(correlations_router, prefix="/correlations", tags=["Correlations"])
+app.include_router(data_router, prefix="/data", tags=["Data"])
 
 
 @app.get("/")
