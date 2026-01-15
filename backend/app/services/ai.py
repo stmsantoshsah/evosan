@@ -1,11 +1,11 @@
 import os
-from groq import Groq
+from groq import AsyncGroq
 from datetime import datetime, timedelta
 from app.db.database import db
 from app.core.config import settings
 
 # Initialize Groq Client
-client = Groq(api_key=settings.GROQ_API_KEY)
+client = AsyncGroq(api_key=settings.GROQ_API_KEY)
 
 async def generate_weekly_insight():
     # 1. Calculate Date Range (Last 7 Days)
@@ -82,7 +82,7 @@ async def generate_weekly_insight():
     
     # 5. CALL GROQ (Using the new Llama 3.3 model)
     try:
-        chat_completion = client.chat.completions.create(
+        chat_completion = await client.chat.completions.create(
             messages=[
                 {"role": "system", "content": "You are a ruthless data analyst. Focus on causality."},
                 {"role": "user", "content": prompt},

@@ -4,6 +4,7 @@ import logging
 from datetime import datetime, timedelta
 from app.db.database import db
 import groq
+from groq import AsyncGroq
 
 class CorrelationService:
     def __init__(self):
@@ -16,7 +17,8 @@ class CorrelationService:
             api_key = os.environ.get("GROQ_API_KEY")
             if not api_key:
                 logging.error("GROQ_API_KEY not found in environment")
-            self.client = groq.Groq(api_key=api_key)
+            # USE ASYNC CLIENT
+            self.client = AsyncGroq(api_key=api_key)
         return self.client
 
     async def get_correlation_data(self, days: int = 7):
@@ -83,7 +85,8 @@ class CorrelationService:
 
         try:
             client = self._get_client()
-            completion = client.chat.completions.create(
+            # AWAIT THE ASYNC CALL
+            completion = await client.chat.completions.create(
                 messages=[
                     {"role": "system", "content": system_prompt},
                     {"role": "user", "content": context_text}

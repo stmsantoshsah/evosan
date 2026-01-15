@@ -14,32 +14,41 @@ async def get_weekly_stats():
         d = today - timedelta(days=i)
         dates.append(d.strftime("%Y-%m-%d")) # ["2023-10-20", "2023-10-21"...]
 
+    start_date = dates[0]
+
+    # OPTIMIZATION: Fetch all data in bulk queries
+    
+    # A. Fetch Journals
+    journals = await db.client["evosan_db"]["journal_entries"].find({
+        "created_at": {"$gte": start_date}
+    }).to_list(100)
+    
+    # Map date -> mood
+    mood_map = {}
+    for j in journals:
+        d_str = j["created_at"][:10] # Extract YYYY-MM-DD
+        mood_map[d_str] = j.get("mood", 0)
+
+    # B. Fetch Habit Logs
+    logs = await db.client["evosan_db"]["habit_logs"].find({
+        "date": {"$gte": start_date},
+        "completed": True
+    }).to_list(1000)
+    
+    # Map date -> count
+    habit_counts = {d: 0 for d in dates}
+    for l in logs:
+        if l["date"] in habit_counts:
+            habit_counts[l["date"]] += 1
+
     results = []
-
     for date_str in dates:
-        # A. Fetch Mood (Journal)
-        # We assume one entry per day for simplicity, or take the average if multiple
-        # Note: In MongoDB we stored created_at as ISO string, so we regex match the date part
-        journal = await db.client["evosan_db"]["journal_entries"].find_one({
-            "created_at": {"$regex": f"^{date_str}"} 
-        })
-        
-        mood = journal["mood"] if journal else 0
-
-        # B. Count Habits
-        habit_count = await db.client["evosan_db"]["habit_logs"].count_documents({
-            "date": date_str,
-            "completed": True
-        })
-
-        # C. Format day name (Mon, Tue) for the chart
         day_name = datetime.strptime(date_str, "%Y-%m-%d").strftime("%a")
-
         results.append({
-            "date": day_name,     # "Mon"
-            "fullDate": date_str, # "2023-10-20"
-            "mood": mood,         # 8
-            "habits": habit_count # 5
+            "date": day_name,
+            "fullDate": date_str,
+            "mood": mood_map.get(date_str, 0),
+            "habits": habit_counts.get(date_str, 0)
         })
 
     return results
@@ -66,18 +75,27 @@ async def get_daily_summary(date_str: str = None):
     nutrition = await db.client["evosan_db"]["nutrition"].find_one({"date": date_str})
     water = nutrition["water_liters"] if nutrition else 0.0
     
-    # 4. Streak (Simplified calculation)
+    # 4. Streak (Optimization: Fetch bulk history)
     streak = 0
     curr_date = datetime.now()
+    
+    # Fetch all dates with ANY completed habit in last 365 days
+    one_year_ago = (curr_date - timedelta(days=365)).strftime("%Y-%m-%d")
+    
+    # Using projection to only get dates, lighter payload
+    logs = await db.client["evosan_db"]["habit_logs"].find({
+        "completed": True,
+        "date": {"$gte": one_year_ago}
+    }, projection={"date": 1}).to_list(10000)
+    
+    active_dates = {l["date"] for l in logs}
+    
+    check_date = curr_date
     while True:
-        d_str = curr_date.strftime("%Y-%m-%d")
-        log = await db.client["evosan_db"]["habit_logs"].find_one({
-            "date": d_str,
-            "completed": True
-        })
-        if log:
+        d_str = check_date.strftime("%Y-%m-%d")
+        if d_str in active_dates:
             streak += 1
-            curr_date -= timedelta(days=1)
+            check_date -= timedelta(days=1)
         else:
             break
             

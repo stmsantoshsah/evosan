@@ -1,11 +1,11 @@
 # backend/app/services/parser.py
 import json
-from groq import Groq
+from groq import AsyncGroq
 from app.core.config import settings
 
 class ParserService:
     def __init__(self):
-        self.client = Groq(api_key=settings.GROQ_API_KEY)
+        self.client = AsyncGroq(api_key=settings.GROQ_API_KEY)
         self.system_prompt = """
         You are a health and fitness data extractor. Your job is to take natural language input from a user and extract structured data for their nutrition and workout logs.
 
@@ -38,7 +38,7 @@ class ParserService:
 
     async def parse_input(self, user_input: str):
         try:
-            chat_completion = self.client.chat.completions.create(
+            chat_completion = await self.client.chat.completions.create(
                 messages=[
                     {
                         "role": "system",

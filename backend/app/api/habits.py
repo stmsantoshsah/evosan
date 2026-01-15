@@ -26,6 +26,7 @@ async def create_habit(habit: Habit):
     return {"id": str(new_habit.inserted_id), "message": "Habit created"}
 
 # 2. Get Habits (with today's status)
+# 2. Get Habits (with today's status)
 @router.get("/")
 async def get_habits(date_str: str = Query(default=None)):
     # If no date provided, use today
@@ -40,19 +41,33 @@ async def get_habits(date_str: str = Query(default=None)):
     habits_cursor = db.client["evosan_db"]["habits"].find()
     habits = await habits_cursor.to_list(length=100)
     
+    if not habits:
+        return []
+
+    habit_ids = [str(h["_id"]) for h in habits]
+
+    # OPTIMIZATION: Fetch ALL logs for these habits in one query
+    # We fetch logs for the last 365 days to calculate streaks efficiently in memory
+    # limiting to 365 days prevents fetching ancient history, assuming streaks < 1 year
+    one_year_ago = (today_dt - timedelta(days=365)).isoformat()
+    
+    all_logs_cursor = db.client["evosan_db"]["habit_logs"].find({
+        "habit_id": {"$in": habit_ids},
+        "completed": True,
+        "date": {"$gte": one_year_ago}
+    })
+    
+    all_logs = await all_logs_cursor.to_list(length=10000)
+    
+    # Group logs by habit_id -> set of dates
+    logs_by_habit = {hid: set() for hid in habit_ids}
+    for log in all_logs:
+        logs_by_habit[log["habit_id"]].add(log["date"])
+
     results = []
     for h in habits:
         h_id = str(h["_id"])
-        
-        # Fetch logs for this habit for the last 7 days
-        # We can optimize this with a single query, but loop is fine for <100 habits
-        logs_cursor = db.client["evosan_db"]["habit_logs"].find({
-            "habit_id": h_id,
-            "date": {"$in": last_7_days},
-            "completed": True
-        })
-        logs = await logs_cursor.to_list(length=7)
-        completed_dates = {l["date"] for l in logs} # Set of YYYY-MM-DD
+        completed_dates = logs_by_habit.get(h_id, set())
         
         # Build History [Boolean]
         history = [d in completed_dates for d in last_7_days]
@@ -60,31 +75,28 @@ async def get_habits(date_str: str = Query(default=None)):
         # Calculate Streak (Backwards from today/yesterday)
         streak = 0
         check_date = today_dt
-        while True:
-            d_s = check_date.isoformat()
-            # Check if this date is completed
-            # We need to query DB for streak if it goes beyond 7 days
-            # For efficiency, let's just count consecutive days in DB for now
-            # Or simplified: if today is done, streak includes today. 
-            # If today not done, streak might still be valid if yesterday was done?
-            # Standard logic: Streak is unbroken chain ending today or yesterday.
-            
-            # Use specific DB query for streak
-            s_log = await db.client["evosan_db"]["habit_logs"].find_one({
-                "habit_id": h_id, 
-                "date": d_s, 
-                "completed": True
-            })
-            if s_log:
-                streak += 1
-                check_date -= timedelta(days=1)
-            else:
-                 # If today is NOT done, but yesterday WAS, streak allows today to be skipped physically but logically user wants "current streak"
-                 # Usually if today is missing, streak is pending.
-                 if d_s == target_date: # If checking today and it's missing, try yesterday
-                     check_date -= timedelta(days=1)
-                     continue
-                 break
+        
+        # Logic: If today is done, streak starts today.
+        # If today is NOT done, but yesterday WAS, streak is alive (starts yesterday).
+        # If neither, streak is 0.
+        
+        current_date_str = check_date.isoformat()
+        yesterday_str = (check_date - timedelta(days=1)).isoformat()
+        
+        if current_date_str in completed_dates:
+            pass # Start checking from today
+        elif yesterday_str in completed_dates:
+             check_date -= timedelta(days=1) # Start checking from yesterday
+        else:
+             check_date = None # Streak broken/zero
+             
+        if check_date:
+            while True:
+                if check_date.isoformat() in completed_dates:
+                    streak += 1
+                    check_date -= timedelta(days=1)
+                else:
+                    break
 
         results.append({
             "id": h_id,
