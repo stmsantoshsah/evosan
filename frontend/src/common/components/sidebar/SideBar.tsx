@@ -116,7 +116,7 @@ export default function Sidebar() {
                 </nav>
 
                 <div className="p-4 border-t border-zinc-800">
-                    <Link href="/settings" className="flex items-center gap-3 px-4 py-3 text-zinc-500 text-sm hover:text-zinc-300 w-full transition-colors">
+                    <Link href="/settings" className="flex items-center gap-3 px-4 py-3 text-zinc-400 text-sm hover:text-zinc-300 w-full transition-colors">
                         <Settings size={18} />
                         Settings
                     </Link>

@@ -3,7 +3,6 @@
 import { LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid } from 'recharts';
 
 export default function HistoryChart({ data }: { data: any[] }) {
-    console.log("HistoryChart Data:", data);
     if (!data || data.length === 0) {
         return (
             <div className="h-64 flex items-center justify-center text-zinc-600 bg-zinc-900/50 rounded-lg">
@@ -13,8 +12,8 @@ export default function HistoryChart({ data }: { data: any[] }) {
     }
 
     return (
-        <div className="h-64 w-full">
-            <ResponsiveContainer width="100%" height="100%">
+        <div className="h-64 w-full" style={{ width: '100%', height: 250, minHeight: 250 }}>
+            <ResponsiveContainer width="100%" height="100%" minHeight={250} minWidth={300}>
                 <LineChart data={data} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
                     <CartesianGrid strokeDasharray="3 3" stroke="#27272a" vertical={false} />
                     <XAxis

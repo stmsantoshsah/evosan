@@ -6,11 +6,13 @@ import { ClientLayout } from './ClientLayout';
 const inter = Inter({
     subsets: ['latin'],
     variable: '--font-sans',
+    display: 'swap',
 });
 
 const outfit = Outfit({
     subsets: ['latin'],
     variable: '--font-heading',
+    display: 'swap',
 });
 
 export const metadata: Metadata = {

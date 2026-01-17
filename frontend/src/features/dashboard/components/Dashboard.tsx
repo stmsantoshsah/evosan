@@ -62,7 +62,7 @@ export default function Dashboard() {
             {/* COMMAND BAR */}
             <div className="max-w-2xl mx-auto w-full">
                 <CommandBar />
-                <p className="text-[9px] md:text-[10px] text-zinc-600 mt-2 text-center uppercase tracking-widest font-medium">
+                <p className="text-[9px] md:text-[10px] text-zinc-400 mt-2 text-center uppercase tracking-widest font-medium">
                     Smart Parser (Groq Powered) • Type naturally to log nutrition and workouts
                 </p>
             </div>
@@ -86,10 +86,10 @@ export default function Dashboard() {
                     {/* CHART SECTION */}
                     <div className="bg-zinc-900 border border-zinc-800 rounded-xl p-4 md:p-6">
                         <div className="flex items-center justify-between mb-4 md:mb-6">
-                            <h3 className="text-base md:text-lg font-semibold text-zinc-200 flex items-center gap-2">
+                            <h2 className="text-base md:text-lg font-semibold text-zinc-200 flex items-center gap-2">
                                 <Activity className="text-cyan-400" size={18} />
                                 Performance Trend
-                            </h3>
+                            </h2>
                             <div className="flex gap-3 md:gap-4 text-xs font-medium">
                                 <div className="flex items-center gap-1 text-zinc-400"><span className="w-2 h-2 rounded-full bg-cyan-500"></span> Habits</div>
                                 <div className="flex items-center gap-1 text-zinc-400"><span className="w-2 h-2 rounded-full bg-emerald-500"></span> Mood</div>
@@ -100,9 +100,9 @@ export default function Dashboard() {
 
                     {/* RECENT THOUGHTS */}
                     <div className="bg-zinc-900/50 border border-zinc-800 rounded-xl p-6 md:p-8">
-                        <h3 className="text-base md:text-lg font-semibold text-zinc-200 mb-4 flex items-center gap-2">
+                        <h2 className="text-base md:text-lg font-semibold text-zinc-200 mb-4 flex items-center gap-2">
                             Latest Reflection <ArrowUpRight size={16} className="text-zinc-500" />
-                        </h3>
+                        </h2>
                         <p className="text-zinc-400 leading-relaxed italic border-l-2 border-zinc-700 pl-4 text-sm md:text-base">
                             "{stats.latestJournal.substring(0, 300)}..."
                         </p>
@@ -115,7 +115,7 @@ export default function Dashboard() {
 
                     {/* Quick Access Card */}
                     <div className="bg-zinc-900 border border-zinc-800 p-4 md:p-6 rounded-xl">
-                        <h3 className="text-xs md:text-sm font-semibold text-zinc-400 mb-4 uppercase tracking-wider">Quick Access</h3>
+                        <h2 className="text-xs md:text-sm font-semibold text-zinc-400 mb-4 uppercase tracking-wider">Quick Access</h2>
                         <div className="space-y-2">
                             <Link href="/health" className='mb-3 block'>
                                 <button className="w-full text-left px-4 py-2 md:py-2.5 rounded-lg bg-zinc-800/50 hover:bg-zinc-800 text-zinc-300 text-xs md:text-sm transition-colors border border-zinc-700/50">
