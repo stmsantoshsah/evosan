@@ -46,7 +46,7 @@ export default function XPBar() {
     const percentage = Math.min(100, Math.max(0, (levelProgress / levelTotal) * 100));
 
     return (
-        <div className="bg-zinc-900 border-b border-zinc-800 px-4 py-2 sticky top-0 z-30">
+        <div className="bg-zinc-900 border-b border-zinc-800 px-4 relative py-2 z-30">
             <div className="max-w-7xl mx-auto flex items-center justify-between gap-4">
 
                 {/* Level Badge */}

@@ -49,7 +49,7 @@ export default function Dashboard() {
         <div className="space-y-6 md:space-y-8 px-4 md:px-0">
 
             {/* GAMIFICATION BAR */}
-            <div className="-mx-4 md:mx-0 -mt-4 md:mt-0 mb-6">
+            <div className="my-4">
                 <XPBar />
             </div>
 
