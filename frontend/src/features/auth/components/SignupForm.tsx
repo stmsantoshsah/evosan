@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import { useSignupMutation } from '../slices/authApiSlice';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
+import { Lock, User, ArrowRight, Activity, Cpu } from 'lucide-react';
 
 const SignupForm = () => {
     const [formData, setFormData] = useState({
@@ -32,154 +33,109 @@ const SignupForm = () => {
     };
 
     return (
-        <div className="auth-container">
-            <div className="auth-card glass">
-                <div className="auth-header">
-                    <h1>Create Account</h1>
-                    <p>Join Evosan and start your health journey</p>
-                </div>
-                <form onSubmit={handleSubmit} className="auth-form">
-                    <div className="form-group">
-                        <label htmlFor="full_name">Full Name</label>
-                        <input
-                            id="full_name"
-                            type="text"
-                            placeholder="John Doe"
-                            value={formData.full_name}
-                            onChange={handleChange}
-                            required
-                        />
+        <div className="min-h-screen w-full bg-black flex items-center justify-center relative overflow-hidden">
+            {/* 1. BACKGROUND EFFECTS */}
+            <div className="absolute inset-0 bg-[linear-gradient(to_right,#1f2937_1px,transparent_1px),linear-gradient(to_bottom,#1f2937_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)] opacity-20" />
+            <div className="absolute top-0 left-0 w-full h-96 bg-purple-500/10 blur-[100px] rounded-full pointer-events-none" />
+
+            {/* 2. THE CARD */}
+            <div className="relative z-10 w-full max-w-md p-8">
+                <div className="flex flex-col items-center mb-8">
+                    <div className="w-12 h-12 bg-purple-900/30 border border-purple-500/50 rounded-xl flex items-center justify-center mb-4 shadow-[0_0_15px_rgba(168,85,247,0.3)]">
+                        <Activity className="text-purple-400" />
                     </div>
-                    <div className="form-group">
-                        <label htmlFor="email">Email</label>
-                        <input
-                            id="email"
-                            type="email"
-                            placeholder="name@example.com"
-                            value={formData.email}
-                            onChange={handleChange}
-                            required
-                        />
-                    </div>
-                    <div className="form-group">
-                        <label htmlFor="password">Password</label>
-                        <input
-                            id="password"
-                            type="password"
-                            placeholder="••••••••"
-                            value={formData.password}
-                            onChange={handleChange}
-                            required
-                        />
-                    </div>
-                    {error && <div className="error-message">Signup failed. Please try again.</div>}
-                    <button type="submit" className="btn-primary" disabled={isLoading}>
-                        {isLoading ? 'Creating Account...' : 'Sign Up'}
-                    </button>
-                </form>
-                <div className="auth-footer">
-                    <p>
-                        Already have an account? <Link href="/login">Sign In</Link>
+                    <h1 className="text-3xl font-bold font-mono text-white tracking-tight">EVOSAN</h1>
+                    <p className="text-purple-500/60 text-xs font-mono tracking-widest mt-2 uppercase">
+                        New User Protocol v2.0
                     </p>
                 </div>
-            </div>
 
-            <style jsx>{`
-                .auth-container {
-                    display: flex;
-                    align-items: center;
-                    justify-content: center;
-                    min-height: 100vh;
-                    background: radial-gradient(circle at top left, #1a1a2e, #16213e);
-                    padding: 20px;
-                }
-                .auth-card {
-                    width: 100%;
-                    max-width: 400px;
-                    padding: 40px;
-                    border-radius: 20px;
-                    background: rgba(255, 255, 255, 0.05);
-                    backdrop-filter: blur(10px);
-                    border: 1px solid rgba(255, 255, 255, 0.1);
-                    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
-                }
-                .auth-header {
-                    text-align: center;
-                    margin-bottom: 30px;
-                }
-                .auth-header h1 {
-                    font-size: 2rem;
-                    color: #fff;
-                    margin-bottom: 8px;
-                }
-                .auth-header p {
-                    color: rgba(255, 255, 255, 0.6);
-                    font-size: 0.9rem;
-                }
-                .auth-form {
-                    display: flex;
-                    flex-direction: column;
-                    gap: 20px;
-                }
-                .form-group {
-                    display: flex;
-                    flex-direction: column;
-                    gap: 8px;
-                }
-                .form-group label {
-                    color: rgba(255, 255, 255, 0.8);
-                    font-size: 0.85rem;
-                }
-                input {
-                    padding: 12px;
-                    border-radius: 10px;
-                    background: rgba(255, 255, 255, 0.05);
-                    border: 1px solid rgba(255, 255, 255, 0.1);
-                    color: #fff;
-                    outline: none;
-                    transition: border-color 0.3s;
-                }
-                input:focus {
-                    border-color: #4e44e7;
-                }
-                .btn-primary {
-                    padding: 14px;
-                    border-radius: 10px;
-                    background: linear-gradient(135deg, #6366f1, #4f46e5);
-                    color: #fff;
-                    border: none;
-                    font-weight: 600;
-                    cursor: pointer;
-                    transition: transform 0.2s, opacity 0.2s;
-                }
-                .btn-primary:hover {
-                    transform: translateY(-2px);
-                    opacity: 0.9;
-                }
-                .btn-primary:disabled {
-                    opacity: 0.5;
-                    cursor: not-allowed;
-                }
-                .error-message {
-                    color: #ff4d4d;
-                    font-size: 0.85rem;
-                    text-align: center;
-                }
-                .auth-footer {
-                    margin-top: 25px;
-                    text-align: center;
-                    font-size: 0.9rem;
-                    color: rgba(255, 255, 255, 0.6);
-                }
-                .auth-footer a {
-                    color: #6366f1;
-                    text-decoration: none;
-                    font-weight: 500;
-                }
-                .auth-footer a:hover {
-                    text-decoration: underline;
-                }
-            `}</style>
+                <div className="bg-gray-900/40 backdrop-blur-md border border-gray-800 rounded-2xl p-8 shadow-2xl relative group">
+                    <div className="absolute -inset-0.5 bg-gradient-to-r from-purple-500 to-teal-600 rounded-2xl opacity-0 group-hover:opacity-20 transition duration-500 blur"></div>
+
+                    <div className="relative">
+                        <h2 className="text-xl font-bold text-white mb-6 flex items-center gap-2">
+                            <Cpu size={18} className="text-gray-500" /> CREATE IDENTITY
+                        </h2>
+
+                        <form onSubmit={handleSubmit} className="space-y-4">
+                            {/* Full Name Input */}
+                            <div className="space-y-1">
+                                <label className="text-xs font-mono text-gray-500 uppercase ml-1">Full Designation</label>
+                                <div className="relative">
+                                    <User className="absolute left-3 top-3 text-gray-500" size={18} />
+                                    <input
+                                        id="full_name"
+                                        type="text"
+                                        placeholder="John Doe"
+                                        className="w-full bg-black/50 border border-gray-700 text-gray-200 text-sm rounded-lg py-3 pl-10 pr-4 focus:outline-none focus:border-purple-500 focus:ring-1 focus:ring-purple-500 transition-all font-mono placeholder:text-gray-700"
+                                        value={formData.full_name}
+                                        onChange={handleChange}
+                                        required
+                                    />
+                                </div>
+                            </div>
+
+                            {/* Email Input */}
+                            <div className="space-y-1">
+                                <label className="text-xs font-mono text-gray-500 uppercase ml-1">Communication Channel</label>
+                                <div className="relative">
+                                    <Activity className="absolute left-3 top-3 text-gray-500" size={18} />
+                                    <input
+                                        id="email"
+                                        type="email"
+                                        placeholder="name@example.com"
+                                        className="w-full bg-black/50 border border-gray-700 text-gray-200 text-sm rounded-lg py-3 pl-10 pr-4 focus:outline-none focus:border-purple-500 focus:ring-1 focus:ring-purple-500 transition-all font-mono placeholder:text-gray-700"
+                                        value={formData.email}
+                                        onChange={handleChange}
+                                        required
+                                    />
+                                </div>
+                            </div>
+
+                            {/* Password Input */}
+                            <div className="space-y-1">
+                                <label className="text-xs font-mono text-gray-500 uppercase ml-1">Secure Passkey</label>
+                                <div className="relative">
+                                    <Lock className="absolute left-3 top-3 text-gray-500" size={18} />
+                                    <input
+                                        id="password"
+                                        type="password"
+                                        placeholder="••••••••"
+                                        className="w-full bg-black/50 border border-gray-700 text-gray-200 text-sm rounded-lg py-3 pl-10 pr-4 focus:outline-none focus:border-purple-500 focus:ring-1 focus:ring-purple-500 transition-all font-mono placeholder:text-gray-700"
+                                        value={formData.password}
+                                        onChange={handleChange}
+                                        required
+                                    />
+                                </div>
+                            </div>
+
+                            {/* Error Message */}
+                            {error && <div className="text-red-500 text-xs text-center font-mono">Initialization failed. Try again.</div>}
+
+                            {/* Submit Button */}
+                            <button
+                                type="submit"
+                                className="w-full bg-purple-600 hover:bg-purple-500 text-white font-bold py-3 rounded-lg mt-6 transition-all flex items-center justify-center gap-2 group/btn disabled:opacity-50 disabled:cursor-not-allowed"
+                                disabled={isLoading}
+                            >
+                                {isLoading ? 'REGISTERING...' : 'CONFIRM IDENTITY'}
+                                {!isLoading && <ArrowRight size={18} className="group-hover/btn:translate-x-1 transition-transform" />}
+                            </button>
+                        </form>
+
+                        <div className="mt-6 flex justify-center text-xs text-gray-500 font-mono">
+                            <Link href="/login" className="hover:text-purple-400 transition-colors">
+                                [ Return to Login ]
+                            </Link>
+                        </div>
+                    </div>
+                </div>
+
+                <div className="text-center mt-8 text-[10px] text-gray-700 font-mono">
+                    SECURE REGISTRATION UPLINK • 2026 EVOSAN SYSTEMS
+                </div>
+            </div>
         </div>
     );
 };

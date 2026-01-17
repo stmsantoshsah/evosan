@@ -8,6 +8,7 @@ export const DataBank = () => {
 
     const [isCreating, setIsCreating] = useState(false);
     const [searchQuery, setSearchQuery] = useState('');
+    const [newNote, setNewNote] = useState({ title: '', content: '', tags: '' });
 
     const archives = response?.data || [];
 
