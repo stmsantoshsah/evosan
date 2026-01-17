@@ -24,8 +24,8 @@ export default function RootLayout({
     children: React.ReactNode;
 }) {
     return (
-        <html lang="en" className={`${inter.variable} ${outfit.variable}`}>
-            <body className="bg-zinc-950 text-white antialiased">
+        <html lang="en" className={`${inter.variable} ${outfit.variable}`} suppressHydrationWarning>
+            <body className="bg-zinc-950 text-white antialiased" suppressHydrationWarning>
                 <ClientLayout>{children}</ClientLayout>
             </body>
         </html>

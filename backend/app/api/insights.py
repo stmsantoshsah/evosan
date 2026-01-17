@@ -7,7 +7,13 @@ router = APIRouter()
 @router.get("/weekly")
 async def get_weekly_insight():
     try:
-        insight = await generate_weekly_insight()
-        return {"insight": insight}
+        # returns a dict {score, pattern, friction, directive}
+        insight_data = await generate_weekly_insight()
+        return insight_data 
     except Exception as e:
-        return {"insight": "System currently unable to generate insights.", "error": str(e)}
+        return {
+            "score": 0,
+            "pattern": "Error generating insight.",
+            "friction": str(e),
+            "directive": "Check system logs."
+        }

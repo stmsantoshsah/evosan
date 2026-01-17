@@ -1,3 +1,6 @@
 export interface WeeklyInsight {
-    insight: string;
+    score: number;
+    pattern: string;
+    friction: string;
+    directive: string;
 }

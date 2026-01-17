@@ -45,8 +45,9 @@ async def generate_weekly_insight():
     nutrition_text = "\n".join([f"- {n['date']}: {n.get('calories', 0)}kcal, {n.get('protein_grams', 0)}g protein" for n in nutrition])
 
     # 4. THE PROMPT
+    # 4. THE PROMPT
     prompt = f"""
-    You are 'Evosan', a high-performance biometric analyst. Analyze the user's data from the last 7 days.
+    You are 'Evosan', a tactical analysis AI. Analyze the user's data from the last 7 days.
     
     === DATA LOGS ===
     
@@ -63,34 +64,42 @@ async def generate_weekly_insight():
     {nutrition_text if nutrition else "No nutrition logged."}
     
     === MISSION ===
-    Identify hidden correlations between the user's Inputs (Nutrition, Habits) and Outputs (Mood, Workout Intensity).
+    Identify hidden correlations between Inputs (Nutrition, Habits) and Outputs (Mood, Workout Intensity).
     
-    === OUTPUT FORMAT ===
-    Provide a briefing in this specific Markdown format:
-
-    ### 🧠 Pattern Recognition
-    (Identify 1 specific correlation. e.g., "On days you ate low protein, your mood dropped to 4.")
-
-    ### 📉 Friction Points
-    (What specifically caused failure? e.g., "Missed gym on Tuesday correlated with no journal entry.")
-
-    ### 🚀 Tactical Directive
-    (One specific action for next week. e.g., "Prioritize protein intake before 10 AM to stabilize mood.")
-
-    Keep it stoic, data-driven, and under 200 words.
+    === RULES ===
+    1. Never use YYYY-MM-DD dates. Use 'Monday', 'Yesterday', or 'Last Week'.
+    2. Be concise and direct. Use military/system terminology (e.g., 'Protocol Failure', 'Optimized').
+    3. Output strictly valid JSON.
+    
+    === OUTPUT FORMAT (JSON ONLY) ===
+    {{
+        "score": number, // 0-100 (Weekly Optimization Score based on consistency and mood)
+        "pattern": "string", // Direct correlation detected
+        "friction": "string", // Critical Protocol Failure or specific issue
+        "directive": "string" // Protocol Update / Tactical Directive for tomorrow
+    }}
     """
     
     # 5. CALL GROQ (Using the new Llama 3.3 model)
     try:
         chat_completion = await client.chat.completions.create(
             messages=[
-                {"role": "system", "content": "You are a ruthless data analyst. Focus on causality."},
+                {"role": "system", "content": "You are a tactical analysis AI. Return JSON only."},
                 {"role": "user", "content": prompt},
             ],
-            model="llama-3.3-70b-versatile", # The smart, fast model
+            model="llama-3.3-70b-versatile",
             temperature=0.6,
+            response_format={"type": "json_object"},
         )
-        return chat_completion.choices[0].message.content
+        content = chat_completion.choices[0].message.content
+        import json
+        return json.loads(content)
     except Exception as e:
         print(f"Groq API Error: {e}")
-        return "System offline. Unable to process neural analysis."
+        # Return fallback JSON
+        return {
+            "score": 0,
+            "pattern": "Neural link unstable.",
+            "friction": "System offline.",
+            "directive": "Retry manual connection."
+        }
