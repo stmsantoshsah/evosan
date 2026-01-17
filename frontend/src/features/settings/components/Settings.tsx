@@ -7,6 +7,7 @@ import {
     useSaveWorkoutPlanMutation
 } from '@/features/health/slices/healthApiSlice';
 import { useExportDataMutation, useFactoryResetMutation } from '../slices/settingsApiSlice';
+import { useGetProfileQuery, useUpdateProfileMutation } from '../../profile/slices/profileApiSlice';
 import toast from 'react-hot-toast';
 
 const DAYS = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
@@ -107,7 +108,43 @@ export default function Settings() {
     };
 
     // --- GENERAL TAB STATE ---
-    const [userName, setUserName] = useState('Santosh Sah'); // Mock default
+    const { data: profileData } = useGetProfileQuery();
+    const [updateProfile, { isLoading: isUpdatingProfile }] = useUpdateProfileMutation();
+    const [userName, setUserName] = useState('');
+    const [units, setUnits] = useState('metric'); // Default
+
+    useEffect(() => {
+        if (typeof window !== 'undefined') {
+            const savedUnits = localStorage.getItem('system_units');
+            if (savedUnits) setUnits(savedUnits);
+        }
+    }, []);
+
+    useEffect(() => {
+        if (profileData?.full_name) {
+            setUserName(profileData.full_name);
+        }
+    }, [profileData]);
+
+    const handleUpdateIdentity = async () => {
+        if (!userName.trim()) {
+            toast.error('Identity cannot be empty');
+            return;
+        }
+        try {
+            await updateProfile({ full_name: userName }).unwrap();
+            toast.success('Identity updated successfully');
+        } catch (error) {
+            console.error(error);
+            toast.error('Failed to update identity');
+        }
+    };
+
+    const handleUnitChange = (newUnit: string) => {
+        setUnits(newUnit);
+        localStorage.setItem('system_units', newUnit);
+        toast.success(`System units set to ${newUnit.charAt(0).toUpperCase() + newUnit.slice(1)}`);
+    };
 
     return (
         <div className="p-4 md:p-8 max-w-6xl mx-auto">
@@ -147,9 +184,14 @@ export default function Settings() {
                                 className="bg-zinc-950 border border-zinc-800 rounded p-2 w-full text-zinc-200 outline-none focus:border-teal-500"
                                 value={userName}
                                 onChange={(e) => setUserName(e.target.value)}
+                                placeholder="Enter your full name..."
                             />
-                            <button className="px-4 py-2 bg-teal-600/20 text-teal-400 border border-teal-600/50 rounded hover:bg-teal-600/30 transition-colors">
-                                Update
+                            <button
+                                onClick={handleUpdateIdentity}
+                                disabled={isUpdatingProfile}
+                                className="px-4 py-2 bg-teal-600/20 text-teal-400 border border-teal-600/50 rounded hover:bg-teal-600/30 transition-colors disabled:opacity-50 whitespace-nowrap"
+                            >
+                                {isUpdatingProfile ? 'Updating...' : 'Update'}
                             </button>
                         </div>
                     </SettingCard>
@@ -157,10 +199,22 @@ export default function Settings() {
                     <SettingCard title="System Units">
                         <div className="flex gap-4 text-zinc-300">
                             <label className="flex items-center gap-2 cursor-pointer">
-                                <input type="radio" name="units" defaultChecked className="accent-teal-500" /> Metric (kg/km)
+                                <input
+                                    type="radio"
+                                    name="units"
+                                    checked={units === 'metric'}
+                                    onChange={() => handleUnitChange('metric')}
+                                    className="accent-teal-500"
+                                /> Metric (kg/km)
                             </label>
                             <label className="flex items-center gap-2 cursor-pointer">
-                                <input type="radio" name="units" className="accent-teal-500" /> Imperial (lbs/mi)
+                                <input
+                                    type="radio"
+                                    name="units"
+                                    checked={units === 'imperial'}
+                                    onChange={() => handleUnitChange('imperial')}
+                                    className="accent-teal-500"
+                                /> Imperial (lbs/mi)
                             </label>
                         </div>
                     </SettingCard>

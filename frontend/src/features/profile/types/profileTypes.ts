@@ -1,6 +1,6 @@
 export interface UserProfile {
     id: string;
-    name: string;
+    full_name: string;
     email: string;
     role: 'DOCTOR' | 'PATIENT' | 'ADMIN';
     specialization?: string; // For doctors
@@ -16,7 +16,7 @@ export interface UserProfile {
 }
 
 export interface UpdateProfilePayload {
-    name?: string;
+    full_name?: string;
     email?: string;
     bio?: string;
     specialization?: string;
