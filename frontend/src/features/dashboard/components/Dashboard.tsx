@@ -117,6 +117,11 @@ export default function Dashboard() {
                     <div className="bg-zinc-900 border border-zinc-800 p-4 md:p-6 rounded-xl">
                         <h2 className="text-xs md:text-sm font-semibold text-zinc-400 mb-4 uppercase tracking-wider">Quick Access</h2>
                         <div className="space-y-2">
+                            <Link href="/focus" className='mb-3 block'>
+                                <button className="w-full text-left px-4 py-2 md:py-2.5 rounded-lg bg-teal-900/30 hover:bg-teal-900/50 text-teal-400 font-bold text-xs md:text-sm transition-colors border border-teal-700/50 uppercase tracking-widest flex items-center gap-2">
+                                    <BrainCircuit size={16} /> ENTER DEEP WORK
+                                </button>
+                            </Link>
                             <Link href="/health" className='mb-3 block'>
                                 <button className="w-full text-left px-4 py-2 md:py-2.5 rounded-lg bg-zinc-800/50 hover:bg-zinc-800 text-zinc-300 text-xs md:text-sm transition-colors border border-zinc-700/50">
                                     Open Workout Planner

@@ -9,13 +9,15 @@ import { Toaster } from 'react-hot-toast';
 export function ClientLayout({ children }: { children: React.ReactNode }) {
     const pathname = usePathname();
     const isAuthPage = pathname === '/login' || pathname === '/signup';
+    const isFocusPage = pathname === '/focus';
+    const shouldHideSidebar = isAuthPage || isFocusPage;
 
     return (
         <ReduxProvider>
             <AuthGuard>
                 <div className="flex min-h-screen">
-                    {!isAuthPage && <Sidebar />}
-                    <main className={`flex-1 ${!isAuthPage ? 'md:ml-64 pt-16 md:pt-0' : ''} p-4 md:p-8`}>
+                    {!shouldHideSidebar && <Sidebar />}
+                    <main className={`flex-1 ${!shouldHideSidebar ? 'md:ml-64 pt-16 md:pt-0' : ''} ${isFocusPage ? 'p-0' : 'p-4 md:p-8'}`}>
                         {children}
                     </main>
                 </div>

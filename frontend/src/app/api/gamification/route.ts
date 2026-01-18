@@ -67,6 +67,7 @@ export async function GET(req: NextRequest) {
             }
         ];
 
+
         return NextResponse.json({
             success: true,
             data: {
@@ -87,6 +88,36 @@ export async function GET(req: NextRequest) {
 
     } catch (error: any) {
         console.error('Gamification API Error:', error);
+        return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+    }
+}
+
+export async function POST(req: NextRequest) {
+    try {
+        const body = await req.json();
+        const { duration, taskName } = body;
+
+        const db = (await dbConnect()).connection.db;
+        if (!db) throw new Error('Database connection failed');
+
+        // 1. Log the Focus Session
+        await db.collection('focus_logs').insertOne({
+            duration: duration || 0, // in seconds
+            taskName: taskName || 'Deep Work',
+            completedAt: new Date(),
+            xpAwarded: 50
+        });
+
+        // 2. Award XP
+        await db.collection('gamestats').updateOne(
+            {},
+            { $inc: { xp: 50 } },
+            { upsert: true }
+        );
+
+        return NextResponse.json({ success: true, message: 'Focus Session Logged. +50 XP.' });
+    } catch (error: any) {
+        console.error('Focus Log Error:', error);
         return NextResponse.json({ success: false, error: error.message }, { status: 500 });
     }
 }

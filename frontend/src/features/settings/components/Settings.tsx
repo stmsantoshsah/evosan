@@ -1,12 +1,13 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { Save, Download, Trash2, User, Activity, Check } from 'lucide-react';
+import { Save, Download, Trash2, User, Activity, Check, Github, Code2, Link2 } from 'lucide-react';
 import {
     useGetWorkoutPlanQuery,
     useSaveWorkoutPlanMutation
 } from '@/features/health/slices/healthApiSlice';
 import { useExportDataMutation, useFactoryResetMutation } from '../slices/settingsApiSlice';
+import { useSyncGithubMutation, useSyncWakaTimeMutation } from '../slices/integrationsApiSlice';
 import { useGetProfileQuery, useUpdateProfileMutation } from '../../profile/slices/profileApiSlice';
 import toast from 'react-hot-toast';
 
@@ -146,6 +147,53 @@ export default function Settings() {
         toast.success(`System units set to ${newUnit.charAt(0).toUpperCase() + newUnit.slice(1)}`);
     };
 
+    // --- INTEGRATIONS STATE ---
+    const [githubUser, setGithubUser] = useState('');
+    const [githubToken, setGithubToken] = useState('');
+    const [wakaKey, setWakaKey] = useState('');
+
+    // Load saved keys from localStorage (client-side only for now for simplicity, or could fetch from profile)
+    useEffect(() => {
+        if (typeof window !== 'undefined') {
+            setGithubUser(localStorage.getItem('gh_user') || '');
+            setGithubToken(localStorage.getItem('gh_token') || '');
+            setWakaKey(localStorage.getItem('waka_key') || '');
+        }
+    }, []);
+
+    const [syncGithub, { isLoading: isSyncingGh }] = useSyncGithubMutation();
+    const [syncWaka, { isLoading: isSyncingWaka }] = useSyncWakaTimeMutation();
+
+    const handleSyncGithub = async () => {
+        if (!githubUser) return toast.error('GitHub Username required');
+
+        // Save to local storage for persistence
+        localStorage.setItem('gh_user', githubUser);
+        if (githubToken) localStorage.setItem('gh_token', githubToken);
+
+        try {
+            const result = await syncGithub({ username: githubUser, token: githubToken }).unwrap();
+            toast.success(`Synced! ${result.data.commits_today} commits found.`);
+        } catch (error: any) {
+            console.error(error);
+            toast.error('GitHub Sync Failed: ' + (error.data?.error || error.message));
+        }
+    };
+
+    const handleSyncWaka = async () => {
+        if (!wakaKey) return toast.error('API Key required');
+
+        localStorage.setItem('waka_key', wakaKey);
+
+        try {
+            const result = await syncWaka({ apiKey: wakaKey }).unwrap();
+            toast.success(`Synced! ${result.data.text} coded today.`);
+        } catch (error: any) {
+            console.error(error);
+            toast.error('WakaTime Sync Failed: ' + (error.data?.error || error.message));
+        }
+    };
+
     return (
         <div className="p-4 md:p-8 max-w-6xl mx-auto">
             <h1 className="text-3xl font-bold mb-2 text-white">System Configuration</h1>
@@ -170,6 +218,12 @@ export default function Settings() {
                     onClick={() => setActiveTab('data')}
                     label="Data Management"
                     icon={<Download size={18} />}
+                />
+                <TabButton
+                    active={activeTab === 'integrations'}
+                    onClick={() => setActiveTab('integrations')}
+                    label="Integrations"
+                    icon={<Link2 size={18} />}
                 />
             </div>
 
@@ -299,6 +353,76 @@ export default function Settings() {
                         >
                             <Trash2 size={16} /> {isResetting ? 'Resetting...' : 'Factory Reset System'}
                         </button>
+                    </SettingCard>
+                </div>
+            )}
+
+            {/* --- TAB 4: INTEGRATIONS --- */}
+            {activeTab === 'integrations' && (
+                <div className="grid gap-6 max-w-2xl animate-in fade-in">
+                    <SettingCard title="GitHub Connection">
+                        <div className="space-y-4">
+                            <div className="flex items-center gap-3 text-zinc-400 mb-2">
+                                <Github size={20} />
+                                <p className="text-sm">Auto-log "Coding Practice" habit based on contribution graph.</p>
+                            </div>
+                            <div className="space-y-2">
+                                <label className="text-xs uppercase text-zinc-500 font-bold">Username</label>
+                                <input
+                                    className="bg-zinc-950 border border-zinc-800 rounded p-2 w-full text-zinc-200 outline-none focus:border-white"
+                                    value={githubUser}
+                                    onChange={(e) => setGithubUser(e.target.value)}
+                                    placeholder="GitHub Username"
+                                />
+                            </div>
+                            <div className="space-y-2">
+                                <label className="text-xs uppercase text-zinc-500 font-bold">Personal Access Token (Optional)</label>
+                                <input
+                                    type="password"
+                                    className="bg-zinc-950 border border-zinc-800 rounded p-2 w-full text-zinc-200 outline-none focus:border-white"
+                                    value={githubToken}
+                                    onChange={(e) => setGithubToken(e.target.value)}
+                                    placeholder="ghp_xxxxxxxxxxxx"
+                                />
+                                <p className="text-[10px] text-zinc-600">Only required if you want to include private repos.</p>
+                            </div>
+                            <button
+                                onClick={handleSyncGithub}
+                                disabled={isSyncingGh}
+                                className="px-4 py-2 bg-zinc-800 hover:bg-zinc-700 text-white rounded flex items-center gap-2 transition-colors disabled:opacity-50"
+                            >
+                                {isSyncingGh ? <Activity className="animate-spin" size={16} /> : <Check size={16} />}
+                                {isSyncingGh ? 'Syncing...' : 'Sync & Check Habits'}
+                            </button>
+                        </div>
+                    </SettingCard>
+
+                    <SettingCard title="WakaTime Intelligence">
+                        <div className="space-y-4">
+                            <div className="flex items-center gap-3 text-zinc-400 mb-2">
+                                <Code2 size={20} />
+                                <p className="text-sm">Pull exact coding hours into your dashboard.</p>
+                            </div>
+                            <div className="space-y-2">
+                                <label className="text-xs uppercase text-zinc-500 font-bold">Secret API Key</label>
+                                <input
+                                    type="password"
+                                    className="bg-zinc-950 border border-zinc-800 rounded p-2 w-full text-zinc-200 outline-none focus:border-indigo-500"
+                                    value={wakaKey}
+                                    onChange={(e) => setWakaKey(e.target.value)}
+                                    placeholder="waka_xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
+                                />
+                                <p className="text-[10px] text-zinc-600">Found in WakaTime Settings -&gt; Account.</p>
+                            </div>
+                            <button
+                                onClick={handleSyncWaka}
+                                disabled={isSyncingWaka}
+                                className="px-4 py-2 bg-indigo-900/30 border border-indigo-500/50 hover:bg-indigo-900/50 text-indigo-300 rounded flex items-center gap-2 transition-colors disabled:opacity-50"
+                            >
+                                {isSyncingWaka ? <Activity className="animate-spin" size={16} /> : <Check size={16} />}
+                                {isSyncingWaka ? 'Syncing...' : 'Integrate Data'}
+                            </button>
+                        </div>
                     </SettingCard>
                 </div>
             )}

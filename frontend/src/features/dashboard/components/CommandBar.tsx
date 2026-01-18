@@ -1,18 +1,42 @@
 'use client';
 
-import { useState } from 'react';
-import { Zap, Loader2, Sparkles } from 'lucide-react';
+import { useState, useEffect } from 'react';
+import { Zap, Loader2, Sparkles, Mic, MicOff } from 'lucide-react';
 import toast from 'react-hot-toast';
 import confetti from 'canvas-confetti';
+import { useVoiceInput } from '../hooks/useVoiceInput';
 
 export default function CommandBar() {
     const [input, setInput] = useState('');
     const [isProcessing, setIsProcessing] = useState(false);
 
+    // Voice Input Hook
+    const { isListening, transcript, startListening, stopListening, resetTranscript, hasBrowserSupport } = useVoiceInput();
+
+    // Sync transcript to input
+    useEffect(() => {
+        if (transcript) {
+            setInput(transcript);
+        }
+    }, [transcript]);
+
+    const handleVoiceToggle = () => {
+        if (isListening) {
+            stopListening();
+        } else {
+            resetTranscript();
+            setInput(''); // Clear input on new dictation
+            startListening();
+            toast('Listening...', { icon: '🎙️', style: { borderRadius: '100px', background: '#e11d48', color: '#fff' } });
+        }
+    };
+
     const today = new Date().toISOString().split('T')[0];
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
+        if (isListening) stopListening();
+
         if (!input.trim() || isProcessing) return;
 
         setIsProcessing(true);
@@ -89,6 +113,18 @@ export default function CommandBar() {
                 onChange={(e) => setInput(e.target.value)}
                 disabled={isProcessing}
             />
+            {/* Voice Command Button */}
+            {hasBrowserSupport && (
+                <button
+                    type="button"
+                    onClick={handleVoiceToggle}
+                    className={`absolute inset-y-1.5 md:inset-y-2 right-12 md:right-14 px-3 rounded-xl transition-all flex items-center justify-center ${isListening ? 'bg-rose-600 text-white animate-pulse' : 'text-zinc-500 hover:text-zinc-300'}`}
+                    title={isListening ? "Stop Listening" : "Voice Command"}
+                >
+                    {isListening ? <MicOff size={16} /> : <Mic size={16} />}
+                </button>
+            )}
+
             <button
                 type="submit"
                 disabled={!input.trim() || isProcessing}
