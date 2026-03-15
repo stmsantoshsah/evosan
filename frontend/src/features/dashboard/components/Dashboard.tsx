@@ -43,7 +43,7 @@ export default function Dashboard() {
     // Data will populate dynamically into the UI as RTK Queries resolve.
 
     return (
-        <div className="space-y-6 md:space-y-8 px-4 md:px-0">
+        <div className="space-y-8 md:space-y-12 px-4 md:px-8 py-6 md:py-10 max-w-[1600px] mx-auto">
 
             {/* GAMIFICATION BAR */}
             <div className="my-4">
@@ -59,7 +59,7 @@ export default function Dashboard() {
             {/* COMMAND BAR */}
             <div className="max-w-2xl mx-auto w-full">
                 <CommandBar />
-                <p className="text-[9px] md:text-[10px] text-zinc-400 mt-2 text-center uppercase tracking-widest font-medium">
+                <p className="text-[10px] md:text-xs text-zinc-500 mt-3 text-center uppercase tracking-widest font-medium">
                     Smart Parser (Groq Powered) • Type naturally to log nutrition and workouts
                 </p>
             </div>
@@ -81,7 +81,8 @@ export default function Dashboard() {
                 {/* Protocol & History (Left 2 Columns) */}
                 <div className="lg:col-span-2 space-y-6 md:space-y-8">
                     {/* CHART SECTION */}
-                    <div className="bg-zinc-900 border border-zinc-800 rounded-xl p-4 md:p-6">
+                    <div className="bg-zinc-900 border border-zinc-800/50 rounded-2xl p-6 md:p-8 shadow-2xl shadow-black/50 relative overflow-hidden">
+                        <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-zinc-700/50 to-transparent"></div>
                         <div className="flex items-center justify-between mb-4 md:mb-6">
                             <h2 className="text-base md:text-lg font-semibold text-zinc-200 flex items-center gap-2">
                                 <Activity className="text-cyan-400" size={18} />
@@ -96,7 +97,8 @@ export default function Dashboard() {
                     </div>
 
                     {/* RECENT THOUGHTS */}
-                    <div className="bg-zinc-900/50 border border-zinc-800 rounded-xl p-6 md:p-8">
+                    <div className="bg-zinc-900/40 border border-zinc-800/40 backdrop-blur-md rounded-2xl p-6 md:p-8 relative overflow-hidden group">
+                        <div className="absolute inset-0 bg-gradient-to-br from-zinc-800/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
                         <h2 className="text-base md:text-lg font-semibold text-zinc-200 mb-4 flex items-center gap-2">
                             Latest Reflection <ArrowUpRight size={16} className="text-zinc-500" />
                         </h2>
@@ -111,7 +113,7 @@ export default function Dashboard() {
                     <InsightsPanel />
 
                     {/* Quick Access Card */}
-                    <div className="bg-zinc-900 border border-zinc-800 p-4 md:p-6 rounded-xl">
+                    <div className="bg-zinc-900/60 border border-zinc-800/50 backdrop-blur-sm p-4 md:p-6 rounded-2xl">
                         <h2 className="text-xs md:text-sm font-semibold text-zinc-400 mb-4 uppercase tracking-wider">Quick Access</h2>
                         <div className="space-y-2">
                             <Link href="/focus" className='mb-3 block'>

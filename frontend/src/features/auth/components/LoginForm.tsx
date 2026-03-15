@@ -6,11 +6,12 @@ import { useDispatch } from 'react-redux';
 import { setCredentials } from '../slices/authSlice';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import { Lock, User, ArrowRight, Activity } from 'lucide-react';
+import { Lock, User, ArrowRight, Activity, Eye, EyeOff } from 'lucide-react';
 
 const LoginForm = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [showPassword, setShowPassword] = useState(false);
     const [login, { isLoading, error }] = useLoginMutation();
     const dispatch = useDispatch();
     const router = useRouter();
@@ -80,16 +81,23 @@ const LoginForm = () => {
                             {/* Password Input */}
                             <div className="space-y-1">
                                 <label className="text-xs font-mono text-gray-500 uppercase ml-1">Security Key</label>
-                                <div className="relative">
-                                    <Lock className="absolute left-3 top-3 text-gray-500" size={18} />
+                                <div className="relative flex items-center">
+                                    <Lock className="absolute left-3 text-gray-500" size={18} />
                                     <input
-                                        type="password"
+                                        type={showPassword ? 'text' : 'password'}
                                         placeholder="••••••••"
-                                        className="w-full bg-black/50 border border-gray-700 text-gray-200 text-sm rounded-lg py-3 pl-10 pr-4 focus:outline-none focus:border-teal-500 focus:ring-1 focus:ring-teal-500 transition-all font-mono placeholder:text-gray-700"
+                                        className="w-full bg-black/50 border border-gray-700 text-gray-200 text-sm rounded-lg py-3 pl-10 pr-10 focus:outline-none focus:border-teal-500 focus:ring-1 focus:ring-teal-500 transition-all font-mono placeholder:text-gray-700"
                                         value={password}
                                         onChange={(e) => setPassword(e.target.value)}
                                         required
                                     />
+                                    <button
+                                        type="button"
+                                        onClick={() => setShowPassword(!showPassword)}
+                                        className="absolute right-3 text-gray-500 hover:text-teal-400 focus:outline-none transition-colors"
+                                    >
+                                        {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                                    </button>
                                 </div>
                             </div>
 

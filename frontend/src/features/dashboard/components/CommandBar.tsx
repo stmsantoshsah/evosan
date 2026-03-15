@@ -110,18 +110,18 @@ export default function CommandBar() {
     };
 
     return (
-        <form onSubmit={handleSubmit} className="relative group">
+        <form onSubmit={handleSubmit} className="relative group z-10">
             <div className="absolute inset-y-0 left-3 md:left-4 flex items-center pointer-events-none">
                 {isProcessing ? (
-                    <Loader2 size={16} className="md:w-[18px] md:h-[18px] text-teal-500 animate-spin" />
+                    <Loader2 size={16} className="md:w-[18px] md:h-[18px] text-emerald-400 animate-spin" />
                 ) : (
-                    <Zap size={16} className="md:w-[18px] md:h-[18px] text-zinc-500 group-focus-within:text-teal-500 transition-colors" />
+                    <Zap size={16} className="md:w-[18px] md:h-[18px] text-zinc-500 group-focus-within:text-emerald-400 transition-colors" />
                 )}
             </div>
             <input
                 type="text"
                 placeholder="Ate 2 eggs, drank 1L water. Did a 30 min run..."
-                className="w-full bg-zinc-900/50 border border-zinc-800 rounded-2xl py-3 md:py-4 pl-10 md:pl-12 pr-10 md:pr-12 text-sm md:text-base text-zinc-200 placeholder:text-zinc-600 focus:outline-none focus:border-teal-500/50 focus:ring-1 focus:ring-teal-500/50 transition-all shadow-lg shadow-teal-500/5"
+                className="w-full bg-zinc-900/40 backdrop-blur-xl border border-zinc-700/50 rounded-2xl py-3 md:py-4 pl-10 md:pl-12 pr-10 md:pr-12 text-sm md:text-base text-zinc-200 placeholder:text-zinc-600 focus:outline-none focus:border-emerald-500/50 focus:ring-2 focus:ring-emerald-500/20 transition-all shadow-2xl shadow-emerald-900/5"
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 disabled={isProcessing}
@@ -141,7 +141,7 @@ export default function CommandBar() {
             <button
                 type="submit"
                 disabled={!input.trim() || isProcessing}
-                className="absolute inset-y-1.5 md:inset-y-2 right-1.5 md:right-2 px-3 md:px-4 rounded-xl bg-teal-600 hover:bg-teal-500 text-white transition-all disabled:opacity-0 disabled:scale-90 flex items-center justify-center cursor-pointer"
+                className="absolute inset-y-1.5 md:inset-y-2 right-1.5 md:right-2 px-3 md:px-4 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white transition-all disabled:opacity-0 disabled:scale-90 flex items-center justify-center cursor-pointer shadow-lg shadow-emerald-500/20"
             >
                 <Sparkles size={14} className="md:w-4 md:h-4" />
             </button>

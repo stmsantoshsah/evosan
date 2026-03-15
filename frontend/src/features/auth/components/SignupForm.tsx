@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import { useSignupMutation } from '../slices/authApiSlice';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import { Lock, User, ArrowRight, Activity, Cpu } from 'lucide-react';
+import { Lock, User, ArrowRight, Activity, Cpu, Eye, EyeOff } from 'lucide-react';
 
 const SignupForm = () => {
     const [formData, setFormData] = useState({
@@ -12,6 +12,7 @@ const SignupForm = () => {
         password: '',
         full_name: '',
     });
+    const [showPassword, setShowPassword] = useState(false);
     const [signup, { isLoading, error }] = useSignupMutation();
     const router = useRouter();
 
@@ -96,17 +97,24 @@ const SignupForm = () => {
                             {/* Password Input */}
                             <div className="space-y-1">
                                 <label className="text-xs font-mono text-gray-500 uppercase ml-1">Secure Passkey</label>
-                                <div className="relative">
-                                    <Lock className="absolute left-3 top-3 text-gray-500" size={18} />
+                                <div className="relative flex items-center">
+                                    <Lock className="absolute left-3 text-gray-500" size={18} />
                                     <input
                                         id="password"
-                                        type="password"
+                                        type={showPassword ? 'text' : 'password'}
                                         placeholder="••••••••"
-                                        className="w-full bg-black/50 border border-gray-700 text-gray-200 text-sm rounded-lg py-3 pl-10 pr-4 focus:outline-none focus:border-purple-500 focus:ring-1 focus:ring-purple-500 transition-all font-mono placeholder:text-gray-700"
+                                        className="w-full bg-black/50 border border-gray-700 text-gray-200 text-sm rounded-lg py-3 pl-10 pr-10 focus:outline-none focus:border-purple-500 focus:ring-1 focus:ring-purple-500 transition-all font-mono placeholder:text-gray-700"
                                         value={formData.password}
                                         onChange={handleChange}
                                         required
                                     />
+                                    <button
+                                        type="button"
+                                        onClick={() => setShowPassword(!showPassword)}
+                                        className="absolute right-3 text-gray-500 hover:text-purple-400 focus:outline-none transition-colors"
+                                    >
+                                        {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                                    </button>
                                 </div>
                             </div>
 
