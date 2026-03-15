@@ -39,11 +39,8 @@ export default function Dashboard() {
         };
     }, [habits, journals]);
 
-    const isLoading = isHabitsLoading || isJournalsLoading || isChartLoading || isSummaryLoading;
-
-    if (isLoading) {
-        return <DashboardSkeleton />;
-    }
+    // The Dashboard now renders immediately instead of waiting for all 4 queries.
+    // Data will populate dynamically into the UI as RTK Queries resolve.
 
     return (
         <div className="space-y-6 md:space-y-8 px-4 md:px-0">

@@ -27,6 +27,23 @@ async def connect_to_mongo():
         await db.client.admin.command('ping')
         print("Connected to MongoDB Successfully")
         
+        # Initialize Indexes
+        evosan_db = db.client[settings.DB_NAME]
+        
+        # Habit Logs Indexes
+        await evosan_db["habit_logs"].create_index([("date", -1)])
+        await evosan_db["habit_logs"].create_index([("habit_id", 1), ("date", -1)])
+        await evosan_db["habit_logs"].create_index([("completed", 1), ("date", -1)])
+
+        # Journal Entries Indexes
+        await evosan_db["journal_entries"].create_index([("created_at", -1)])
+        
+        # Nutrition and Workouts Indexes
+        await evosan_db["nutrition"].create_index([("date", -1)])
+        await evosan_db["workouts"].create_index([("date", -1)])
+        
+        print("MongoDB Indexes Initialized")
+        
     except Exception as e:
         print(f"CONNECTION FAILED: {e}")
         print("ACTION REQUIRED: Check your MongoDB Atlas Network Access IP Whitelist.")

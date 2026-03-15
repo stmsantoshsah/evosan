@@ -79,22 +79,17 @@ export async function POST(req: NextRequest) {
 
             const updateDoc: any = { $inc: {}, $setOnInsert: { date: today } };
 
-            if (extractedData.water_ml) {
-                // Backend expects water_liters
-                updateDoc.$inc.water_liters = extractedData.water_ml / 1000;
-            }
+            if (extractedData.water_ml) updateDoc.$inc.water_liters = extractedData.water_ml / 1000;
             if (extractedData.calories) updateDoc.$inc.calories = extractedData.calories;
             if (extractedData.protein_g) updateDoc.$inc.protein_grams = extractedData.protein_g;
 
-            if (Object.keys(updateDoc.$inc).length > 0) {
-                promises.push(
-                    db.collection('nutrition').updateOne(
-                        { date: today },
-                        updateDoc,
-                        { upsert: true }
-                    )
-                );
-            }
+            promises.push(
+                db.collection('nutrition').updateOne(
+                    { date: today },
+                    updateDoc,
+                    { upsert: true }
+                )
+            );
         }
 
         // B. Update Workouts
@@ -109,7 +104,7 @@ export async function POST(req: NextRequest) {
                     intensity: 5
                 },
                 $setOnInsert: {
-                    exercises: "Logged via Smart Parser"
+                    exercises: [] // Changed from string to list to match backend model
                 }
             };
 
@@ -168,15 +163,13 @@ export async function POST(req: NextRequest) {
                 levelUp = true;
             }
 
-            const currentTitle = getRankTitle(newLevel);
-
             promises.push(
                 db.collection('gamestats').updateOne(
                     {}, // Singleton for now
                     {
                         $set: {
                             xp: currentXP,
-                            title: currentTitle,
+                            title: getRankTitle(newLevel),
                             level: newLevel,
                             lastUpdated: now
                         }
@@ -201,6 +194,19 @@ export async function POST(req: NextRequest) {
 
     } catch (error: any) {
         console.error('Smart Parser Error:', error);
-        return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+        
+        // Ensure returning JSON even on errors so the frontend doesn't crash on .json()
+        return new NextResponse(
+            JSON.stringify({ 
+                success: false, 
+                error: error.message || 'An unknown error occurred' 
+            }), 
+            { 
+                status: 500,
+                headers: {
+                    'Content-Type': 'application/json',
+                }
+            }
+        );
     }
 }

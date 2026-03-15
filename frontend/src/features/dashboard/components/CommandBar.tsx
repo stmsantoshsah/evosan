@@ -48,11 +48,24 @@ export default function CommandBar() {
                 body: JSON.stringify({ text: input }),
             });
 
-            if (!response.ok) {
-                throw new Error('Failed to parse input');
+            let data;
+            try {
+                // Check content-type to ensure we are receiving JSON
+                const contentType = response.headers.get("content-type");
+                if (contentType && contentType.indexOf("application/json") !== -1) {
+                    data = await response.json();
+                } else {
+                    const text = await response.text();
+                    throw new Error(`Server returned non-JSON: ${text.substring(0, 100)}`);
+                }
+            } catch (parseError) {
+                throw new Error('Failed to parse server response as JSON');
             }
 
-            const data = await response.json();
+            if (!response.ok) {
+                throw new Error(data?.error || 'Failed to process input');
+            }
+
             const xpDetails = data.gamification;
 
             // Trigger XP Update Event for XPBar

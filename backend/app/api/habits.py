@@ -51,18 +51,25 @@ async def get_habits(date_str: str = Query(default=None)):
     # limiting to 365 days prevents fetching ancient history, assuming streaks < 1 year
     one_year_ago = (today_dt - timedelta(days=365)).isoformat()
     
-    all_logs_cursor = db.client["evosan_db"]["habit_logs"].find({
-        "habit_id": {"$in": habit_ids},
-        "completed": True,
-        "date": {"$gte": one_year_ago}
-    })
+    pipeline = [
+        {"$match": {
+            "habit_id": {"$in": habit_ids},
+            "completed": True,
+            "date": {"$gte": one_year_ago}
+        }},
+        {"$group": {
+            "_id": "$habit_id",
+            "dates": {"$addToSet": "$date"}
+        }}
+    ]
     
-    all_logs = await all_logs_cursor.to_list(length=10000)
+    cursor = db.client["evosan_db"]["habit_logs"].aggregate(pipeline)
+    grouped_logs = await cursor.to_list(None)
     
     # Group logs by habit_id -> set of dates
     logs_by_habit = {hid: set() for hid in habit_ids}
-    for log in all_logs:
-        logs_by_habit[log["habit_id"]].add(log["date"])
+    for doc in grouped_logs:
+        logs_by_habit[doc["_id"]] = set(doc.get("dates", []))
 
     results = []
     for h in habits:

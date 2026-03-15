@@ -16,30 +16,33 @@ async def get_weekly_stats():
 
     start_date = dates[0]
 
-    # OPTIMIZATION: Fetch all data in bulk queries
-    
-    # A. Fetch Journals
-    journals = await db.client["evosan_db"]["journal_entries"].find({
-        "created_at": {"$gte": start_date}
-    }).to_list(100)
-    
-    # Map date -> mood
-    mood_map = {}
-    for j in journals:
-        d_str = j["created_at"][:10] # Extract YYYY-MM-DD
-        mood_map[d_str] = j.get("mood", 0)
+    # OPTIMIZATION: Use MongoDB Aggregation for faster grouped results
 
-    # B. Fetch Habit Logs
-    logs = await db.client["evosan_db"]["habit_logs"].find({
-        "date": {"$gte": start_date},
-        "completed": True
-    }).to_list(1000)
-    
-    # Map date -> count
-    habit_counts = {d: 0 for d in dates}
-    for l in logs:
-        if l["date"] in habit_counts:
-            habit_counts[l["date"]] += 1
+    # A. Fetch Journals (Avg mood per day)
+    journal_cursor = db.client["evosan_db"]["journal_entries"].aggregate([
+        {"$match": {"created_at": {"$gte": start_date}}},
+        {"$project": {
+            "date": {"$substr": ["$created_at", 0, 10]},
+            "mood": 1
+        }},
+        {"$group": {
+            "_id": "$date",
+            "mood": {"$avg": "$mood"}
+        }}
+    ])
+    journal_agg = await journal_cursor.to_list(None)
+    mood_map = {item["_id"]: item["mood"] for item in journal_agg}
+
+    # B. Fetch Habit Logs (Count completed habits per day)
+    habit_cursor = db.client["evosan_db"]["habit_logs"].aggregate([
+        {"$match": {"completed": True, "date": {"$gte": start_date}}},
+        {"$group": {
+            "_id": "$date",
+            "count": {"$sum": 1}
+        }}
+    ])
+    habit_agg = await habit_cursor.to_list(None)
+    habit_counts = {item["_id"]: item["count"] for item in habit_agg}
 
     results = []
     for date_str in dates:
@@ -82,13 +85,15 @@ async def get_daily_summary(date_str: str = None):
     # Fetch all dates with ANY completed habit in last 365 days
     one_year_ago = (curr_date - timedelta(days=365)).strftime("%Y-%m-%d")
     
-    # Using projection to only get dates, lighter payload
-    logs = await db.client["evosan_db"]["habit_logs"].find({
-        "completed": True,
-        "date": {"$gte": one_year_ago}
-    }, projection={"date": 1}).to_list(10000)
-    
-    active_dates = {l["date"] for l in logs}
+    # Using MongoDB Aggregation to get distinct dates with at least one completed habit
+    pipeline = [
+        {"$match": {"completed": True, "date": {"$gte": one_year_ago}}},
+        {"$group": {"_id": "$date"}},
+        {"$sort": {"_id": -1}}
+    ]
+    cursor = db.client["evosan_db"]["habit_logs"].aggregate(pipeline)
+    dates_list = await cursor.to_list(400) # Max 365 days in a year
+    active_dates = {doc["_id"] for doc in dates_list}
     
     check_date = curr_date
     while True:

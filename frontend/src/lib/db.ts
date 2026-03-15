@@ -29,6 +29,10 @@ async function dbConnect() {
     if (!cached.promise) {
         const opts = {
             bufferCommands: false,
+            tls: true,
+            tlsAllowInvalidCertificates: true,
+            serverSelectionTimeoutMS: 5000,
+            family: 4 // Force IPv4 to prevent DNS querySrv errors
         };
 
         cached.promise = mongoose.connect(MONGODB_URI!, opts).then((mongoose) => {
