@@ -1,12 +1,17 @@
 'use client';
 
 import { useGetProfileQuery, useUpdateProfileMutation, useGetGamificationStatsQuery } from '../slices/profileApiSlice';
+import { useDispatch } from 'react-redux';
+import { useRouter } from 'next/navigation';
+import { logout } from '../../auth/slices/authSlice';
 import { ProfileView } from './ProfileView';
 
 export default function Profile() {
     const { data: profile, isLoading: isProfileLoading, error } = useGetProfileQuery();
     const { data: gameData, isLoading: isGameLoading } = useGetGamificationStatsQuery();
     const [updateProfile] = useUpdateProfileMutation();
+    const dispatch = useDispatch();
+    const router = useRouter();
 
     const isLoading = isProfileLoading || isGameLoading;
 
@@ -42,12 +47,18 @@ export default function Profile() {
         }
     };
 
+    const handleLogout = () => {
+        dispatch(logout());
+        router.push('/login');
+    };
+
     return (
         <ProfileView
             profile={profile}
             gamification={gameData?.data || {}}
             isEditable={true}
             onSaveManifesto={handleSaveManifesto}
+            onLogout={handleLogout}
         />
     );
 }

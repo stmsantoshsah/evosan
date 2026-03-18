@@ -1,6 +1,6 @@
 'use client';
 import { useState } from 'react';
-import { User, Shield, Zap, Activity, BookOpen, Dumbbell, Clock, Edit3, Save, Share2 } from 'lucide-react';
+import { User, Shield, Zap, Activity, BookOpen, Dumbbell, Clock, Edit3, Save, Share2, LogOut } from 'lucide-react';
 import { AchievementBadge } from './AchievementBadge';
 import toast from 'react-hot-toast';
 
@@ -9,13 +9,15 @@ interface ProfileViewProps {
     gamification: any;
     isEditable?: boolean;
     onSaveManifesto?: (content: string) => Promise<void>;
+    onLogout?: () => void;
 }
 
 export function ProfileView({
     profile,
     gamification,
     isEditable = false,
-    onSaveManifesto
+    onSaveManifesto,
+    onLogout
 }: ProfileViewProps) {
     // Manifesto State
     const [isEditingManifesto, setIsEditingManifesto] = useState(false);
@@ -138,6 +140,18 @@ export function ProfileView({
                             </div>
                         </div>
                     </div>
+
+                    {/* NEW LOGOUT BUTTON */}
+                    {isEditable && onLogout && (
+                        <div className="mt-6 pt-6 border-t border-zinc-800">
+                            <button
+                                onClick={onLogout}
+                                className="w-full flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg bg-red-500/10 hover:bg-red-500/20 text-red-500 text-xs font-bold uppercase tracking-wider transition-colors border border-red-500/20"
+                            >
+                                <LogOut size={16} /> System Logout
+                            </button>
+                        </div>
+                    )}
                 </div>
             </div>
 
