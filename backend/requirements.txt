@@ -17,3 +17,5 @@ scipy
 email-validator
 resend
 ruff
+chromadb
+sentence-transformers

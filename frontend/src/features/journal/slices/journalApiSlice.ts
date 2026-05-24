@@ -27,6 +27,9 @@ export const journalApiSlice = apiSlice.injectEndpoints({
         // fetchBaseQuery will automatically NOT set Content-Type if body is FormData
       }),
     }),
+    searchJournalMemory: builder.query<{ matches: any[]; synthesis: string }, string>({
+      query: (queryStr) => `/journal/search?query=${encodeURIComponent(queryStr)}`,
+    }),
   }),
 });
 
@@ -34,4 +37,5 @@ export const {
   useGetJournalEntriesQuery,
   useCreateJournalEntryMutation,
   useUploadVoiceJournalMutation,
+  useLazySearchJournalMemoryQuery,
 } = journalApiSlice;

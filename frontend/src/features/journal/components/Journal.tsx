@@ -4,11 +4,12 @@ import React, { useState } from 'react';
 import {
   useGetJournalEntriesQuery,
   useCreateJournalEntryMutation,
+  useLazySearchJournalMemoryQuery,
 } from '../slices/journalApiSlice';
 import { JournalPrompts } from './JournalPrompts';
 import { JournalTimeline } from './JournalTimeline';
 import { JournalHeatmap } from './JournalHeatmap';
-import { Sparkles, Send, Type, Volume2 } from 'lucide-react';
+import { Sparkles, Send, Type, Volume2, Brain } from 'lucide-react';
 import toast from 'react-hot-toast';
 import VoiceJournal from './VoiceJournal';
 
@@ -17,6 +18,12 @@ export default function Journal() {
   const [content, setContent] = useState('');
   const [mood, setMood] = useState(5);
   const [isAnalyzing, setIsAnalyzing] = useState(false);
+
+  // RAG Neural Memory State variables
+  const [searchQuery, setSearchQuery] = useState('');
+  const [searchMatches, setSearchMatches] = useState<any[]>([]);
+  const [searchSynthesis, setSearchSynthesis] = useState('');
+  const [triggerSearch, { isLoading: isSearching }] = useLazySearchJournalMemoryQuery();
 
   // RTK Query hooks
   const { data: entries = [], isLoading: isFetchingEntries } = useGetJournalEntriesQuery();
@@ -69,6 +76,28 @@ export default function Journal() {
     } catch (err) {
       console.error('Error saving entry', err);
       toast.error('Failed to sync log');
+    }
+  };
+
+  const handleSearch = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!searchQuery.trim()) return;
+
+    try {
+      const response = await triggerSearch(searchQuery).unwrap();
+      setSearchMatches(response.matches || []);
+      setSearchSynthesis(response.synthesis || '');
+      toast.success('Neural Stream Queries Synthesized', {
+        icon: '🧠',
+        style: {
+          background: '#18181b',
+          color: '#2dd4bf',
+          border: '1px solid #115e59',
+        },
+      });
+    } catch (err) {
+      console.error('Search query failed', err);
+      toast.error('Memory search failed to initialize');
     }
   };
 
@@ -176,6 +205,92 @@ export default function Journal() {
               Memory Stream
             </h2>
             <span className="text-xs text-zinc-600 font-mono">{entries.length} RECORDS</span>
+          </div>
+
+          {/* NEURAL MEMORY SEARCH BAR */}
+          <div className="bg-zinc-950/70 border border-zinc-800 rounded-2xl p-5 mb-8 shadow-2xl relative overflow-hidden group">
+            <div className="absolute top-0 right-0 p-3 opacity-5 pointer-events-none">
+              <Sparkles size={64} className="text-teal-400" />
+            </div>
+            <div className="flex items-center gap-2 mb-3">
+              <span className="h-2 w-2 rounded-full bg-teal-500 animate-pulse"></span>
+              <h3 className="text-[10px] font-bold text-teal-400 uppercase tracking-widest font-mono">
+                Neural Stream // Semantic Memory Search
+              </h3>
+            </div>
+            <form onSubmit={handleSearch} className="flex gap-2">
+              <input
+                type="text"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                placeholder="Ask your long-term memory... (e.g. 'Show sleep patterns when motivation was low')"
+                className="flex-1 bg-zinc-900 border border-zinc-800 focus:border-teal-500/50 rounded-xl px-4 py-3 text-xs text-zinc-200 placeholder-zinc-500 focus:outline-none transition-all font-mono"
+              />
+              <button
+                type="submit"
+                disabled={isSearching}
+                className="bg-teal-600/10 hover:bg-teal-600/20 text-teal-400 border border-teal-500/30 px-5 py-3 rounded-xl text-xs font-bold uppercase tracking-wider transition-all disabled:opacity-50 flex items-center gap-2 font-mono shrink-0"
+              >
+                {isSearching ? 'Querying...' : 'Query Memory'}
+              </button>
+            </form>
+
+            {/* SEARCH RESULTS */}
+            {(searchSynthesis || searchMatches.length > 0) && (
+              <div className="mt-5 pt-5 border-t border-zinc-800/80 animate-in fade-in duration-500 space-y-4">
+                {/* AI SYNTHESIS */}
+                {searchSynthesis && (
+                  <div className="bg-teal-950/20 border border-teal-950/50 p-4 rounded-xl relative overflow-hidden">
+                    <h4 className="text-teal-400 font-bold font-mono text-[10px] uppercase tracking-widest mb-2 flex items-center gap-1.5">
+                      <Brain size={12} className="text-teal-400" /> Neural Synthesis Summary
+                    </h4>
+                    <p className="text-zinc-300 text-xs leading-relaxed whitespace-pre-line font-medium font-sans">
+                      {searchSynthesis}
+                    </p>
+                  </div>
+                )}
+
+                {/* MATCHED LOGS */}
+                {searchMatches.length > 0 && (
+                  <div className="space-y-3">
+                    <span className="text-[10px] font-bold font-mono text-zinc-500 uppercase tracking-widest block">
+                      Semantic Path Alignments
+                    </span>
+                    <div className="grid grid-cols-1 gap-3 max-h-60 overflow-y-auto pr-1">
+                      {searchMatches.map((match) => (
+                        <div
+                          key={match.id}
+                          className="bg-zinc-900/60 hover:bg-zinc-900 border border-zinc-800 p-3.5 rounded-xl transition-all relative group/card"
+                        >
+                          <div className="flex items-center justify-between mb-2">
+                            <span className="text-[10px] text-zinc-500 font-mono">
+                              {new Date(match.timestamp).toLocaleDateString(undefined, {
+                                year: 'numeric',
+                                month: 'short',
+                                day: 'numeric',
+                              })}
+                            </span>
+                            <span className={`text-[10px] font-mono px-2 py-0.5 rounded-full ${
+                              match.mood >= 8 ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20' :
+                              match.mood <= 4 ? 'bg-amber-500/10 text-amber-400 border border-amber-500/20' :
+                              'bg-teal-500/10 text-teal-400 border border-teal-500/20'
+                            }`}>
+                              MOOD: {match.mood}/10
+                            </span>
+                          </div>
+                          <p className="text-zinc-300 text-xs leading-relaxed font-sans">
+                            {match.content}
+                          </p>
+                          <div className="absolute bottom-2 right-3 opacity-0 group-hover/card:opacity-100 transition-opacity text-[9px] text-zinc-600 font-mono">
+                            DISTANCE: {match.distance.toFixed(4)}
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </div>
+            )}
           </div>
 
           {isFetchingEntries ? (

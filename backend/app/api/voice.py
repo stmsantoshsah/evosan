@@ -7,6 +7,8 @@ from fastapi import APIRouter, File, HTTPException, UploadFile
 from groq import AsyncGroq
 
 from app.core.config import settings
+from app.db.database import db
+from app.services.vector_db import upsert_journal_vector
 
 router = APIRouter()
 client = AsyncGroq(api_key=settings.GROQ_API_KEY)
@@ -21,7 +23,9 @@ async def process_voice_journal(file: UploadFile = File(...)):
     Process a voice journal entry:
     1. Transcribe audio using Groq Whisper.
     2. Analyze transcript for mood, confidence, and English improvements.
-    3. Return coaching feedback and transcript.
+    3. Save the entry to MongoDB.
+    4. Sync with ChromaDB Vector Store.
+    5. Return coaching feedback and transcript.
     """
     if not file.filename:
         raise HTTPException(status_code=400, detail="No file uploaded")
@@ -82,11 +86,31 @@ async def process_voice_journal(file: UploadFile = File(...)):
         )
 
         analysis = json.loads(analysis_completion.choices[0].message.content)
+        timestamp = datetime.now()
+
+        # 4. Save to MongoDB collection "journal_entries"
+        entry_dict = {
+            "title": "Voice Codex Log",
+            "content": transcript,
+            "mood": int(analysis.get("mood", 5)),
+            "tags": ["voice"],
+            "created_at": timestamp
+        }
+        new_entry = await db.client["evosan_db"]["journal_entries"].insert_one(entry_dict)
+        inserted_id = str(new_entry.inserted_id)
+
+        # 5. Sync with ChromaDB Vector Store
+        await upsert_journal_vector(
+            journal_id=inserted_id,
+            content=transcript,
+            mood=int(analysis.get("mood", 5)),
+            timestamp=timestamp.isoformat()
+        )
 
         return {
             "transcript": transcript,
             "analysis": analysis,
-            "timestamp": datetime.now().isoformat(),
+            "timestamp": timestamp.isoformat(),
         }
 
     except Exception as e:
