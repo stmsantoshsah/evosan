@@ -1,0 +1,63 @@
+name: Evosan CI/CD Pipeline
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  # 1. FastAPI Backend Validation
+  backend-test:
+    name: Backend Lint & Type Check
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      - name: Install Dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r backend/requirements.txt
+          pip install ruff
+
+      - name: Run Ruff Linter Checks
+        run: |
+          cd backend
+          ruff check .
+
+  # 2. Next.js Frontend Validation
+  frontend-test:
+    name: Frontend Lint & Build Test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+          cache: 'npm'
+          cache-dependency-path: frontend/package-lock.json
+
+      - name: Install Dependencies
+        run: |
+          cd frontend
+          npm ci
+
+      - name: Run ESLint Checks
+        run: |
+          cd frontend
+          npm run lint
+
+      - name: Build Next.js Production App
+        run: |
+          cd frontend
+          npm run build

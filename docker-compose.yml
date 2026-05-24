@@ -1,0 +1,62 @@
+services:
+  # 1. MongoDB Persistent Database
+  mongodb:
+    image: mongo:6.0
+    container_name: evosan_mongodb
+    ports:
+      - "27017:27017"
+    environment:
+      - MONGO_INITDB_DATABASE=evosan_db
+    volumes:
+      - mongo_data:/data/db
+    networks:
+      - evosan_net
+    restart: unless-stopped
+
+  # 2. FastAPI ASGI Backend
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: evosan_backend
+    ports:
+      - "8000:8000"
+    environment:
+      - MONGO_URL=mongodb://mongodb:27017/evosan_db
+      - GROQ_API_KEY=${GROQ_API_KEY}
+      # LangSmith AI Observability Tracing configurations
+      - LANGCHAIN_TRACING_V2=${LANGCHAIN_TRACING_V2:-false}
+      - LANGCHAIN_ENDPOINT=${LANGCHAIN_ENDPOINT:-https://api.smith.langchain.com}
+      - LANGCHAIN_API_KEY=${LANGCHAIN_API_KEY}
+      - LANGCHAIN_PROJECT=${LANGCHAIN_PROJECT:-evosan-backend}
+    depends_on:
+      - mongodb
+    networks:
+      - evosan_net
+    restart: unless-stopped
+
+  # 3. Next.js 15 SSR Frontend
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: evosan_frontend
+    ports:
+      - "3000:3000"
+    environment:
+      - NEXT_PUBLIC_API_URL=http://localhost:8000
+    depends_on:
+      - backend
+    networks:
+      - evosan_net
+    restart: unless-stopped
+
+# Persistent Volume declarations
+volumes:
+  mongo_data:
+    driver: local
+
+# Isolated bridge networks for container-to-container routing
+networks:
+  evosan_net:
+    driver: bridge
