@@ -50,17 +50,17 @@ export function JournalHeatmap({ entries }: HeatmapProps) {
       case 2:
         return 'bg-emerald-900/60';
       default:
-        return 'bg-zinc-900 border border-zinc-800'; // Empty
+        return 'bg-muted border border-border'; // Empty
     }
   };
 
   return (
-    <div className="mb-8 p-4 bg-zinc-900/30 border border-zinc-800 rounded-xl overflow-hidden">
+    <div className="mb-8 p-4 bg-card border border-border rounded-xl overflow-hidden">
       <div className="flex justify-between items-center mb-3">
-        <h3 className="text-xs font-bold text-zinc-500 uppercase tracking-widest">
+        <h3 className="text-xs font-bold text-muted-foreground uppercase tracking-widest">
           Neural Consistency
         </h3>
-        <span className="text-[10px] text-zinc-600">Last 12 Weeks</span>
+        <span className="text-[10px] text-muted-foreground/60">Last 12 Weeks</span>
       </div>
 
       {/* Grid Container */}
@@ -78,7 +78,7 @@ export function JournalHeatmap({ entries }: HeatmapProps) {
               const dayData = heatmapData[dataIndex];
 
               if (!dayData)
-                return <div key={dayIndex} className="w-2.5 h-2.5 rounded-sm bg-zinc-900/50"></div>;
+                return <div key={dayIndex} className="w-2.5 h-2.5 rounded-sm bg-muted/50"></div>;
 
               return (
                 <div

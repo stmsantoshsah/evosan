@@ -38,7 +38,7 @@ export function JournalPrompts({ onSelect }: JournalPromptsProps) {
           key={p.id}
           type="button"
           onClick={() => onSelect(p.text)}
-          className={`flex items-center gap-2 px-3 py-1.5 rounded-full bg-zinc-900 border border-zinc-800 text-xs font-bold text-zinc-500 transition-colors ${p.color}`}
+          className={`flex items-center gap-2 px-3 py-1.5 rounded-full bg-muted border border-border text-xs font-bold text-muted-foreground transition-colors ${p.color}`}
         >
           {p.icon}
           {p.label}

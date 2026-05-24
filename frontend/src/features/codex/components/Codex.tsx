@@ -143,20 +143,20 @@ export default function Codex() {
   };
 
   return (
-    <div className="p-4 md:p-8 max-w-7xl mx-auto min-h-screen text-zinc-100">
+    <div className="p-4 md:p-8 max-w-7xl mx-auto min-h-screen text-foreground">
       {/* HEADER */}
-      <div className="flex justify-between items-end mb-8 border-b border-zinc-800 pb-4 animate-in fade-in slide-in-from-top-4">
+      <div className="flex justify-between items-end mb-8 border-b border-border pb-4 animate-in fade-in slide-in-from-top-4">
         <div>
-          <h1 className="text-3xl font-bold font-mono text-white flex items-center gap-3 tracking-tighter">
+          <h1 className="text-3xl font-bold font-mono text-foreground flex items-center gap-3 tracking-tighter">
             <Terminal className="text-teal-500" /> THE CODEX
           </h1>
-          <p className="text-zinc-500 text-sm mt-1 font-mono">
+          <p className="text-muted-foreground text-sm mt-1 font-mono">
             Core operating principles & firmware updates.
           </p>
         </div>
         <button
           onClick={() => setIsCreating(true)}
-          className="bg-white text-black px-4 py-2 font-bold rounded flex items-center gap-2 hover:bg-zinc-200 transition-colors text-sm"
+          className="bg-primary text-white px-4 py-2 font-bold rounded flex items-center gap-2 hover:bg-primary/95 transition-colors text-sm shadow-md"
         >
           <Plus size={16} /> <span className="hidden md:inline">New Firmware</span>
         </button>
@@ -164,18 +164,18 @@ export default function Codex() {
 
       {/* CREATION MODAL/AREA */}
       {isCreating && (
-        <div className="mb-8 bg-zinc-900/50 border border-zinc-800 p-6 rounded-xl animate-in fade-in zoom-in-95">
+        <div className="mb-8 bg-card border border-border p-6 rounded-xl animate-in fade-in zoom-in-95 shadow-md">
           <div className="flex justify-between mb-4">
-            <h3 className="font-mono text-teal-400 text-sm">INPUT NEW PRINCIPLE</h3>
+            <h3 className="font-mono text-teal-600 dark:text-teal-400 text-sm">INPUT NEW PRINCIPLE</h3>
             <button onClick={() => setIsCreating(false)}>
-              <X size={18} className="text-zinc-500 hover:text-white" />
+              <X size={18} className="text-muted-foreground hover:text-foreground" />
             </button>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
             <div className="col-span-2">
               <textarea
-                className="w-full h-32 bg-black border border-zinc-800 rounded p-4 text-white placeholder:text-zinc-600 outline-none focus:border-teal-500 transition-colors font-mono resize-none"
+                className="w-full h-32 bg-input border border-border rounded p-4 text-foreground placeholder:text-muted-foreground/60 outline-none focus:border-teal-500 transition-colors font-mono resize-none"
                 placeholder="Enter system instruction..."
                 value={newEntry.text}
                 onChange={(e) => setNewEntry({ ...newEntry, text: e.target.value })}
@@ -184,7 +184,7 @@ export default function Codex() {
             </div>
             <div className="col-span-1 flex flex-col gap-2">
               <select
-                className="bg-black border border-zinc-800 rounded p-2 text-zinc-300 outline-none text-sm font-mono"
+                className="bg-input border border-border rounded p-2 text-foreground outline-none text-sm font-mono"
                 value={newEntry.type}
                 onChange={(e) => setNewEntry({ ...newEntry, type: e.target.value })}
               >
@@ -193,7 +193,7 @@ export default function Codex() {
                 <option value="CHALLENGE">CHALLENGE (Active)</option>
               </select>
               <input
-                className="bg-black border border-zinc-800 rounded p-2 text-white placeholder:text-zinc-600 outline-none text-sm font-mono"
+                className="bg-input border border-border rounded p-2 text-foreground placeholder:text-muted-foreground/60 outline-none text-sm font-mono"
                 placeholder="Tags..."
                 value={newEntry.tags}
                 onChange={(e) => setNewEntry({ ...newEntry, tags: e.target.value })}
@@ -203,7 +203,7 @@ export default function Codex() {
           <div className="flex justify-end">
             <button
               onClick={handleSave}
-              className="bg-teal-600 text-black font-bold px-6 py-2 rounded hover:bg-teal-500 transition-colors"
+              className="bg-teal-600 hover:bg-teal-500 text-white font-bold px-6 py-2 rounded transition-colors shadow-sm"
             >
               UPLOAD TO CORE
             </button>
@@ -218,13 +218,13 @@ export default function Codex() {
         </div>
       ) : quotes.length === 0 ? (
         <div className="flex flex-col items-center justify-center py-24 text-center">
-          <div className="font-mono text-zinc-600 text-lg mb-4">
+          <div className="font-mono text-muted-foreground/60 text-lg mb-4">
             NO FIRMWARE INSTALLED<span className="animate-pulse">_</span>
           </div>
           <button
             onClick={handleSeed}
             disabled={isSeeding}
-            className="flex items-center gap-2 text-xs bg-zinc-900 border border-zinc-800 text-zinc-400 px-4 py-2 rounded hover:bg-zinc-800 hover:text-white transition-all disabled:opacity-50 disabled:cursor-wait"
+            className="flex items-center gap-2 text-xs bg-card border border-border text-muted-foreground px-4 py-2 rounded hover:bg-muted transition-all disabled:opacity-50 disabled:cursor-wait"
           >
             {isSeeding ? <Loader2 size={14} className="animate-spin" /> : <Download size={14} />}
             INSTALL DEFAULT FIRMWARE V1.0
@@ -235,21 +235,21 @@ export default function Codex() {
           {quotes.map((quote: any) => (
             <div
               key={quote._id}
-              className={`group relative bg-black border border-zinc-900 p-8 rounded-xl hover:border-teal-500/50 transition-all flex flex-col justify-center min-h-[300px] overflow-hidden ${
+              className={`group relative bg-card border border-border p-8 rounded-xl hover:border-teal-500/50 transition-all flex flex-col justify-center min-h-[300px] overflow-hidden shadow-md ${
                 quote.type === 'CHALLENGE' ? 'hover:shadow-[0_0_20px_rgba(20,184,166,0.1)]' : ''
               }`}
             >
               {/* Background accent for visual flair */}
-              <div className="absolute top-0 right-0 w-24 h-24 bg-gradient-to-br from-zinc-800/10 to-transparent rounded-bl-full pointer-events-none" />
+              <div className="absolute top-0 right-0 w-24 h-24 bg-gradient-to-br from-muted/20 to-transparent rounded-bl-full pointer-events-none" />
 
               {/* Tag */}
               <span
                 className={`absolute top-4 left-4 text-[10px] uppercase tracking-widest px-2 py-1 rounded border ${
                   quote.type === 'CHALLENGE'
-                    ? 'text-teal-400 border-teal-900/50 bg-teal-900/10'
+                    ? 'text-teal-600 dark:text-teal-400 border-teal-500/20 bg-teal-500/10'
                     : quote.type === 'PROTOCOL'
-                      ? 'text-purple-400 border-purple-900/50 bg-purple-900/10'
-                      : 'text-zinc-500 border-zinc-800'
+                      ? 'text-purple-600 dark:text-purple-400 border-purple-500/20 bg-purple-500/10'
+                      : 'text-muted-foreground border-border'
                 }`}
               >
                 {quote.type}
@@ -260,10 +260,10 @@ export default function Codex() {
                 <p
                   className={`leading-relaxed ${
                     quote.type === 'RULE'
-                      ? 'text-xl md:text-2xl text-zinc-200 font-serif italic text-center'
+                      ? 'text-xl md:text-2xl text-foreground font-serif italic text-center'
                       : quote.type === 'PROTOCOL'
-                        ? 'font-mono text-xs md:text-sm text-teal-400/80 whitespace-pre-wrap bg-zinc-950/50 p-4 rounded border-l-2 border-teal-500/50'
-                        : 'text-lg md:text-xl font-bold tracking-tight text-white text-center'
+                        ? 'font-mono text-xs md:text-sm text-teal-600 dark:text-teal-400 whitespace-pre-wrap bg-muted p-4 rounded border-l-2 border-teal-500/50'
+                        : 'text-lg md:text-xl font-bold tracking-tight text-foreground text-center'
                   }`}
                 >
                   {quote.type === 'RULE' && '"'}
@@ -278,7 +278,7 @@ export default function Codex() {
                   <button
                     onClick={() => handleActivateProtocol(quote.text, quote._id)}
                     disabled={activatingId === quote._id}
-                    className="text-xs bg-teal-900/80 text-teal-300 px-3 py-2 rounded border border-teal-700/50 hover:bg-teal-800 hover:border-teal-500 flex items-center gap-2 disabled:opacity-50 disabled:cursor-wait"
+                    className="text-xs bg-teal-600 dark:bg-teal-900/80 text-white dark:text-teal-300 px-3 py-2 rounded border border-teal-500/30 hover:bg-teal-500 dark:hover:bg-teal-800 hover:border-teal-500 flex items-center gap-2 disabled:opacity-50 disabled:cursor-wait"
                   >
                     <Zap size={14} className={activatingId === quote._id ? 'animate-pulse' : ''} />
                     {activatingId === quote._id ? 'ACTIVATING...' : 'INITIATE PROTOCOL'}
