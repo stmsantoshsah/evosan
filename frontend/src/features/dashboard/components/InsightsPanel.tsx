@@ -94,10 +94,35 @@ export default function InsightsPanel() {
           })}
         </div>
       ) : (
-        <div className="flex flex-col items-center justify-center py-6 md:py-8 text-center">
-          <AlertCircle className="text-zinc-600 mb-2" size={20} />
-          <p className="text-xs md:text-sm text-zinc-500 max-w-[200px]">
-            Collecting data for pattern recognition. Keep logging your daily protocol.
+        <div className="space-y-5 relative z-10 py-2">
+          <div className="flex items-center justify-between mb-2">
+            <span className="text-[10px] font-bold text-teal-500 font-mono uppercase tracking-widest flex items-center gap-1.5 animate-pulse">
+              <span className="h-1.5 w-1.5 rounded-full bg-teal-500"></span> Calibrating Synapses
+            </span>
+            <span className="text-[10px] text-muted-foreground font-mono">35% COMPLETE</span>
+          </div>
+          
+          <div className="h-1.5 w-full bg-muted/50 rounded-full overflow-hidden border border-border/50 relative">
+            <div className="h-full bg-gradient-to-r from-teal-500 to-emerald-500 w-[35%] animate-pulse rounded-full"></div>
+          </div>
+
+          <div className="space-y-3 mt-4">
+            <div className="flex items-center justify-between p-2.5 bg-card/60 border border-border/40 rounded-xl">
+              <span className="text-[10px] text-foreground font-mono font-bold">🧠 SLEEP / BIOLOGICAL MATRIX</span>
+              <span className="text-[9px] text-yellow-500 bg-yellow-500/10 border border-yellow-500/20 px-2 py-0.5 rounded font-mono font-bold">MATCHING</span>
+            </div>
+            <div className="flex items-center justify-between p-2.5 bg-card/60 border border-border/40 rounded-xl">
+              <span className="text-[10px] text-foreground font-mono font-bold">⚡ CIRCADIAN FLOW SYNC</span>
+              <span className="text-[9px] text-teal-400 bg-teal-500/10 border border-teal-500/20 px-2 py-0.5 rounded font-mono font-bold">SYNTHESIZING</span>
+            </div>
+            <div className="flex items-center justify-between p-2.5 bg-card/60 border border-border/40 rounded-xl opacity-60">
+              <span className="text-[10px] text-foreground font-mono font-bold">🎯 COGNITIVE DIRECTIVE</span>
+              <span className="text-[9px] text-zinc-500 bg-zinc-500/10 border border-zinc-500/20 px-2 py-0.5 rounded font-mono">STANDBY</span>
+            </div>
+          </div>
+
+          <p className="text-[10px] text-muted-foreground text-center font-mono mt-3 leading-relaxed">
+            Correlation engine analyzing logs. Keep committing habits and logs daily to unlock complete neural patterns.
           </p>
         </div>
       )}

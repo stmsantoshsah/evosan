@@ -44,14 +44,14 @@ export default function Sidebar() {
   return (
     <>
       {/* Mobile Header with Hamburger */}
-      <div className="md:hidden fixed top-0 left-0 right-0 z-50 bg-zinc-900 border-b border-zinc-800 px-4 py-3 flex items-center justify-between">
+      <div className="md:hidden fixed top-0 left-0 right-0 z-50 bg-card border-b border-border px-4 py-3 flex items-center justify-between transition-colors duration-300">
         <div className="flex items-center gap-2">
-          <Activity className="text-emerald-500 w-5 h-5" />
-          <span className="text-lg font-bold tracking-tight text-zinc-100">EVOSAN</span>
+          <Activity className="text-primary w-5 h-5" />
+          <span className="text-lg font-bold tracking-tight text-foreground">EVOSAN</span>
         </div>
         <button
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-          className="p-2 text-zinc-400 hover:text-zinc-100 transition-colors"
+          className="p-2 text-muted-foreground hover:text-foreground transition-colors"
           aria-label="Toggle menu"
         >
           {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
@@ -60,21 +60,21 @@ export default function Sidebar() {
 
       {/* Mobile Menu Overlay */}
       {mobileMenuOpen && (
-        <div className="md:hidden fixed inset-0 bg-black/50 z-40" onClick={closeMobileMenu} />
+        <div className="md:hidden fixed inset-0 bg-black/60 backdrop-blur-[2px] z-40" onClick={closeMobileMenu} />
       )}
 
       {/* Mobile Slide-out Menu */}
       <aside
-        className={`md:hidden fixed top-0 left-0 h-screen w-64 bg-zinc-900 border-r border-zinc-800 flex-col z-50 transform transition-transform duration-300 ${
+        className={`md:hidden fixed top-0 left-0 h-screen w-64 bg-card border-r border-border flex flex-col z-50 transform transition-transform duration-300 ${
           mobileMenuOpen ? 'translate-x-0' : '-translate-x-full'
         }`}
       >
-        <div className="p-6 border-b border-zinc-800 flex items-center gap-2">
-          <Activity className="text-emerald-500 w-6 h-6" />
-          <span className="text-xl font-bold tracking-tight text-zinc-100">EVOSAN</span>
+        <div className="p-6 border-b border-border flex items-center gap-2">
+          <Activity className="text-primary w-6 h-6" />
+          <span className="text-xl font-bold tracking-tight text-foreground">EVOSAN</span>
         </div>
 
-        <nav className="flex-1 p-4 space-y-2">
+        <nav className="flex-1 p-4 space-y-2 overflow-y-auto">
           {navItems.map((item) => {
             const isActive = pathname === item.href;
             return (
@@ -84,8 +84,8 @@ export default function Sidebar() {
                 onClick={closeMobileMenu}
                 className={`flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium transition-all ${
                   isActive
-                    ? 'bg-zinc-800 text-emerald-400 border border-zinc-700'
-                    : 'text-zinc-400 hover:text-zinc-100 hover:bg-zinc-800/50'
+                    ? 'bg-muted text-primary border border-border'
+                    : 'text-muted-foreground hover:text-foreground hover:bg-muted/50'
                 }`}
               >
                 <item.icon size={18} />
@@ -95,11 +95,21 @@ export default function Sidebar() {
           })}
         </nav>
 
-        <div className="p-4 border-t border-zinc-800">
+        <div className="p-4 border-t border-border space-y-1">
+          <button
+            onClick={() => {
+              toggleTheme();
+              closeMobileMenu();
+            }}
+            className="flex items-center gap-3 px-4 py-3 text-muted-foreground text-sm hover:text-foreground w-full transition-colors rounded-lg hover:bg-muted/50"
+          >
+            {theme === 'light' ? <Moon size={18} /> : <Sun size={18} />}
+            {theme === 'light' ? 'Dark Mode' : 'Light Mode'}
+          </button>
           <Link
             href="/settings"
             onClick={closeMobileMenu}
-            className="flex items-center gap-3 px-4 py-3 text-zinc-500 text-sm hover:text-zinc-300 w-full transition-colors"
+            className="flex items-center gap-3 px-4 py-3 text-muted-foreground text-sm hover:text-foreground w-full transition-colors rounded-lg hover:bg-muted/50"
           >
             <Settings size={18} />
             Settings
