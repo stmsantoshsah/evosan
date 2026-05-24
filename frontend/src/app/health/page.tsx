@@ -1,10 +1,10 @@
-import { NextPage, Metadata } from "next";
-import React from "react";
+import { Metadata } from 'next';
+import React from 'react';
 import Health from '@/features/health/components/Health';
 
 export const metadata: Metadata = {
-    title: "Health | Evosan",
-    description: "Physical Health and Workout Tracking",
+  title: 'Health | Evosan',
+  description: 'Physical Health and Workout Tracking',
 };
 
 /**

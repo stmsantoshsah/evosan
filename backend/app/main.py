@@ -1,40 +1,42 @@
-#backend\app\main.py
+# backend\app\main.py
+
+from contextlib import asynccontextmanager
 
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from contextlib import asynccontextmanager
-from app.db.database import connect_to_mongo,close_mongo_connection
 
-
-# IMPORT THE NEW ROUTER
-from app.api.journal import router as journal_router 
-from app.api.habits import router as habits_router 
-from app.api.insights import router as insights_router
-from app.api.health import router as health_router
-from app.api.stats import  router as stats_router
 from app.api.auth import router as auth_router
-from app.api.parse import router as parse_router
 from app.api.correlations import router as correlations_router
 from app.api.data import router as data_router
+from app.api.habits import router as habits_router
+from app.api.health import router as health_router
+from app.api.insights import router as insights_router
 
-
+# IMPORT THE NEW ROUTER
+from app.api.journal import router as journal_router
+from app.api.parse import router as parse_router
+from app.api.stats import router as stats_router
+from app.api.voice import router as voice_router
+from app.db.database import close_mongo_connection, connect_to_mongo
 
 # Lifespan events replace the old startup/shutdown events
 
+
 @asynccontextmanager
-async def lifespan(app:FastAPI):
+async def lifespan(_app: FastAPI):
     await connect_to_mongo()
     yield
     await close_mongo_connection()
 
-app = FastAPI(title="Evosan API",lifespan=lifespan)
+
+app = FastAPI(title="Evosan API", lifespan=lifespan)
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=['*'],
-    allow_credentials = True,
+    allow_origins=["*"],
+    allow_credentials=True,
     allow_methods=["*"],
-    allow_headers =["*"]
+    allow_headers=["*"],
 )
 # REGISTER THE ROUTER
 app.include_router(journal_router, prefix="/journal", tags=["Journal"])
@@ -46,6 +48,7 @@ app.include_router(auth_router, prefix="/auth", tags=["Auth"])
 app.include_router(parse_router, prefix="/parse", tags=["Parse"])
 app.include_router(correlations_router, prefix="/correlations", tags=["Correlations"])
 app.include_router(data_router, prefix="/data", tags=["Data"])
+app.include_router(voice_router, prefix="/voice", tags=["Voice"])
 
 
 @app.get("/")

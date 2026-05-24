@@ -1,10 +1,10 @@
-import { NextPage, Metadata } from "next";
-import React from "react";
+import { Metadata } from 'next';
+import React from 'react';
 import Profile from '@/features/profile/components/Profile';
 
 export const metadata: Metadata = {
-    title: "Profile | Evosan",
-    description: "User profile and account settings",
+  title: 'Profile | Evosan',
+  description: 'User profile and account settings',
 };
 
 /**

@@ -15,3 +15,5 @@ pandas
 numpy
 scipy
 email-validator
+resend
+ruff

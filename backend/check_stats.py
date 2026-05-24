@@ -1,11 +1,14 @@
 # check_stats.py
 import asyncio
-from app.api.stats import get_weekly_stats
-from app.db.database import connect_to_mongo, close_mongo_connection
-from dotenv import load_dotenv
 import json
 
+from dotenv import load_dotenv
+
+from app.api.stats import get_weekly_stats
+from app.db.database import close_mongo_connection, connect_to_mongo
+
 load_dotenv(dotenv_path="d:/evosan/backend/.env")
+
 
 async def test():
     await connect_to_mongo()
@@ -17,6 +20,7 @@ async def test():
         print(f"Error: {e}")
     finally:
         await close_mongo_connection()
+
 
 if __name__ == "__main__":
     asyncio.run(test())

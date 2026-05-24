@@ -1,4 +1,4 @@
-@import "tailwindcss";
+@import 'tailwindcss';
 
 @theme {
   --color-brand-primary: #10b981; /* Emerald */
@@ -8,24 +8,49 @@
   --color-zinc-950: #050505; /* Near OLED Black */
   --color-zinc-900: #0a0a0b; /* Very Dark Slate */
   --color-zinc-800: #121214; /* Dark Slate */
-  --color-zinc-700: #27272a; 
+  --color-zinc-700: #27272a;
 
-  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
-  --font-heading: "Outfit", ui-sans-serif, system-ui, sans-serif;
+  --font-sans: 'Inter', ui-sans-serif, system-ui, sans-serif;
+  --font-heading: 'Outfit', ui-sans-serif, system-ui, sans-serif;
 }
 
 :root {
-  --background: var(--color-zinc-950);
+  /* Default Light Mode */
+  --background: #ffffff;
+  --foreground: #09090b;
+  --card: #fafafa;
+  --card-foreground: #09090b;
+  --border: #e4e4e7;
+  --input: #e4e4e7;
+  --primary: #10b981;
+  --secondary: #06b6d4;
+  --accent: #8b5cf6;
+  --muted: #f4f4f5;
+  --muted-foreground: #71717a;
+}
+
+.dark {
+  /* Dark Mode Override */
+  --background: #050505;
   --foreground: #f4f4f5;
-  --primary: var(--color-brand-primary);
-  --secondary: var(--color-brand-secondary);
-  --accent: var(--color-brand-accent);
+  --card: #0a0a0b;
+  --card-foreground: #f4f4f5;
+  --border: #121214;
+  --input: #121214;
+  --primary: #10b981;
+  --secondary: #06b6d4;
+  --accent: #8b5cf6;
+  --muted: #18181b;
+  --muted-foreground: #a1a1aa;
 }
 
 body {
   background-color: var(--background);
   color: var(--foreground);
   font-family: var(--font-sans);
+  transition:
+    background-color 0.3s ease,
+    color 0.3s ease;
 }
 
 h1,

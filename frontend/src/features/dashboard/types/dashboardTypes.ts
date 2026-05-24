@@ -1,12 +1,12 @@
 export interface DashboardStats {
-    habitsDone: number;
-    totalHabits: number;
-    lastMood: number;
-    latestJournal: string;
+  habitsDone: number;
+  totalHabits: number;
+  lastMood: number;
+  latestJournal: string;
 }
 
 export interface WeeklyChartEntry {
-    day: string;
-    habits: number;
-    mood: number;
+  day: string;
+  habits: number;
+  mood: number;
 }

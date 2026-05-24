@@ -2,140 +2,184 @@
 
 import Link from 'next/link';
 import { useMemo } from 'react';
-import { ArrowUpRight, CheckCircle2, TrendingUp, BrainCircuit, Activity } from 'lucide-react';
+import { ArrowUpRight, BrainCircuit, Activity, Zap } from 'lucide-react';
 import HistoryChart from './HistoryChart';
 import CommandBar from './CommandBar';
 import InsightsPanel from './InsightsPanel';
 import HUD from './HUD';
 import XPBar from '../../gamification/components/XPBar';
-import DashboardSkeleton from './DashboardSkeleton';
+import { useEffect, useState } from 'react';
+import { getCurrentBlock } from '../../protocol/constants';
 
 import {
-    useGetDailyHabitsQuery,
-    useGetRecentJournalsQuery,
-    useGetWeeklyStatsQuery,
-    useGetDailySummaryQuery
+  useGetDailyHabitsQuery,
+  useGetRecentJournalsQuery,
+  useGetWeeklyStatsQuery,
+  useGetDailySummaryQuery,
 } from '../slices/dashboardApiSlice';
 
 export default function Dashboard() {
-    const today = new Date().toISOString().split('T')[0];
+  const today = new Date().toISOString().split('T')[0];
 
-    // RTK Query hooks
-    const { data: habits = [], isLoading: isHabitsLoading } = useGetDailyHabitsQuery(today);
-    const { data: journals = [], isLoading: isJournalsLoading } = useGetRecentJournalsQuery();
-    const { data: chartData = [], isLoading: isChartLoading } = useGetWeeklyStatsQuery();
-    const { data: summary, isLoading: isSummaryLoading } = useGetDailySummaryQuery(today);
+  // Protocol State
+  const [currentTime, setCurrentTime] = useState(new Date());
+  const currentBlock = useMemo(() => getCurrentBlock(currentTime), [currentTime]);
 
-    // Derived Stats
-    const stats = useMemo(() => {
-        const completed = habits.filter((h: any) => h.completed).length;
-        const lastEntry = journals.length > 0 ? journals[0] : null;
+  useEffect(() => {
+    const timer = setInterval(() => setCurrentTime(new Date()), 60000);
+    return () => clearInterval(timer);
+  }, []);
 
-        return {
-            habitsDone: completed,
-            totalHabits: habits.length,
-            lastMood: lastEntry ? lastEntry.mood : 0,
-            latestJournal: lastEntry ? lastEntry.content : "Start your journal to see insights."
-        };
-    }, [habits, journals]);
+  // RTK Query hooks
+  const { data: habits = [] } = useGetDailyHabitsQuery(today);
+  const { data: journals = [] } = useGetRecentJournalsQuery();
+  const { data: chartData = [] } = useGetWeeklyStatsQuery();
+  const { data: summary } = useGetDailySummaryQuery(today);
 
-    // The Dashboard now renders immediately instead of waiting for all 4 queries.
-    // Data will populate dynamically into the UI as RTK Queries resolve.
+  // Derived Stats
+  const stats = useMemo(() => {
+    const completed = habits.filter((h: any) => h.completed).length;
+    const lastEntry = journals.length > 0 ? journals[0] : null;
 
-    return (
-        <div className="space-y-8 md:space-y-12 px-4 md:px-8 py-6 md:py-10 max-w-[1600px] mx-auto">
+    return {
+      habitsDone: completed,
+      totalHabits: habits.length,
+      lastMood: lastEntry ? lastEntry.mood : 0,
+      latestJournal: lastEntry ? lastEntry.content : 'Start your journal to see insights.',
+    };
+  }, [habits, journals]);
 
-            {/* GAMIFICATION BAR */}
-            <div className="my-4">
-                <XPBar />
-            </div>
+  // The Dashboard now renders immediately instead of waiting for all 4 queries.
+  // Data will populate dynamically into the UI as RTK Queries resolve.
 
-            {/* HEADER */}
-            <div>
-                <h1 className="text-2xl md:text-3xl font-bold text-white">Dashboard</h1>
-                <p className="text-zinc-400 mt-1 text-sm md:text-base">System Overview for {new Date().toLocaleDateString()}</p>
-            </div>
+  return (
+    <div className="space-y-8 md:space-y-12 px-4 md:px-8 py-6 md:py-10 max-w-[1600px] mx-auto">
+      {/* GAMIFICATION BAR */}
+      <div className="my-4">
+        <XPBar />
+      </div>
 
-            {/* COMMAND BAR */}
-            <div className="max-w-2xl mx-auto w-full">
-                <CommandBar />
-                <p className="text-[10px] md:text-xs text-zinc-500 mt-3 text-center uppercase tracking-widest font-medium">
-                    Smart Parser (Groq Powered) • Type naturally to log nutrition and workouts
-                </p>
-            </div>
-
-            {/* HUD SECTION */}
-            {summary && (
-                <HUD
-                    habitsDone={summary.habits_done}
-                    totalHabits={summary.total_habits}
-                    lastMood={summary.mood}
-                    streak={summary.streak}
-                    waterIntake={summary.water}
-                />
-            )}
-
-            {/* MAIN CONTENT GRID */}
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 md:gap-8">
-
-                {/* Protocol & History (Left 2 Columns) */}
-                <div className="lg:col-span-2 space-y-6 md:space-y-8">
-                    {/* CHART SECTION */}
-                    <div className="bg-zinc-900 border border-zinc-800/50 rounded-2xl p-6 md:p-8 shadow-2xl shadow-black/50 relative overflow-hidden">
-                        <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-zinc-700/50 to-transparent"></div>
-                        <div className="flex items-center justify-between mb-4 md:mb-6">
-                            <h2 className="text-base md:text-lg font-semibold text-zinc-200 flex items-center gap-2">
-                                <Activity className="text-cyan-400" size={18} />
-                                Performance Trend
-                            </h2>
-                            <div className="flex gap-3 md:gap-4 text-xs font-medium">
-                                <div className="flex items-center gap-1 text-zinc-400"><span className="w-2 h-2 rounded-full bg-cyan-500"></span> Habits</div>
-                                <div className="flex items-center gap-1 text-zinc-400"><span className="w-2 h-2 rounded-full bg-emerald-500"></span> Mood</div>
-                            </div>
-                        </div>
-                        <HistoryChart data={chartData} />
-                    </div>
-
-                    {/* RECENT THOUGHTS */}
-                    <div className="bg-zinc-900/40 border border-zinc-800/40 backdrop-blur-md rounded-2xl p-6 md:p-8 relative overflow-hidden group">
-                        <div className="absolute inset-0 bg-gradient-to-br from-zinc-800/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-                        <h2 className="text-base md:text-lg font-semibold text-zinc-200 mb-4 flex items-center gap-2">
-                            Latest Reflection <ArrowUpRight size={16} className="text-zinc-500" />
-                        </h2>
-                        <p className="text-zinc-400 leading-relaxed italic border-l-2 border-zinc-700 pl-4 text-sm md:text-base">
-                            "{stats.latestJournal.substring(0, 300)}..."
-                        </p>
-                    </div>
-                </div>
-
-                {/* Intelligence & Actions (Right 1 Column) */}
-                <div className="space-y-6 md:space-y-8">
-                    <InsightsPanel />
-
-                    {/* Quick Access Card */}
-                    <div className="bg-zinc-900/60 border border-zinc-800/50 backdrop-blur-sm p-4 md:p-6 rounded-2xl">
-                        <h2 className="text-xs md:text-sm font-semibold text-zinc-400 mb-4 uppercase tracking-wider">Quick Access</h2>
-                        <div className="space-y-2">
-                            <Link href="/focus" className='mb-3 block'>
-                                <button className="w-full text-left px-4 py-2 md:py-2.5 rounded-lg bg-teal-900/30 hover:bg-teal-900/50 text-teal-400 font-bold text-xs md:text-sm transition-colors border border-teal-700/50 uppercase tracking-widest flex items-center gap-2">
-                                    <BrainCircuit size={16} /> ENTER DEEP WORK
-                                </button>
-                            </Link>
-                            <Link href="/health" className='mb-3 block'>
-                                <button className="w-full text-left px-4 py-2 md:py-2.5 rounded-lg bg-zinc-800/50 hover:bg-zinc-800 text-zinc-300 text-xs md:text-sm transition-colors border border-zinc-700/50">
-                                    Open Workout Planner
-                                </button>
-                            </Link>
-                            <Link href="/settings">
-                                <button className="w-full text-left px-4 py-2 md:py-2.5 rounded-lg bg-zinc-800/50 hover:bg-zinc-800 text-zinc-300 text-xs md:text-sm transition-colors border border-zinc-700/50">
-                                    System Settings
-                                </button>
-                            </Link>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
+      {/* HEADER & CURRENT MISSION */}
+      <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
+        <div>
+          <h1 className="text-2xl md:text-3xl font-bold text-foreground transition-colors">
+            Dashboard
+          </h1>
+          <p className="text-muted-foreground mt-1 text-sm md:text-base">
+            System Overview for {new Date().toLocaleDateString()}
+          </p>
         </div>
-    );
+
+        {/* Live Protocol Snapshot */}
+        <div className="bg-card/40 border border-border px-6 py-4 rounded-2xl flex items-center gap-4 shadow-lg shadow-foreground/5 transition-all animate-in fade-in slide-in-from-right duration-700">
+          <div className="w-10 h-10 rounded-xl bg-primary/20 flex items-center justify-center text-primary">
+            {currentBlock ? (
+              <currentBlock.icon size={20} className="animate-pulse" />
+            ) : (
+              <Zap size={20} className="animate-pulse" />
+            )}
+          </div>
+          <div>
+            <p className="text-[10px] uppercase tracking-widest text-muted-foreground font-bold">
+              Current Mission
+            </p>
+            <p className="text-sm font-bold text-foreground">
+              {currentBlock?.activity || 'Off Protocol'}
+            </p>
+          </div>
+          <Link
+            href="/protocol"
+            className="ml-4 p-2 hover:bg-muted rounded-lg transition-colors text-muted-foreground hover:text-foreground"
+          >
+            <ArrowUpRight size={18} />
+          </Link>
+        </div>
+      </div>
+
+      {/* COMMAND BAR */}
+      <div className="max-w-2xl mx-auto w-full">
+        <CommandBar />
+        <p className="text-[10px] md:text-xs text-muted-foreground mt-3 text-center uppercase tracking-widest font-medium opacity-60">
+          Smart Parser (Groq Powered) • Type naturally to log nutrition and workouts
+        </p>
+      </div>
+
+      {/* HUD SECTION */}
+      {summary && (
+        <HUD
+          habitsDone={summary.habits_done}
+          totalHabits={summary.total_habits}
+          lastMood={summary.mood}
+          streak={summary.streak}
+          waterIntake={summary.water}
+        />
+      )}
+
+      {/* MAIN CONTENT GRID */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 md:gap-8">
+        {/* Protocol & History (Left 2 Columns) */}
+        <div className="lg:col-span-2 space-y-6 md:space-y-8">
+          {/* CHART SECTION */}
+          <div className="bg-card border border-border rounded-2xl p-6 md:p-8 shadow-xl shadow-foreground/5 relative overflow-hidden transition-colors">
+            <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-foreground/10 to-transparent"></div>
+            <div className="flex items-center justify-between mb-4 md:mb-6">
+              <h2 className="text-base md:text-lg font-semibold text-foreground flex items-center gap-2">
+                <Activity className="text-secondary" size={18} />
+                Performance Trend
+              </h2>
+              <div className="flex gap-3 md:gap-4 text-xs font-medium">
+                <div className="flex items-center gap-1 text-muted-foreground">
+                  <span className="w-2 h-2 rounded-full bg-secondary"></span> Habits
+                </div>
+                <div className="flex items-center gap-1 text-muted-foreground">
+                  <span className="w-2 h-2 rounded-full bg-primary"></span> Mood
+                </div>
+              </div>
+            </div>
+            <HistoryChart data={chartData} />
+          </div>
+
+          {/* RECENT THOUGHTS */}
+          <div className="bg-card/50 border border-border backdrop-blur-md rounded-2xl p-6 md:p-8 relative overflow-hidden group transition-colors">
+            <div className="absolute inset-0 bg-gradient-to-br from-foreground/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+            <h2 className="text-base md:text-lg font-semibold text-foreground mb-4 flex items-center gap-2">
+              Latest Reflection <ArrowUpRight size={16} className="text-muted-foreground" />
+            </h2>
+            <p className="text-muted-foreground leading-relaxed italic border-l-2 border-border pl-4 text-sm md:text-base">
+              "{stats.latestJournal.substring(0, 300)}..."
+            </p>
+          </div>
+        </div>
+
+        {/* Intelligence & Actions (Right 1 Column) */}
+        <div className="space-y-6 md:space-y-8">
+          <InsightsPanel />
+
+          {/* Quick Access Card */}
+          <div className="bg-card border border-border backdrop-blur-sm p-4 md:p-6 rounded-2xl transition-colors">
+            <h2 className="text-xs md:text-sm font-semibold text-muted-foreground mb-4 uppercase tracking-wider">
+              Quick Access
+            </h2>
+            <div className="space-y-2">
+              <Link href="/focus" className="mb-3 block">
+                <button className="w-full text-left px-4 py-2 md:py-2.5 rounded-lg bg-primary/10 hover:bg-primary/20 text-primary font-bold text-xs md:text-sm transition-colors border border-primary/30 uppercase tracking-widest flex items-center gap-2">
+                  <BrainCircuit size={16} /> ENTER DEEP WORK
+                </button>
+              </Link>
+              <Link href="/health" className="mb-3 block">
+                <button className="w-full text-left px-4 py-2 md:py-2.5 rounded-lg bg-muted/50 hover:bg-muted text-foreground text-xs md:text-sm transition-colors border border-border">
+                  Open Workout Planner
+                </button>
+              </Link>
+              <Link href="/settings">
+                <button className="w-full text-left px-4 py-2 md:py-2.5 rounded-lg bg-muted/50 hover:bg-muted text-foreground text-xs md:text-sm transition-colors border border-border">
+                  System Settings
+                </button>
+              </Link>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
 }

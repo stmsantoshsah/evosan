@@ -1,16 +1,16 @@
-import { NextPage, Metadata } from "next";
-import React from "react";
+import { Metadata } from 'next';
+import React from 'react';
 import Settings from '@/features/settings/components/Settings';
 
 export const metadata: Metadata = {
-    title: "Settings | Evosan",
-    description: "System Configuration and Workout Planning",
+  title: 'Settings | Evosan',
+  description: 'System Configuration and Workout Planning',
 };
 
 /**
  * Settings Page (/settings)
  *
- * Configurations for the application, including managing the weekly workout plan 
+ * Configurations for the application, including managing the weekly workout plan
  * and other user preferences.
  *
  * @component

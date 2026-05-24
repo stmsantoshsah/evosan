@@ -1,7 +1,10 @@
 # backend/app/services/parser.py
 import json
+
 from groq import AsyncGroq
+
 from app.core.config import settings
+
 
 class ParserService:
     def __init__(self):
@@ -47,16 +50,17 @@ class ParserService:
                     {
                         "role": "user",
                         "content": user_input,
-                    }
+                    },
                 ],
                 model="llama-3.3-70b-versatile",
                 response_format={"type": "json_object"},
             )
-            
+
             result = json.loads(chat_completion.choices[0].message.content)
             return result
         except Exception as e:
             print(f"Error parsing input with Groq: {e}")
             return None
+
 
 parser_service = ParserService()

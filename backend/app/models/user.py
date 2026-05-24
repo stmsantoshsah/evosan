@@ -1,16 +1,16 @@
-from pydantic import (
-    BaseModel, 
-    EmailStr, 
-    Field, 
-    ConfigDict, 
-    GetJsonSchemaHandler,
-    BeforeValidator,
-    PlainSerializer,
-    WithJsonSchema
-)
-from typing import Optional, Any, Annotated
 from datetime import datetime
+from typing import Annotated
+
 from bson import ObjectId
+from pydantic import (
+    BaseModel,
+    BeforeValidator,
+    ConfigDict,
+    EmailStr,
+    Field,
+    PlainSerializer,
+    WithJsonSchema,
+)
 
 # Pydantic v2 compatible PyObjectId
 PyObjectId = Annotated[
@@ -20,30 +20,43 @@ PyObjectId = Annotated[
     WithJsonSchema({"type": "string"}, mode="validation"),
 ]
 
+
 class UserBase(BaseModel):
     model_config = ConfigDict(arbitrary_types_allowed=True, populate_by_name=True)
     email: EmailStr
-    full_name: Optional[str] = None
-    is_active: Optional[bool] = True
+    full_name: str | None = None
+    is_active: bool | None = True
+
 
 class UserCreate(UserBase):
     password: str
 
+
 class UserInDB(UserBase):
-    id: Optional[PyObjectId] = Field(default=None, alias="_id")
+    id: PyObjectId | None = Field(default=None, alias="_id")
     hashed_password: str
     created_at: datetime = Field(default_factory=datetime.utcnow)
+    reset_token: str | None = None
+    reset_token_expiry: datetime | None = None
+
+
+class UserUpdate(BaseModel):
+    full_name: str | None = None
+    bio: str | None = None
+    specialization: str | None = None
+    avatar_url: str | None = None
+
 
 class UserResponse(BaseModel):
     id: str
     email: EmailStr
-    name: Optional[str] = None
-    role: str = "ENGINEER" # Default role
+    name: str | None = None
+    role: str = "ENGINEER"  # Default role
     joinedAt: datetime = Field(default_factory=datetime.utcnow)
-    bio: Optional[str] = None
-    specialization: Optional[str] = None
-    avatarUrl: Optional[str] = None
-    
+    bio: str | None = None
+    specialization: str | None = None
+    avatarUrl: str | None = None
+
     # Allow extra fields if DB has more
     model_config = ConfigDict(populate_by_name=True)
 
@@ -52,15 +65,15 @@ class UserResponse(BaseModel):
         """Helper to convert MongoDB _id to string id"""
         if not data:
             return data
-        
-        id = data.pop('_id', None)
+
+        id = data.pop("_id", None)
         return cls(
             id=str(id),
-            email=data.get('email'),
-            name=data.get('full_name', 'Unknown User'),
-            role=data.get('role', 'ENGINEER'),
-            joinedAt=data.get('created_at', datetime.utcnow()),
-            bio=data.get('bio'),
-            specialization=data.get('specialization'),
-            avatarUrl=data.get('avatar_url')
+            email=data.get("email"),
+            name=data.get("full_name", "Unknown User"),
+            role=data.get("role", "ENGINEER"),
+            joinedAt=data.get("created_at", datetime.utcnow()),
+            bio=data.get("bio"),
+            specialization=data.get("specialization"),
+            avatarUrl=data.get("avatar_url"),
         )

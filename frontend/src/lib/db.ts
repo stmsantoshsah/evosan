@@ -3,9 +3,7 @@ import mongoose from 'mongoose';
 const MONGODB_URI = process.env.MONGODB_URI;
 
 if (!MONGODB_URI) {
-    throw new Error(
-        'Please define the MONGODB_URI environment variable inside .env.local'
-    );
+  throw new Error('Please define the MONGODB_URI environment variable inside .env.local');
 }
 
 /**
@@ -17,36 +15,35 @@ if (!MONGODB_URI) {
 let cached = global.mongoose;
 
 if (!cached) {
-    // @ts-ignore
-    cached = global.mongoose = { conn: null, promise: null };
+  // @ts-ignore
+  cached = global.mongoose = { conn: null, promise: null };
 }
 
 async function dbConnect() {
-    if (cached.conn) {
-        return cached.conn;
-    }
-
-    if (!cached.promise) {
-        const opts = {
-            bufferCommands: false,
-            tls: true,
-            tlsAllowInvalidCertificates: true,
-            serverSelectionTimeoutMS: 5000,
-            family: 4 // Force IPv4 to prevent DNS querySrv errors
-        };
-
-        cached.promise = mongoose.connect(MONGODB_URI!, opts).then((mongoose) => {
-            return mongoose;
-        });
-    }
-    try {
-        cached.conn = await cached.promise;
-    } catch (e) {
-        cached.promise = null;
-        throw e;
-    }
-
+  if (cached.conn) {
     return cached.conn;
+  }
+
+  if (!cached.promise) {
+    const opts = {
+      bufferCommands: false,
+      tls: true,
+      tlsAllowInvalidCertificates: true,
+      serverSelectionTimeoutMS: 5000,
+    };
+
+    cached.promise = mongoose.connect(MONGODB_URI!, opts).then((mongoose) => {
+      return mongoose;
+    });
+  }
+  try {
+    cached.conn = await cached.promise;
+  } catch (e) {
+    cached.promise = null;
+    throw e;
+  }
+
+  return cached.conn;
 }
 
 export default dbConnect;

@@ -1,10 +1,10 @@
-import { NextPage, Metadata } from "next";
-import React from "react";
+import { Metadata } from 'next';
+import React from 'react';
 import Journal from '@/features/journal/components/Journal';
 
 export const metadata: Metadata = {
-    title: "Journal | Evosan",
-    description: "Daily Reflections and Mood Tracking",
+  title: 'Journal | Evosan',
+  description: 'Daily Reflections and Mood Tracking',
 };
 
 /**

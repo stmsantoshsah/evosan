@@ -1,0 +1,41 @@
+[tool.ruff]
+# Target Python version
+target-version = "py312"
+
+# Standard line length (matches Black)
+line-length = 88
+
+# Exclude standard files and folders
+exclude = [
+    ".git",
+    "venv",
+    "__pycache__",
+    "build",
+    "dist",
+]
+
+[tool.ruff.lint]
+# Enable modern linting rules
+select = [
+    "E",      # pycodestyle errors
+    "W",      # pycodestyle warnings
+    "F",      # pyflakes
+    "I",      # isort (import sorting)
+    "B",      # flake8-bugbear (common logic/design flaws)
+    "C4",     # flake8-comprehensions
+    "UP",     # pyupgrade (modern Python syntax upgrades)
+    "ARG",    # flake8-unused-arguments
+    "PTH",    # flake8-use-pathlib
+]
+
+ignore = [
+    "E501",   # Ignore line length violations (let the formatter handle it)
+    "B008",   # Ignore function calls in argument defaults (Crucial for FastAPI Depends!)
+]
+
+[tool.ruff.format]
+# Enable standard auto-formatting styles
+quote-style = "double"
+indent-style = "space"
+skip-magic-trailing-comma = false
+line-ending = "auto"
