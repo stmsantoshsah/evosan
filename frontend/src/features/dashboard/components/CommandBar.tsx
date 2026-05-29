@@ -113,20 +113,20 @@ export default function CommandBar() {
 
   return (
     <form onSubmit={handleSubmit} className="relative group z-10">
-      <div className="absolute inset-y-0 left-3 md:left-4 flex items-center pointer-events-none">
+      <div className="absolute inset-y-0 left-3 flex items-center pointer-events-none">
         {isProcessing ? (
-          <Loader2 size={16} className="md:w-[18px] md:h-[18px] text-primary animate-spin" />
+          <Loader2 size={14} className="text-primary animate-spin" />
         ) : (
           <Zap
-            size={16}
-            className="md:w-[18px] md:h-[18px] text-muted-foreground group-focus-within:text-primary transition-colors"
+            size={14}
+            className="text-muted-foreground group-focus-within:text-primary transition-colors"
           />
         )}
       </div>
       <input
         type="text"
         placeholder={PLACEHOLDERS[placeholderIndex]}
-        className="w-full bg-card/60 backdrop-blur-xl border border-border rounded-2xl py-3 md:py-4 pl-10 md:pl-12 pr-10 md:pr-12 text-sm md:text-base text-foreground placeholder:text-muted-foreground/50 focus:outline-none focus:border-primary/50 focus:ring-2 focus:ring-primary/10 transition-all shadow-xl shadow-foreground/5"
+        className="w-full bg-card/60 backdrop-blur-xl border border-border rounded-xl py-2 md:py-2.5 pl-9 md:pl-10 pr-24 md:pr-28 text-xs md:text-sm text-foreground placeholder:text-muted-foreground/50 focus:outline-none focus:border-primary/50 focus:ring-2 focus:ring-primary/10 transition-all shadow-xl shadow-foreground/5"
         value={input}
         onChange={(e) => setInput(e.target.value)}
         disabled={isProcessing}
@@ -136,19 +136,19 @@ export default function CommandBar() {
         <button
           type="button"
           onClick={handleVoiceToggle}
-          className={`absolute inset-y-1.5 md:inset-y-2 right-12 md:right-14 px-3 rounded-xl transition-all flex items-center justify-center ${isListening ? 'bg-rose-600 text-white animate-pulse' : 'text-zinc-500 hover:text-zinc-300'}`}
+          className={`absolute inset-y-1 md:inset-y-1.5 right-10 md:right-12 px-2 rounded-lg transition-all flex items-center justify-center ${isListening ? 'bg-rose-600 text-white animate-pulse' : 'text-zinc-500 hover:text-zinc-300'}`}
           title={isListening ? 'Stop Listening' : 'Voice Command'}
         >
-          {isListening ? <MicOff size={16} /> : <Mic size={16} />}
+          {isListening ? <MicOff size={14} /> : <Mic size={14} />}
         </button>
       )}
 
       <button
         type="submit"
         disabled={!input.trim() || isProcessing}
-        className="absolute inset-y-1.5 md:inset-y-2 right-1.5 md:right-2 px-3 md:px-4 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white transition-all disabled:opacity-0 disabled:scale-90 flex items-center justify-center cursor-pointer shadow-lg shadow-emerald-500/20"
+        className="absolute inset-y-1 md:inset-y-1.5 right-1 md:right-1.5 px-2.5 md:px-3.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white transition-all disabled:opacity-0 disabled:scale-90 flex items-center justify-center cursor-pointer shadow-lg shadow-emerald-500/20"
       >
-        <Sparkles size={14} className="md:w-4 md:h-4" />
+        <Sparkles size={12} className="md:w-3.5 md:h-3.5" />
       </button>
     </form>
   );
