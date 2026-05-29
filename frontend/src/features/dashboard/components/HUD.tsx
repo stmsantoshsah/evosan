@@ -14,7 +14,7 @@ export default function HUD({ habitsDone, totalHabits, lastMood, streak, waterIn
   return (
     <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-6">
       {/* Card 1: Protocol */}
-      <div className="bg-card/40 backdrop-blur-md border border-border p-4 md:p-6 rounded-2xl hover:border-primary/50 transition-all duration-300 group relative overflow-hidden shadow-lg shadow-foreground/5">
+      <div className="bg-card p-4 md:p-6 rounded-2xl hover:shadow-lg transition-all duration-300 group relative overflow-hidden shadow-sm">
         <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
         <div className="relative z-10">
           <div className="flex items-center gap-2 md:gap-3 mb-2 text-primary">
@@ -31,7 +31,7 @@ export default function HUD({ habitsDone, totalHabits, lastMood, streak, waterIn
               / {totalHabits}
             </span>
           </div>
-          <div className="w-full bg-muted/50 h-1.5 mt-3 md:mt-4 rounded-full overflow-hidden border border-border/50">
+          <div className="w-full bg-muted h-1.5 mt-3 md:mt-4 rounded-full overflow-hidden">
             <div
               className="bg-gradient-to-r from-primary to-primary/60 h-full transition-all duration-700 ease-out shadow-[0_0_10px_rgba(16,185,129,0.3)]"
               style={{ width: `${totalHabits > 0 ? (habitsDone / totalHabits) * 100 : 0}%` }}
@@ -41,7 +41,7 @@ export default function HUD({ habitsDone, totalHabits, lastMood, streak, waterIn
       </div>
 
       {/* Card 2: Mental State */}
-      <div className="bg-card/40 backdrop-blur-md border border-border p-4 md:p-6 rounded-2xl hover:border-secondary/50 transition-all duration-300 group relative overflow-hidden shadow-lg shadow-foreground/5">
+      <div className="bg-card p-4 md:p-6 rounded-2xl hover:shadow-lg transition-all duration-300 group relative overflow-hidden shadow-sm">
         <div className="absolute inset-0 bg-gradient-to-br from-secondary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
         <div className="relative z-10">
           <div className="flex items-center gap-2 md:gap-3 mb-2 text-secondary">
@@ -62,7 +62,7 @@ export default function HUD({ habitsDone, totalHabits, lastMood, streak, waterIn
             {[...Array(10)].map((_, i) => (
               <div
                 key={i}
-                className={`h-1.5 flex-1 rounded-full border ${i < lastMood ? 'bg-secondary border-secondary/50 shadow-[0_0_8px_rgba(6,182,212,0.3)]' : 'bg-muted/50 border-border/50'}`}
+                className={`h-1.5 flex-1 rounded-full ${i < lastMood ? 'bg-secondary shadow-[0_0_8px_rgba(6,182,212,0.3)]' : 'bg-muted'}`}
               ></div>
             ))}
           </div>
@@ -70,7 +70,7 @@ export default function HUD({ habitsDone, totalHabits, lastMood, streak, waterIn
       </div>
 
       {/* Card 3: Consistency */}
-      <div className="bg-card/40 backdrop-blur-md border border-border p-4 md:p-6 rounded-2xl hover:border-accent/50 transition-all duration-300 group relative overflow-hidden shadow-lg shadow-foreground/5">
+      <div className="bg-card p-4 md:p-6 rounded-2xl hover:shadow-lg transition-all duration-300 group relative overflow-hidden shadow-sm">
         <div className="absolute inset-0 bg-gradient-to-br from-accent/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
         <div className="relative z-10">
           <div className="flex items-center gap-2 md:gap-3 mb-2 text-accent">
@@ -94,7 +94,7 @@ export default function HUD({ habitsDone, totalHabits, lastMood, streak, waterIn
       </div>
 
       {/* Card 4: Biological Input (Water) */}
-      <div className="bg-card/40 backdrop-blur-md border border-border p-4 md:p-6 rounded-2xl hover:border-blue-500/50 transition-all duration-300 group relative overflow-hidden shadow-lg shadow-foreground/5">
+      <div className="bg-card p-4 md:p-6 rounded-2xl hover:shadow-lg transition-all duration-300 group relative overflow-hidden shadow-sm">
         <div className="absolute inset-0 bg-gradient-to-br from-blue-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
         <div className="relative z-10">
           <div className="flex items-center gap-2 md:gap-3 mb-2 text-blue-500">
@@ -111,7 +111,7 @@ export default function HUD({ habitsDone, totalHabits, lastMood, streak, waterIn
               / 3.0 L
             </span>
           </div>
-          <div className="w-full bg-muted/50 h-1.5 mt-3 md:mt-4 rounded-full overflow-hidden border border-border/50">
+          <div className="w-full bg-muted h-1.5 mt-3 md:mt-4 rounded-full overflow-hidden">
             <div
               className="bg-gradient-to-r from-blue-600 to-blue-400 h-full transition-all duration-700 ease-out shadow-[0_0_10px_rgba(59,130,246,0.3)]"
               style={{ width: `${Math.min((waterIntake / 3) * 100, 100)}%` }}

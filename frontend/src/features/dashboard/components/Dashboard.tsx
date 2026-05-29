@@ -71,7 +71,7 @@ export default function Dashboard() {
         </div>
 
         {/* Live Protocol Snapshot */}
-        <div className="bg-card/40 border border-border px-6 py-4 rounded-2xl flex items-center gap-4 shadow-lg shadow-foreground/5 transition-all animate-in fade-in slide-in-from-right duration-700">
+        <div className="bg-card px-6 py-4 rounded-2xl flex items-center gap-4 shadow-sm transition-all animate-in fade-in slide-in-from-right duration-700">
           <div className="w-10 h-10 rounded-xl bg-primary/20 flex items-center justify-center text-primary">
             {currentBlock ? (
               <currentBlock.icon size={20} className="animate-pulse" />
@@ -120,7 +120,7 @@ export default function Dashboard() {
         {/* Protocol & History (Left 2 Columns) */}
         <div className="lg:col-span-2 space-y-6 md:space-y-8">
           {/* CHART SECTION */}
-          <div className="bg-card border border-border rounded-2xl p-6 md:p-8 shadow-xl shadow-foreground/5 relative overflow-hidden transition-colors">
+          <div className="bg-card rounded-2xl p-6 md:p-8 shadow-sm relative overflow-hidden transition-colors">
             <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-foreground/10 to-transparent"></div>
             <div className="flex items-center justify-between mb-4 md:mb-6">
               <h2 className="text-base md:text-lg font-semibold text-foreground flex items-center gap-2">
@@ -140,7 +140,7 @@ export default function Dashboard() {
           </div>
 
           {/* RECENT THOUGHTS */}
-          <div className="bg-card/50 border border-border backdrop-blur-md rounded-2xl p-6 md:p-8 relative overflow-hidden group transition-colors">
+          <div className="bg-card rounded-2xl p-6 md:p-8 relative overflow-hidden group shadow-sm transition-colors">
             <div className="absolute inset-0 bg-gradient-to-br from-foreground/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
             <h2 className="text-base md:text-lg font-semibold text-foreground mb-4 flex items-center gap-2">
               Latest Reflection <ArrowUpRight size={16} className="text-muted-foreground" />
@@ -156,7 +156,7 @@ export default function Dashboard() {
           <InsightsPanel />
 
           {/* Quick Access Card */}
-          <div className="bg-card border border-border backdrop-blur-sm p-4 md:p-6 rounded-2xl transition-colors">
+          <div className="bg-card p-4 md:p-6 rounded-2xl shadow-sm transition-colors">
             <h2 className="text-xs md:text-sm font-semibold text-muted-foreground mb-4 uppercase tracking-wider">
               Quick Access
             </h2>

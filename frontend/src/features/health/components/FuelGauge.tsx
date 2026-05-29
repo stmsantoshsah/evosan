@@ -48,19 +48,20 @@ export const FuelGauge = ({ calories, protein, carbs = 250, fats = 80 }: FuelGau
             </Pie>
             <Tooltip
               contentStyle={{
-                backgroundColor: '#18181b',
-                borderColor: '#27272a',
+                backgroundColor: 'var(--card)',
+                borderColor: 'var(--border)',
                 borderRadius: '8px',
+                color: 'var(--foreground)',
               }}
-              itemStyle={{ color: '#e4e4e7', fontSize: '12px', fontFamily: 'monospace' }}
+              itemStyle={{ color: 'var(--foreground)', fontSize: '12px', fontFamily: 'monospace' }}
             />
           </PieChart>
         </ResponsiveContainer>
 
         {/* Center Text */}
         <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
-          <span className="text-2xl font-bold text-white">{calories}</span>
-          <span className="text-[10px] text-zinc-500 font-mono tracking-wider">KCAL INPUT</span>
+          <span className="text-2xl font-bold text-foreground">{calories}</span>
+          <span className="text-[10px] text-muted-foreground font-mono tracking-wider">KCAL INPUT</span>
         </div>
       </div>
 
@@ -68,7 +69,7 @@ export const FuelGauge = ({ calories, protein, carbs = 250, fats = 80 }: FuelGau
         {data.map((entry) => (
           <div key={entry.name} className="flex items-center gap-1.5">
             <div className="w-2 h-2 rounded-full" style={{ backgroundColor: entry.color }} />
-            <div className="text-xs text-zinc-400 font-mono">{entry.name}</div>
+            <div className="text-xs text-muted-foreground font-mono">{entry.name}</div>
           </div>
         ))}
       </div>

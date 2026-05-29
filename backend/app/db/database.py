@@ -16,16 +16,14 @@ async def get_database():
 
 
 async def connect_to_mongo():
-    print("Connecting to MongoDB (Aggressive Mode)...")
+    print("Connecting to MongoDB...")
     try:
-        # FORCE SSL VERIFICATION OFF
-        # This ignores certificate errors and is the strongest way to test connectivity
-        is_atlas = settings.MONGODB_URL.startswith("mongodb+srv")
+        # SSL/TLS config is encoded directly in the URI (ssl=true or mongodb+srv://)
+        # Do NOT pass conflicting tls= kwargs; let the driver parse from the URI.
         db.client = AsyncIOMotorClient(
             settings.MONGODB_URL,
-            tls=is_atlas,
-            tlsAllowInvalidCertificates=is_atlas,
-            serverSelectionTimeoutMS=5000,
+            tlsAllowInvalidCertificates=True,  # Allow Atlas self-signed certs
+            serverSelectionTimeoutMS=10000,
         )
 
         # Test the connection immediately

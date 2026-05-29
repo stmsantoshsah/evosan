@@ -24,13 +24,13 @@ const MuscleGroup = ({ name, status, lastTrained }: MuscleGroupProps) => {
 
   return (
     <div className="mb-4">
-      <div className="flex justify-between text-xs font-mono mb-1 text-gray-400">
+      <div className="flex justify-between text-xs font-mono mb-1 text-muted-foreground">
         <span className="uppercase">{name}</span>
         <span>{lastTrained}</span>
       </div>
 
       {/* The Progress Bar Container */}
-      <div className="h-2 w-full bg-gray-900 rounded-full overflow-hidden border border-gray-800">
+      <div className="h-2 w-full bg-muted rounded-full overflow-hidden">
         <div
           className={`h-full ${color} transition-all duration-1000 ease-out`}
           style={{ width: `${status}%` }}
@@ -38,7 +38,7 @@ const MuscleGroup = ({ name, status, lastTrained }: MuscleGroupProps) => {
       </div>
 
       {/* Status Text */}
-      <div className="text-[10px] text-right mt-1 text-gray-500 font-mono">{statusText}</div>
+      <div className="text-[10px] text-right mt-1 text-muted-foreground/80 font-mono">{statusText}</div>
     </div>
   );
 };
@@ -70,8 +70,8 @@ export const MuscleMatrix = () => {
   };
 
   return (
-    <div className="bg-black/40 border border-gray-800 p-6 rounded-xl h-auto">
-      <h3 className="text-gray-200 font-bold mb-6 flex items-center gap-2">
+    <div className="bg-card p-6 rounded-2xl shadow-sm h-auto">
+      <h3 className="text-foreground font-bold mb-6 flex items-center gap-2">
         <span className="w-2 h-2 bg-teal-500 rounded-full animate-pulse" />
         HARDWARE STATUS
       </h3>

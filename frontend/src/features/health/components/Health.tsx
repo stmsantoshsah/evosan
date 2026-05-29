@@ -104,11 +104,11 @@ export default function Health() {
     <div className="space-y-6">
       {/* Header */}
       <div>
-        <h1 className="text-3xl font-bold text-white flex items-center gap-2">
+        <h1 className="text-3xl font-bold text-foreground flex items-center gap-2">
           <Flame className="text-orange-500" />
           Physical Protocol
         </h1>
-        <p className="text-zinc-400 mt-1">Track your biological inputs and outputs.</p>
+        <p className="text-muted-foreground mt-1">Track your biological inputs and outputs.</p>
       </div>
 
       {/* Top Section: Biometric Trendlines */}
@@ -119,23 +119,23 @@ export default function Health() {
         {/* LEFT COLUMN (60% -> 3/5 cols) */}
         <div className="lg:col-span-3 space-y-6">
           {/* TABS */}
-          <div className="flex p-1 bg-zinc-900 rounded-lg border border-zinc-800 w-full md:w-fit">
+          <div className="flex p-1 bg-input rounded-xl border border-border w-full md:w-fit transition-colors">
             <button
               onClick={() => setActiveTab('workout')}
-              className={`flex-1 md:flex-none px-6 py-2 rounded-md text-sm font-medium transition-all flex items-center justify-center gap-2 ${
+              className={`flex-1 md:flex-none px-6 py-2 rounded-lg text-sm font-medium transition-all flex items-center justify-center gap-2 ${
                 activeTab === 'workout'
-                  ? 'bg-zinc-800 text-white shadow'
-                  : 'text-zinc-500 hover:text-zinc-300'
+                  ? 'bg-card text-foreground shadow-sm'
+                  : 'text-muted-foreground hover:text-foreground'
               }`}
             >
               <Dumbbell size={16} /> Workout
             </button>
             <button
               onClick={() => setActiveTab('nutrition')}
-              className={`flex-1 md:flex-none px-6 py-2 rounded-md text-sm font-medium transition-all flex items-center justify-center gap-2 ${
+              className={`flex-1 md:flex-none px-6 py-2 rounded-lg text-sm font-medium transition-all flex items-center justify-center gap-2 ${
                 activeTab === 'nutrition'
-                  ? 'bg-zinc-900 text-white shadow'
-                  : 'text-zinc-500 hover:text-zinc-300'
+                  ? 'bg-card text-foreground shadow-sm'
+                  : 'text-muted-foreground hover:text-foreground'
               }`}
             >
               <Utensils size={16} /> Nutrition
@@ -146,13 +146,13 @@ export default function Health() {
           {activeTab === 'workout' && (
             <form
               onSubmit={handleSaveWorkout}
-              className="bg-zinc-900/50 border border-zinc-800 p-6 rounded-xl space-y-4 animate-in fade-in"
+              className="bg-card p-6 rounded-2xl space-y-4 shadow-sm animate-in fade-in duration-300"
             >
               <div className="flex justify-end">
                 <button
                   type="button"
                   onClick={importRoutine}
-                  className="text-xs flex items-center gap-2 bg-blue-900/30 text-blue-300 border border-blue-800/50 px-3 py-1.5 rounded hover:bg-blue-900/50 transition-colors"
+                  className="text-xs flex items-center gap-2 bg-orange-500/10 text-orange-600 dark:text-orange-400 px-3 py-1.5 rounded-lg hover:bg-orange-500/20 transition-all font-medium"
                 >
                   <Dumbbell size={12} />
                   Load Today's Routine
@@ -160,20 +160,20 @@ export default function Health() {
               </div>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-xs text-zinc-500 mb-1">Routine Name</label>
+                  <label className="block text-xs text-muted-foreground mb-1 font-medium">Routine Name</label>
                   <input
                     type="text"
                     placeholder="e.g. Push Day / Cardio"
-                    className="w-full bg-zinc-950 border border-zinc-800 rounded p-3 text-zinc-200 focus:border-orange-500 outline-none p-2 text-white"
+                    className="w-full bg-input border border-border rounded-xl p-3 text-foreground placeholder-muted-foreground/50 focus:border-orange-500 focus:ring-1 focus:ring-orange-500 outline-none transition-all duration-200"
                     value={workout.routine_name}
                     onChange={(e) => setWorkout({ ...workout, routine_name: e.target.value })}
                   />
                 </div>
                 <div>
-                  <label className="block text-xs text-zinc-500 mb-1">Duration (Mins)</label>
+                  <label className="block text-xs text-muted-foreground mb-1 font-medium">Duration (Mins)</label>
                   <input
                     type="number"
-                    className="w-full bg-zinc-950 border border-zinc-800 rounded p-3 text-zinc-200 focus:border-orange-500 outline-none p-2 text-white"
+                    className="w-full bg-input border border-border rounded-xl p-3 text-foreground placeholder-muted-foreground/50 focus:border-orange-500 focus:ring-1 focus:ring-orange-500 outline-none transition-all duration-200"
                     value={workout.duration_mins}
                     onChange={(e) =>
                       setWorkout({ ...workout, duration_mins: parseInt(e.target.value) || 0 })
@@ -183,24 +183,24 @@ export default function Health() {
               </div>
 
               <div>
-                <label className="block text-xs text-zinc-500 mb-1">Exercises & Stats</label>
+                <label className="block text-xs text-muted-foreground mb-1 font-medium">Exercises & Stats</label>
                 <textarea
                   placeholder="Bench: 80kg 3x8&#10;Incline: 30kg 3x12..."
-                  className="w-full h-32 bg-zinc-950 border border-zinc-800 rounded p-3 text-zinc-200 focus:border-orange-500 outline-none resize-none font-mono text-sm p-2 text-white"
+                  className="w-full h-32 bg-input border border-border rounded-xl p-3 text-foreground placeholder-muted-foreground/50 focus:border-orange-500 focus:ring-1 focus:ring-orange-500 outline-none resize-none font-mono text-sm transition-all duration-200"
                   value={workout.exercises}
                   onChange={(e) => setWorkout({ ...workout, exercises: e.target.value })}
                 />
               </div>
 
               <div>
-                <label className="block text-xs text-zinc-500 mb-1">
+                <label className="block text-xs text-muted-foreground mb-1 font-medium">
                   Intensity (1-10): {workout.intensity}
                 </label>
                 <input
                   type="range"
                   min="1"
                   max="10"
-                  className="w-full accent-orange-500"
+                  className="w-full accent-orange-500 cursor-pointer"
                   value={workout.intensity}
                   onChange={(e) =>
                     setWorkout({ ...workout, intensity: parseInt(e.target.value) || 1 })
@@ -211,7 +211,7 @@ export default function Health() {
               <button
                 type="submit"
                 disabled={isLoading}
-                className="w-full bg-orange-600 hover:bg-orange-500 text-white py-3 rounded-lg font-bold transition-all disabled:opacity-50"
+                className="w-full bg-orange-500 hover:bg-orange-600 text-white py-3 rounded-xl font-bold transition-all disabled:opacity-50 cursor-pointer shadow-sm hover:shadow"
               >
                 {isLoading ? 'Processing...' : 'Log Workout'}
               </button>
@@ -222,14 +222,14 @@ export default function Health() {
           {activeTab === 'nutrition' && (
             <form
               onSubmit={handleSaveNutrition}
-              className="bg-zinc-900/50 border border-zinc-800 p-6 rounded-xl space-y-4 animate-in fade-in"
+              className="bg-card p-6 rounded-2xl space-y-4 shadow-sm animate-in fade-in duration-300"
             >
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <div>
-                  <label className="block text-xs text-zinc-500 mb-1">Calories (kcal)</label>
+                  <label className="block text-xs text-muted-foreground mb-1 font-medium">Calories (kcal)</label>
                   <input
                     type="number"
-                    className="w-full bg-zinc-950 border border-zinc-800 rounded p-3 text-zinc-200 focus:border-green-500 outline-none p-2 text-white"
+                    className="w-full bg-input border border-border rounded-xl p-3 text-foreground placeholder-muted-foreground/50 focus:border-green-500 focus:ring-1 focus:ring-green-500 outline-none transition-all duration-200"
                     value={nutrition.calories}
                     onChange={(e) =>
                       setNutrition({ ...nutrition, calories: parseInt(e.target.value) || 0 })
@@ -237,10 +237,10 @@ export default function Health() {
                   />
                 </div>
                 <div>
-                  <label className="block text-xs text-zinc-500 mb-1">Protein (g)</label>
+                  <label className="block text-xs text-muted-foreground mb-1 font-medium">Protein (g)</label>
                   <input
                     type="number"
-                    className="w-full bg-zinc-950 border border-zinc-800 rounded p-3 text-zinc-200 focus:border-green-500 outline-none p-2 text-white"
+                    className="w-full bg-input border border-border rounded-xl p-3 text-foreground placeholder-muted-foreground/50 focus:border-green-500 focus:ring-1 focus:ring-green-500 outline-none transition-all duration-200"
                     value={nutrition.protein_grams}
                     onChange={(e) =>
                       setNutrition({ ...nutrition, protein_grams: parseInt(e.target.value) || 0 })
@@ -248,13 +248,13 @@ export default function Health() {
                   />
                 </div>
                 <div>
-                  <label className="block text-xs text-zinc-500 mb-1 flex items-center gap-1">
-                    <Droplets size={12} /> Water (L)
+                  <label className="block text-xs text-muted-foreground mb-1 font-medium flex items-center gap-1">
+                    <Droplets size={12} className="text-blue-500" /> Water (L)
                   </label>
                   <input
                     type="number"
                     step="0.1"
-                    className="w-full bg-zinc-950 border border-zinc-800 rounded p-3 text-zinc-200 focus:border-green-500 outline-none p-2 text-white"
+                    className="w-full bg-input border border-border rounded-xl p-3 text-foreground placeholder-muted-foreground/50 focus:border-green-500 focus:ring-1 focus:ring-green-500 outline-none transition-all duration-200"
                     value={nutrition.water_liters}
                     onChange={(e) =>
                       setNutrition({ ...nutrition, water_liters: parseFloat(e.target.value) || 0 })
@@ -264,10 +264,10 @@ export default function Health() {
               </div>
 
               <div>
-                <label className="block text-xs text-zinc-500 mb-1">Meals / Notes</label>
+                <label className="block text-xs text-muted-foreground mb-1 font-medium">Meals / Notes</label>
                 <textarea
                   placeholder="Breakfast: Eggs&#10;Lunch: Chicken..."
-                  className="w-full h-32 bg-zinc-950 border border-zinc-800 rounded p-3 text-zinc-200 focus:border-green-500 outline-none resize-none font-mono text-sm p-2 text-white"
+                  className="w-full h-32 bg-input border border-border rounded-xl p-3 text-foreground placeholder-muted-foreground/50 focus:border-green-500 focus:ring-1 focus:ring-green-500 outline-none resize-none font-mono text-sm transition-all duration-200"
                   value={nutrition.notes}
                   onChange={(e) => setNutrition({ ...nutrition, notes: e.target.value })}
                 />
@@ -276,7 +276,7 @@ export default function Health() {
               <button
                 type="submit"
                 disabled={isLoading}
-                className="w-full bg-green-600 hover:bg-green-500 text-white py-3 rounded-lg font-bold transition-all disabled:opacity-50"
+                className="w-full bg-green-500 hover:bg-green-600 text-white py-3 rounded-xl font-bold transition-all disabled:opacity-50 cursor-pointer shadow-sm hover:shadow"
               >
                 {isLoading ? 'Processing...' : 'Log Nutrition'}
               </button>

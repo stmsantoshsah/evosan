@@ -19,15 +19,15 @@ const TrendCard = ({ title, value, subValue, trend, data, dataKey, type, color }
   const isDown = trend === 'down';
 
   return (
-    <div className="bg-zinc-900/50 border border-zinc-800 p-4 rounded-xl relative overflow-hidden group">
+    <div className="bg-card p-4 rounded-2xl relative overflow-hidden group shadow-sm transition-all duration-300 hover:shadow-md">
       <div className="relative z-10 flex justify-between items-start mb-2">
         <div>
-          <h4 className="text-xs font-mono text-zinc-500 uppercase tracking-wider">{title}</h4>
+          <h4 className="text-xs font-mono text-muted-foreground uppercase tracking-wider">{title}</h4>
           <div className="flex items-end gap-2 mt-1">
-            <span className="text-2xl font-bold text-white">{value}</span>
+            <span className="text-2xl font-bold text-foreground">{value}</span>
             <span
               className={`text-xs mb-1 font-mono ${
-                isDown ? 'text-green-500' : isUp ? 'text-red-500' : 'text-zinc-500'
+                isDown ? 'text-green-500' : isUp ? 'text-red-500' : 'text-muted-foreground'
               }`}
             >
               {subValue}

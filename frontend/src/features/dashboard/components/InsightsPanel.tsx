@@ -8,7 +8,7 @@ export default function InsightsPanel() {
 
   if (isLoading) {
     return (
-      <div className="bg-card/40 backdrop-blur-md border border-border rounded-2xl p-6 animate-pulse shadow-lg shadow-foreground/5">
+      <div className="bg-card rounded-2xl p-6 animate-pulse shadow-sm">
         <div className="h-4 w-32 bg-muted/50 rounded mb-4"></div>
         <div className="space-y-3">
           <div className="h-3 w-full bg-muted/50 rounded"></div>
@@ -21,7 +21,7 @@ export default function InsightsPanel() {
   const insights = data?.insights || [];
 
   return (
-    <div className="bg-card/40 backdrop-blur-md border border-border rounded-2xl p-6 md:p-8 shadow-lg shadow-foreground/5 relative overflow-hidden group transition-colors">
+    <div className="bg-card rounded-2xl p-6 md:p-8 shadow-sm relative overflow-hidden group transition-colors">
       <div className="absolute inset-0 bg-gradient-to-br from-yellow-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"></div>
       <h3 className="text-base md:text-lg font-semibold text-foreground mb-6 flex items-center gap-2 relative z-10">
         <Lightbulb
@@ -77,16 +77,16 @@ export default function InsightsPanel() {
             return (
               <div
                 key={idx}
-                className="flex gap-2 md:gap-3 items-start p-3 bg-zinc-950/50 rounded-lg border border-zinc-800/50"
+                className="flex gap-2 md:gap-3 items-start p-3 bg-muted rounded-lg"
               >
                 {isInfo ? (
-                  <AlertCircle className="text-zinc-500 mt-1 shrink-0" size={14} />
+                  <AlertCircle className="text-muted-foreground mt-1 shrink-0" size={14} />
                 ) : isPositive ? (
                   <TrendingUp className="text-emerald-500 mt-1 shrink-0" size={14} />
                 ) : (
                   <TrendingDown className="text-orange-500 mt-1 shrink-0" size={14} />
                 )}
-                <p className="text-xs md:text-sm text-zinc-400 leading-relaxed font-mono">
+                <p className="text-xs md:text-sm text-muted-foreground leading-relaxed font-mono">
                   {insight}
                 </p>
               </div>
@@ -102,20 +102,20 @@ export default function InsightsPanel() {
             <span className="text-[10px] text-muted-foreground font-mono">35% COMPLETE</span>
           </div>
           
-          <div className="h-1.5 w-full bg-muted/50 rounded-full overflow-hidden border border-border/50 relative">
+          <div className="h-1.5 w-full bg-muted rounded-full overflow-hidden relative">
             <div className="h-full bg-gradient-to-r from-teal-500 to-emerald-500 w-[35%] animate-pulse rounded-full"></div>
           </div>
 
           <div className="space-y-3 mt-4">
-            <div className="flex items-center justify-between p-2.5 bg-card/60 border border-border/40 rounded-xl">
+            <div className="flex items-center justify-between p-2.5 bg-muted rounded-xl">
               <span className="text-[10px] text-foreground font-mono font-bold">🧠 SLEEP / BIOLOGICAL MATRIX</span>
               <span className="text-[9px] text-yellow-500 bg-yellow-500/10 border border-yellow-500/20 px-2 py-0.5 rounded font-mono font-bold">MATCHING</span>
             </div>
-            <div className="flex items-center justify-between p-2.5 bg-card/60 border border-border/40 rounded-xl">
+            <div className="flex items-center justify-between p-2.5 bg-muted rounded-xl">
               <span className="text-[10px] text-foreground font-mono font-bold">⚡ CIRCADIAN FLOW SYNC</span>
               <span className="text-[9px] text-teal-400 bg-teal-500/10 border border-teal-500/20 px-2 py-0.5 rounded font-mono font-bold">SYNTHESIZING</span>
             </div>
-            <div className="flex items-center justify-between p-2.5 bg-card/60 border border-border/40 rounded-xl opacity-60">
+            <div className="flex items-center justify-between p-2.5 bg-muted/60 rounded-xl opacity-60">
               <span className="text-[10px] text-foreground font-mono font-bold">🎯 COGNITIVE DIRECTIVE</span>
               <span className="text-[9px] text-zinc-500 bg-zinc-500/10 border border-zinc-500/20 px-2 py-0.5 rounded font-mono">STANDBY</span>
             </div>

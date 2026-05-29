@@ -46,7 +46,7 @@ export default function XPBar() {
   const percentage = Math.min(100, Math.max(0, (levelProgress / levelTotal) * 100));
 
   return (
-    <div className="bg-card/40 backdrop-blur-md border border-border px-4 relative py-3 z-30 rounded-2xl shadow-xl shadow-foreground/5 mt-4 transition-colors">
+    <div className="bg-card px-4 relative py-3 z-30 rounded-2xl shadow-sm mt-4 transition-colors">
       <div className="max-w-7xl mx-auto flex items-center justify-between gap-4">
         {/* Level Badge */}
         <div className="flex items-center gap-3">
@@ -70,7 +70,7 @@ export default function XPBar() {
             <span>{stats.xp} XP</span>
             <span>{stats.nextLevelXP} XP</span>
           </div>
-          <div className="h-2 w-full bg-muted/50 rounded-full overflow-hidden border border-border/50">
+          <div className="h-2 w-full bg-muted rounded-full overflow-hidden">
             <div
               className="h-full bg-gradient-to-r from-primary via-secondary to-accent transition-all duration-1000 ease-out relative shadow-[0_0_15px_rgba(16,185,129,0.3)]"
               style={{ width: `${percentage}%` }}
