@@ -7,10 +7,8 @@ import HistoryChart from './HistoryChart';
 import CommandBar from './CommandBar';
 import InsightsPanel from './InsightsPanel';
 import HUD from './HUD';
-import XPBar from '../../gamification/components/XPBar';
 import { useEffect, useState } from 'react';
 import { getCurrentBlock } from '../../protocol/constants';
-
 import {
   useGetDailyHabitsQuery,
   useGetRecentJournalsQuery,
@@ -24,6 +22,33 @@ export default function Dashboard() {
   // Protocol State
   const [currentTime, setCurrentTime] = useState(new Date());
   const currentBlock = useMemo(() => getCurrentBlock(currentTime), [currentTime]);
+
+  const remainingTimeText = useMemo(() => {
+    if (!currentBlock) return '';
+    const nowMin = currentTime.getHours() * 60 + currentTime.getMinutes();
+    const [endH, endM] = currentBlock.end.split(':').map(Number);
+    let endMin = endH * 60 + endM;
+
+    const [startH, startM] = currentBlock.start.split(':').map(Number);
+    let startMin = startH * 60 + startM;
+
+    if (endMin < startMin) {
+      // Overnight block
+      if (nowMin >= startMin) {
+        endMin += 24 * 60;
+      }
+    }
+
+    const diff = endMin - nowMin;
+    if (diff <= 0) return '';
+
+    if (diff >= 60) {
+      const hours = Math.floor(diff / 60);
+      const mins = diff % 60;
+      return `${hours}h ${mins}m remaining`;
+    }
+    return `${diff}m remaining`;
+  }, [currentBlock, currentTime]);
 
   useEffect(() => {
     const timer = setInterval(() => setCurrentTime(new Date()), 60000);
@@ -54,11 +79,6 @@ export default function Dashboard() {
 
   return (
     <div className="space-y-8 md:space-y-12 px-4 md:px-8 py-6 md:py-10 max-w-[1600px] mx-auto">
-      {/* GAMIFICATION BAR */}
-      <div className="my-4">
-        <XPBar />
-      </div>
-
       {/* HEADER & CURRENT MISSION */}
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
         <div>
@@ -80,9 +100,16 @@ export default function Dashboard() {
             )}
           </div>
           <div>
-            <p className="text-[10px] uppercase tracking-widest text-muted-foreground font-bold">
-              Current Mission
-            </p>
+            <div className="flex items-center gap-2">
+              <span className="text-[10px] uppercase tracking-widest text-muted-foreground font-bold">
+                Current Mission
+              </span>
+              {remainingTimeText && (
+                <span className="inline-flex items-center px-1.5 py-0.5 rounded text-[8px] font-mono font-bold bg-primary/10 text-primary border border-primary/20 animate-pulse">
+                  {remainingTimeText}
+                </span>
+              )}
+            </div>
             <p className="text-sm font-bold text-foreground">
               {currentBlock?.activity || 'Off Protocol'}
             </p>

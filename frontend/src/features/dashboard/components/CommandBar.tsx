@@ -3,12 +3,27 @@
 import { useState, useEffect } from 'react';
 import { Zap, Loader2, Sparkles, Mic, MicOff } from 'lucide-react';
 import toast from 'react-hot-toast';
-import confetti from 'canvas-confetti';
 import { useVoiceInput } from '../hooks/useVoiceInput';
+
+const PLACEHOLDERS = [
+  'Ate 2 eggs, drank 1L water. Did a 30 min run...',
+  'Logged 250g grilled chicken, 150g sweet potato...',
+  'Completed a 45 min core and power workout...',
+  'Drank 500ml water and took vitamins...',
+  'Finished afternoon deep work block, logged tasks...'
+];
 
 export default function CommandBar() {
   const [input, setInput] = useState('');
   const [isProcessing, setIsProcessing] = useState(false);
+  const [placeholderIndex, setPlaceholderIndex] = useState(0);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setPlaceholderIndex((prev) => (prev + 1) % PLACEHOLDERS.length);
+    }, 4500);
+    return () => clearInterval(interval);
+  }, []);
 
   // Voice Input Hook
   const {
@@ -77,37 +92,14 @@ export default function CommandBar() {
         throw new Error(data?.error || 'Failed to process input');
       }
 
-      const xpDetails = data.gamification;
-
-      // Trigger XP Update Event for XPBar
-      window.dispatchEvent(new Event('xp-update'));
-
-      if (xpDetails && xpDetails.levelUp) {
-        confetti({
-          particleCount: 150,
-          spread: 80,
-          origin: { y: 0.6 },
-        });
-        toast.success(`LEVEL UP! You are now a ${xpDetails.title || 'Engineer'}`, {
-          icon: '🚀',
-          style: {
-            border: '1px solid var(--warning)',
-            color: 'var(--warning)',
-            background: 'var(--card)',
-            fontWeight: 'bold',
-          },
-          duration: 6000,
-        });
-      }
-
-      toast.success(`Log added! +${xpDetails?.xpGained || 0} XP`, {
+      toast.success('Log added successfully!', {
         icon: '⚡',
         duration: 2500,
       });
 
       setInput('');
 
-      // Allow toast/confetti to be seen before reload
+      // Allow toast to be seen before reload
       setTimeout(() => {
         window.location.reload();
       }, 2000);
@@ -133,7 +125,7 @@ export default function CommandBar() {
       </div>
       <input
         type="text"
-        placeholder="Ate 2 eggs, drank 1L water. Did a 30 min run..."
+        placeholder={PLACEHOLDERS[placeholderIndex]}
         className="w-full bg-card/60 backdrop-blur-xl border border-border rounded-2xl py-3 md:py-4 pl-10 md:pl-12 pr-10 md:pr-12 text-sm md:text-base text-foreground placeholder:text-muted-foreground/50 focus:outline-none focus:border-primary/50 focus:ring-2 focus:ring-primary/10 transition-all shadow-xl shadow-foreground/5"
         value={input}
         onChange={(e) => setInput(e.target.value)}

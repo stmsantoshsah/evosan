@@ -11,10 +11,20 @@ interface HUDProps {
 }
 
 export default function HUD({ habitsDone, totalHabits, lastMood, streak, waterIntake }: HUDProps) {
+  const isProtocolComplete = habitsDone === totalHabits && totalHabits > 0;
+  const isMentalExcellent = lastMood >= 8;
+  const isStreakActive = streak > 0;
+  const isWaterComplete = waterIntake >= 3.0;
+
   return (
     <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-6">
       {/* Card 1: Protocol */}
-      <div className="bg-card p-4 md:p-6 rounded-2xl hover:shadow-lg transition-all duration-300 group relative overflow-hidden shadow-sm">
+      <div
+        className={`p-4 md:p-6 rounded-2xl transition-all duration-500 ease-out group relative overflow-hidden ${isProtocolComplete
+            ? 'bg-gradient-to-b from-card to-primary/[0.02] border border-primary/20 shadow-[0_0_20px_rgba(16,185,129,0.1)]'
+            : 'bg-card border border-border shadow-sm hover:shadow-md'
+          }`}
+      >
         <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
         <div className="relative z-10">
           <div className="flex items-center gap-2 md:gap-3 mb-2 text-primary">
@@ -38,10 +48,20 @@ export default function HUD({ habitsDone, totalHabits, lastMood, streak, waterIn
             ></div>
           </div>
         </div>
+        {/* Absolute Bottom Glow Line */}
+        <div
+          className={`absolute bottom-0 left-0 h-0.5 w-full transition-all duration-500 ${isProtocolComplete ? 'bg-primary shadow-[0_0_8px_var(--primary)]' : 'bg-transparent'
+            }`}
+        />
       </div>
 
       {/* Card 2: Mental State */}
-      <div className="bg-card p-4 md:p-6 rounded-2xl hover:shadow-lg transition-all duration-300 group relative overflow-hidden shadow-sm">
+      <div
+        className={`p-4 md:p-6 rounded-2xl transition-all duration-500 ease-out group relative overflow-hidden ${isMentalExcellent
+            ? 'bg-gradient-to-b from-card to-secondary/[0.02] border border-secondary/20 shadow-[0_0_20px_rgba(6,182,212,0.1)]'
+            : 'bg-card border border-border shadow-sm hover:shadow-md'
+          }`}
+      >
         <div className="absolute inset-0 bg-gradient-to-br from-secondary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
         <div className="relative z-10">
           <div className="flex items-center gap-2 md:gap-3 mb-2 text-secondary">
@@ -62,15 +82,28 @@ export default function HUD({ habitsDone, totalHabits, lastMood, streak, waterIn
             {[...Array(10)].map((_, i) => (
               <div
                 key={i}
-                className={`h-1.5 flex-1 rounded-full ${i < lastMood ? 'bg-secondary shadow-[0_0_8px_rgba(6,182,212,0.3)]' : 'bg-muted'}`}
+                className={`h-1.5 flex-1 rounded-full transition-all duration-500 ${i < lastMood
+                    ? 'bg-secondary shadow-[0_0_8px_rgba(6,182,212,0.3)]'
+                    : 'bg-muted'
+                  }`}
               ></div>
             ))}
           </div>
         </div>
+        {/* Absolute Bottom Glow Line */}
+        <div
+          className={`absolute bottom-0 left-0 h-0.5 w-full transition-all duration-500 ${isMentalExcellent ? 'bg-secondary shadow-[0_0_8px_var(--secondary)]' : 'bg-transparent'
+            }`}
+        />
       </div>
 
       {/* Card 3: Consistency */}
-      <div className="bg-card p-4 md:p-6 rounded-2xl hover:shadow-lg transition-all duration-300 group relative overflow-hidden shadow-sm">
+      <div
+        className={`p-4 md:p-6 rounded-2xl transition-all duration-500 ease-out group relative overflow-hidden ${isStreakActive
+            ? 'bg-gradient-to-b from-card to-accent/[0.02] border border-accent/20 shadow-[0_0_20px_rgba(139,92,246,0.1)]'
+            : 'bg-card border border-border shadow-sm hover:shadow-md'
+          }`}
+      >
         <div className="absolute inset-0 bg-gradient-to-br from-accent/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
         <div className="relative z-10">
           <div className="flex items-center gap-2 md:gap-3 mb-2 text-accent">
@@ -91,10 +124,20 @@ export default function HUD({ habitsDone, totalHabits, lastMood, streak, waterIn
             SYSTEM_STABILITY: 98.4%
           </p>
         </div>
+        {/* Absolute Bottom Glow Line */}
+        <div
+          className={`absolute bottom-0 left-0 h-0.5 w-full transition-all duration-500 ${isStreakActive ? 'bg-accent shadow-[0_0_8px_var(--accent)]' : 'bg-transparent'
+            }`}
+        />
       </div>
 
       {/* Card 4: Biological Input (Water) */}
-      <div className="bg-card p-4 md:p-6 rounded-2xl hover:shadow-lg transition-all duration-300 group relative overflow-hidden shadow-sm">
+      <div
+        className={`p-4 md:p-6 rounded-2xl transition-all duration-500 ease-out group relative overflow-hidden ${isWaterComplete
+            ? 'bg-gradient-to-b from-card to-blue-500/[0.02] border border-blue-500/20 shadow-[0_0_20px_rgba(59,130,246,0.1)]'
+            : 'bg-card border border-border shadow-sm hover:shadow-md'
+          }`}
+      >
         <div className="absolute inset-0 bg-gradient-to-br from-blue-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
         <div className="relative z-10">
           <div className="flex items-center gap-2 md:gap-3 mb-2 text-blue-500">
@@ -118,6 +161,11 @@ export default function HUD({ habitsDone, totalHabits, lastMood, streak, waterIn
             ></div>
           </div>
         </div>
+        {/* Absolute Bottom Glow Line */}
+        <div
+          className={`absolute bottom-0 left-0 h-0.5 w-full transition-all duration-500 ${isWaterComplete ? 'bg-blue-500 shadow-[0_0_8px_rgba(59,130,246,0.5)]' : 'bg-transparent'
+            }`}
+        />
       </div>
     </div>
   );
