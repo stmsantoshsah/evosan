@@ -19,3 +19,11 @@ resend
 ruff
 chromadb
 sentence-transformers
+langgraph
+langchain
+langchain-core
+langchain-groq
+postgrest
+pgvector
+asyncpg
+psycopg2-binary

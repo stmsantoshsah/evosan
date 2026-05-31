@@ -6,6 +6,9 @@ class Settings(BaseSettings):
     MONGODB_URL: str = ""
     DB_NAME: str = "evosan_db"
     GROQ_API_KEY: str = ""
+    SUPABASE_URL: str = ""
+    SUPABASE_KEY: str = ""
+    SUPABASE_DB_URL: str = ""
     SECRET_KEY: str = "your-secret-key-goes-here"  # In production, use a strong secret
     ALGORITHM: str = "HS256"
     ACCESS_TOKEN_EXPIRE_MINUTES: int = 30

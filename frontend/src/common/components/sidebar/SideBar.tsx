@@ -18,6 +18,7 @@ import {
   Sun,
   Moon,
   Target,
+  Compass,
 } from 'lucide-react';
 import { useState } from 'react';
 import { useTheme } from '@/common/contexts/ThemeContext';
@@ -25,6 +26,7 @@ import { useTheme } from '@/common/contexts/ThemeContext';
 const navItems = [
   { name: 'Dashboard', href: '/', icon: LayoutDashboard },
   { name: 'Protocol', href: '/protocol', icon: Target },
+  { name: 'Roadmap', href: '/roadmap', icon: Compass },
   { name: 'Journal', href: '/journal', icon: BookOpen },
   { name: 'Habits', href: '/habits', icon: CheckSquare },
   { name: 'Insights', href: '/insights', icon: Sparkles },

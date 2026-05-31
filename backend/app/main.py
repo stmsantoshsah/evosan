@@ -6,6 +6,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from app.api.auth import router as auth_router
+from app.api.chat_api import router as chat_router
 from app.api.correlations import router as correlations_router
 from app.api.data import router as data_router
 from app.api.habits import router as habits_router
@@ -18,6 +19,7 @@ from app.api.parse import router as parse_router
 from app.api.stats import router as stats_router
 from app.api.voice import router as voice_router
 from app.db.database import close_mongo_connection, connect_to_mongo
+from app.db.supabase_db import supabase_db
 
 # Lifespan events replace the old startup/shutdown events
 
@@ -25,8 +27,10 @@ from app.db.database import close_mongo_connection, connect_to_mongo
 @asynccontextmanager
 async def lifespan(_app: FastAPI):
     await connect_to_mongo()
+    await supabase_db.connect()
     yield
     await close_mongo_connection()
+    await supabase_db.close()
 
 
 app = FastAPI(title="Evosan API", lifespan=lifespan)
@@ -49,6 +53,7 @@ app.include_router(parse_router, prefix="/parse", tags=["Parse"])
 app.include_router(correlations_router, prefix="/correlations", tags=["Correlations"])
 app.include_router(data_router, prefix="/data", tags=["Data"])
 app.include_router(voice_router, prefix="/voice", tags=["Voice"])
+app.include_router(chat_router, prefix="/chat", tags=["Chat"])
 
 
 @app.get("/")

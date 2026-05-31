@@ -63,7 +63,7 @@ Ensure you have the following installed on your machine:
 
 3. Install required dependencies:
    ```bash
-   pip install -r requirements.txt
+   pip install -r requirements.txt  
    ```
 
 4. Configure your environment variables:

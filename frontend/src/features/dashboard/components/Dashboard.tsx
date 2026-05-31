@@ -2,11 +2,12 @@
 
 import Link from 'next/link';
 import { useMemo } from 'react';
-import { ArrowUpRight, BrainCircuit, Activity, Zap } from 'lucide-react';
+import { ArrowUpRight, BrainCircuit, Activity, Zap, MessageSquare } from 'lucide-react';
 import HistoryChart from './HistoryChart';
 import CommandBar from './CommandBar';
 import InsightsPanel from './InsightsPanel';
 import HUD from './HUD';
+import ChatPanel from './ChatPanel';
 import { useEffect, useState } from 'react';
 import { getCurrentBlock } from '../../protocol/constants';
 import {
@@ -18,6 +19,7 @@ import {
 
 export default function Dashboard() {
   const today = new Date().toISOString().split('T')[0];
+  const [isChatOpen, setIsChatOpen] = useState(false);
 
   // Protocol State
   const [currentTime, setCurrentTime] = useState(new Date());
@@ -205,6 +207,27 @@ export default function Dashboard() {
           </div>
         </div>
       </div>
+
+      {/* Floating Action Button (FAB) for Neural Chat Trigger */}
+      <button
+        onClick={() => setIsChatOpen(!isChatOpen)}
+        className={`fixed bottom-6 right-6 z-50 w-14 h-14 rounded-full bg-gradient-to-tr from-emerald-500 to-teal-400 text-white shadow-[0_0_20px_rgba(16,185,129,0.45)] hover:shadow-[0_0_30px_rgba(16,185,129,0.6)] flex items-center justify-center hover:scale-110 active:scale-95 transition-all duration-300 border border-emerald-400/30 group`}
+        aria-label="Toggle Neural Chat"
+      >
+        <MessageSquare 
+          size={22} 
+          className={`transition-transform duration-500 ${isChatOpen ? 'rotate-180 scale-90' : 'group-hover:rotate-12'}`} 
+        />
+        {/* Pulsing online status indicator */}
+        <span className="absolute top-0 right-0 w-3 h-3 bg-emerald-300 rounded-full border-2 border-background animate-pulse"></span>
+      </button>
+
+      {/* Dynamic Floating Chat Panel Overlay */}
+      {isChatOpen && (
+        <div className="fixed bottom-24 right-6 w-[360px] md:w-[400px] h-[550px] z-50 animate-in fade-in slide-in-from-bottom-5 duration-300">
+          <ChatPanel onClose={() => setIsChatOpen(false)} />
+        </div>
+      )}
     </div>
   );
 }
