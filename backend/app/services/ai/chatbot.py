@@ -24,6 +24,7 @@ async def retrieve_mongodb_context(state: AgentState) -> dict:
     Queries MongoDB database tables to gather the user's recent habit compliance,
     weekly scores, and historical journal sentiment to ground the conversation.
     """
+    _ = state
     context_data = {
         "recent_habits": "No habits tracked in MongoDB yet.",
         "weekly_score": "No optimization score logged.",
@@ -42,13 +43,13 @@ async def retrieve_mongodb_context(state: AgentState) -> dict:
         # B. Fetch recent completed habit logs
         logs_cursor = db.client["evosan_db"]["habit_logs"].find({"completed": True}).sort("date", -1).limit(5)
         logs = await logs_cursor.to_list(length=5)
-        done_habits = [habit_map[l["habit_id"]] for l in logs if l["habit_id"] in habit_map]
+        done_habits = [habit_map[log["habit_id"]] for log in logs if log["habit_id"] in habit_map]
         context_data["recent_habits"] = f"Completed recently: {', '.join(done_habits) if done_habits else 'None'}"
 
         # C. Calculate Optimization Score dynamically based on last 7 days
         # Get count of total habits defined
         total_habits_count = len(habits)
-        
+
         # Get count of completed habit logs in last 7 days
         seven_days_ago = (datetime.now() - timedelta(days=7)).strftime("%Y-%m-%d")
         completed_logs_count = await db.client["evosan_db"]["habit_logs"].count_documents({

@@ -1,6 +1,7 @@
 # backend/app/services/vector_db.py
 import uuid
 from datetime import datetime
+
 from chromadb.utils import embedding_functions
 
 from app.db.database import db
@@ -40,6 +41,7 @@ async def upsert_journal_vector(journal_id: str, content: str, mood: int, timest
     """
     Saves or updates a journal entry's vector embedding in Supabase pgvector database.
     """
+    _ = timestamp
     if not supabase_db.client:
         print("WARNING: Supabase client is offline. Vector upsert skipped.")
         return
