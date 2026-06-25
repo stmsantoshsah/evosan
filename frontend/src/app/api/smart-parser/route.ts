@@ -2,10 +2,6 @@ import { NextRequest, NextResponse } from 'next/server';
 import Groq from 'groq-sdk';
 import dbConnect from '@/lib/db';
 
-// Initialize Groq client
-const groq = new Groq({
-  apiKey: process.env.GROQ_API_KEY || 'dummy_key_for_build',
-});
 
 const SYSTEM_PROMPT = `
 You are an AI assistant that extracts health data from text.
@@ -39,6 +35,9 @@ const getRankTitle = (level: number) => {
 
 export async function POST(req: NextRequest) {
   try {
+    const groq = new Groq({
+      apiKey: process.env.GROQ_API_KEY || 'dummy_key_for_build',
+    });
     const body = await req.json();
     const { text } = body;
 

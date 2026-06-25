@@ -1,12 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server';
 import Groq from 'groq-sdk';
 
-const groq = new Groq({
-  apiKey: process.env.GROQ_API_KEY || 'dummy_key_for_build',
-});
-
 export async function POST(req: NextRequest) {
   try {
+    const groq = new Groq({
+      apiKey: process.env.GROQ_API_KEY || 'dummy_key_for_build',
+    });
     const { content } = await req.json();
 
     if (!content || content.length < 10) {
