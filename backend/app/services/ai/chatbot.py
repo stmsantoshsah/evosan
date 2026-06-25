@@ -1,12 +1,13 @@
 # backend/app/services/ai/chatbot.py
 from collections.abc import Sequence
+from datetime import datetime, timedelta
 from typing import Annotated, TypedDict
 
 from langchain_core.messages import AIMessage, BaseMessage, SystemMessage
 from langgraph.graph import END, StateGraph
 from langgraph.graph.message import add_messages
 
-from app.db.supabase_db import supabase_db
+from app.db.database import db
 from app.services.ai.client import chat_model
 
 
@@ -17,43 +18,69 @@ class AgentState(TypedDict):
     user_id: str
 
 
-# 2. Node A: Retrieve Context from Supabase to ground the conversation
-async def retrieve_supabase_context(state: AgentState) -> dict:
+# 2. Node A: Retrieve Context from MongoDB to ground the conversation
+async def retrieve_mongodb_context(state: AgentState) -> dict:
     """
-    Queries Supabase database tables to gather the user's recent habit compliance,
+    Queries MongoDB database tables to gather the user's recent habit compliance,
     weekly scores, and historical journal sentiment to ground the conversation.
     """
-    user_id = state.get("user_id", "default_user")
     context_data = {
-        "recent_habits": "No habits tracked in Supabase yet.",
+        "recent_habits": "No habits tracked in MongoDB yet.",
         "weekly_score": "No optimization score logged.",
         "past_journals": "No historical memory found."
     }
 
-    # Fallback to local default metrics if Supabase is uninitialized
-    if not supabase_db.client:
+    if not db.client:
         return {"context": context_data}
 
     try:
-        # Fetch habits
-        habits_res = await supabase_db.client.from_("habit_logs").select("*").eq("user_id", user_id).limit(5).execute()
-        if habits_res.data:
-            done_habits = [h.get("name", "Habit") for h in habits_res.data if h.get("completed")]
-            context_data["recent_habits"] = f"Completed recently: {', '.join(done_habits) if done_habits else 'None'}"
+        # A. Fetch habits mapping (habit_id -> name)
+        habits_cursor = db.client["evosan_db"]["habits"].find()
+        habits = await habits_cursor.to_list(length=100)
+        habit_map = {str(h["_id"]): h["name"] for h in habits}
 
-        # Fetch optimization score
-        stats_res = await supabase_db.client.from_("weekly_insights").select("score").eq("user_id", user_id).order("created_at", desc=True).limit(1).execute()
-        if stats_res.data:
-            context_data["weekly_score"] = f"Current Weekly Optimization Score: {stats_res.data[0].get('score', 75)}/100"
+        # B. Fetch recent completed habit logs
+        logs_cursor = db.client["evosan_db"]["habit_logs"].find({"completed": True}).sort("date", -1).limit(5)
+        logs = await logs_cursor.to_list(length=5)
+        done_habits = [habit_map[l["habit_id"]] for l in logs if l["habit_id"] in habit_map]
+        context_data["recent_habits"] = f"Completed recently: {', '.join(done_habits) if done_habits else 'None'}"
 
-        # Fetch latest journals
-        journals_res = await supabase_db.client.from_("journal_entries").select("content").eq("user_id", user_id).limit(2).execute()
-        if journals_res.data:
-            past_texts = [j.get("content", "")[:120] for j in journals_res.data]
+        # C. Calculate Optimization Score dynamically based on last 7 days
+        # Get count of total habits defined
+        total_habits_count = len(habits)
+        
+        # Get count of completed habit logs in last 7 days
+        seven_days_ago = (datetime.now() - timedelta(days=7)).strftime("%Y-%m-%d")
+        completed_logs_count = await db.client["evosan_db"]["habit_logs"].count_documents({
+            "date": {"$gte": seven_days_ago},
+            "completed": True
+        })
+
+        # Average mood in last 7 days
+        seven_days_ago_iso = (datetime.now() - timedelta(days=7)).isoformat()
+        journal_cursor = db.client["evosan_db"]["journal_entries"].find({
+            "created_at": {"$gte": seven_days_ago_iso}
+        })
+        journals_7d = await journal_cursor.to_list(length=20)
+        avg_mood = sum(j.get("mood", 5) for j in journals_7d) / len(journals_7d) if journals_7d else 5.0
+
+        # Optimization Score Calculation (Max 100):
+        # 50 points max for habit consistency: (completed_logs / (total_habits * 7 days)) * 50
+        # 50 points max for mood state: avg_mood * 5
+        habit_score = (completed_logs_count / (total_habits_count * 7) * 50) if total_habits_count > 0 else 25.0
+        mood_score = avg_mood * 5.0
+        optimization_score = min(100, int(habit_score + mood_score))
+        context_data["weekly_score"] = f"Current Weekly Optimization Score: {optimization_score}/100"
+
+        # D. Fetch latest 2 journals
+        journals_cursor = db.client["evosan_db"]["journal_entries"].find().sort("created_at", -1).limit(2)
+        journals = await journals_cursor.to_list(length=2)
+        if journals:
+            past_texts = [j.get("content", "")[:120] for j in journals]
             context_data["past_journals"] = f"User thoughts recently: {'; '.join(past_texts)}"
 
     except Exception as e:
-        print(f"Error gathering Supabase context in chatbot node: {e}")
+        print(f"Error gathering MongoDB context in chatbot node: {e}")
 
     return {"context": context_data}
 
@@ -83,6 +110,7 @@ async def generate_coaching_response(state: AgentState) -> dict:
     2. **Standup Feedback**: If they present a standup or verbal practicing query, evaluate it directly on executive clarity (Pacing, vocabulary upgrades, CAR framework: Context ➔ Action ➔ Result).
     3. **Brevity**: Keep answers under 150 words. Avoid fluff. Use bold markers and bullet points for structural delivery.
     4. Never say "As an AI...". You are the Evosan system operating system.
+    5. **Contextual Relevance**: Always answer/acknowledge the user's specific query or greeting directly first. Do not dump status metrics or bring up 'Friction Detected' unless it directly relates to what the user asked.
     """
 
     # Assemble messages
@@ -102,7 +130,7 @@ async def generate_coaching_response(state: AgentState) -> dict:
 workflow = StateGraph(AgentState)
 
 # Add our processing blocks as nodes
-workflow.add_node("retrieve_context", retrieve_supabase_context)
+workflow.add_node("retrieve_context", retrieve_mongodb_context)
 workflow.add_node("generate_response", generate_coaching_response)
 
 # Connect flow step by step

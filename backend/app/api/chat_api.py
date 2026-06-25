@@ -59,6 +59,7 @@ async def stream_chat_response(
             2. **Standup Feedback**: If they present a standup or verbal practicing query, evaluate it directly on executive clarity (Pacing, vocabulary upgrades, CAR framework: Context ➔ Action ➔ Result).
             3. **Brevity**: Keep answers under 150 words. Avoid fluff. Use bold markers and bullet points for structural delivery.
             4. Never say "As an AI...". You are the Evosan system operating system.
+            5. **Contextual Relevance**: Always answer/acknowledge the user's specific query or greeting directly first. Do not dump status metrics or bring up 'Friction Detected' unless it directly relates to what the user asked.
             """
 
             # Combine messages for LLM completion
