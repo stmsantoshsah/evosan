@@ -4,7 +4,7 @@ import dbConnect from '@/lib/db';
 
 // Initialize Groq client
 const groq = new Groq({
-  apiKey: process.env.GROQ_API_KEY,
+  apiKey: process.env.GROQ_API_KEY || 'dummy_key_for_build',
 });
 
 const SYSTEM_PROMPT = `
