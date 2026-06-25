@@ -1,9 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server';
 import dbConnect from '@/lib/db';
 
-export async function GET(req: NextRequest, { params }: { params: { username: string } }) {
+export async function GET(req: NextRequest, { params }: { params: Promise<{ username: string }> }) {
   try {
-    const { username } = params;
+    const { username } = await params;
     const db = (await dbConnect()).connection.db;
     if (!db) throw new Error('Database connection failed');
 
