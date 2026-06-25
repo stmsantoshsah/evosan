@@ -160,7 +160,9 @@ export default function Health() {
               </div>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-xs text-muted-foreground mb-1 font-medium">Routine Name</label>
+                  <label className="block text-xs text-muted-foreground mb-1 font-medium">
+                    Routine Name
+                  </label>
                   <input
                     type="text"
                     placeholder="e.g. Push Day / Cardio"
@@ -170,7 +172,9 @@ export default function Health() {
                   />
                 </div>
                 <div>
-                  <label className="block text-xs text-muted-foreground mb-1 font-medium">Duration (Mins)</label>
+                  <label className="block text-xs text-muted-foreground mb-1 font-medium">
+                    Duration (Mins)
+                  </label>
                   <input
                     type="number"
                     className="w-full bg-input border border-border rounded-xl p-3 text-foreground placeholder-muted-foreground/50 focus:border-orange-500 focus:ring-1 focus:ring-orange-500 outline-none transition-all duration-200"
@@ -183,7 +187,9 @@ export default function Health() {
               </div>
 
               <div>
-                <label className="block text-xs text-muted-foreground mb-1 font-medium">Exercises & Stats</label>
+                <label className="block text-xs text-muted-foreground mb-1 font-medium">
+                  Exercises & Stats
+                </label>
                 <textarea
                   placeholder="Bench: 80kg 3x8&#10;Incline: 30kg 3x12..."
                   className="w-full h-32 bg-input border border-border rounded-xl p-3 text-foreground placeholder-muted-foreground/50 focus:border-orange-500 focus:ring-1 focus:ring-orange-500 outline-none resize-none font-mono text-sm transition-all duration-200"
@@ -226,7 +232,9 @@ export default function Health() {
             >
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <div>
-                  <label className="block text-xs text-muted-foreground mb-1 font-medium">Calories (kcal)</label>
+                  <label className="block text-xs text-muted-foreground mb-1 font-medium">
+                    Calories (kcal)
+                  </label>
                   <input
                     type="number"
                     className="w-full bg-input border border-border rounded-xl p-3 text-foreground placeholder-muted-foreground/50 focus:border-green-500 focus:ring-1 focus:ring-green-500 outline-none transition-all duration-200"
@@ -237,7 +245,9 @@ export default function Health() {
                   />
                 </div>
                 <div>
-                  <label className="block text-xs text-muted-foreground mb-1 font-medium">Protein (g)</label>
+                  <label className="block text-xs text-muted-foreground mb-1 font-medium">
+                    Protein (g)
+                  </label>
                   <input
                     type="number"
                     className="w-full bg-input border border-border rounded-xl p-3 text-foreground placeholder-muted-foreground/50 focus:border-green-500 focus:ring-1 focus:ring-green-500 outline-none transition-all duration-200"
@@ -264,7 +274,9 @@ export default function Health() {
               </div>
 
               <div>
-                <label className="block text-xs text-muted-foreground mb-1 font-medium">Meals / Notes</label>
+                <label className="block text-xs text-muted-foreground mb-1 font-medium">
+                  Meals / Notes
+                </label>
                 <textarea
                   placeholder="Breakfast: Eggs&#10;Lunch: Chicken..."
                   className="w-full h-32 bg-input border border-border rounded-xl p-3 text-foreground placeholder-muted-foreground/50 focus:border-green-500 focus:ring-1 focus:ring-green-500 outline-none resize-none font-mono text-sm transition-all duration-200"

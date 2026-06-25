@@ -62,7 +62,10 @@ export default function Sidebar() {
 
       {/* Mobile Menu Overlay */}
       {mobileMenuOpen && (
-        <div className="md:hidden fixed inset-0 bg-black/60 backdrop-blur-[2px] z-40" onClick={closeMobileMenu} />
+        <div
+          className="md:hidden fixed inset-0 bg-black/60 backdrop-blur-[2px] z-40"
+          onClick={closeMobileMenu}
+        />
       )}
 
       {/* Mobile Slide-out Menu */}

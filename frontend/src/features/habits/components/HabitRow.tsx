@@ -11,13 +11,7 @@ interface HabitRowProps {
   completed: boolean;
 }
 
-export const HabitRow = ({
-  habitName,
-  streak,
-  history,
-  onToggle,
-  completed,
-}: HabitRowProps) => {
+export const HabitRow = ({ habitName, streak, history, onToggle, completed }: HabitRowProps) => {
   return (
     <div
       onClick={onToggle}

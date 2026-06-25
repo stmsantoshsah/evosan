@@ -22,7 +22,9 @@ const TrendCard = ({ title, value, subValue, trend, data, dataKey, type, color }
     <div className="bg-card p-4 rounded-2xl relative overflow-hidden group shadow-sm transition-all duration-300 hover:shadow-md">
       <div className="relative z-10 flex justify-between items-start mb-2">
         <div>
-          <h4 className="text-xs font-mono text-muted-foreground uppercase tracking-wider">{title}</h4>
+          <h4 className="text-xs font-mono text-muted-foreground uppercase tracking-wider">
+            {title}
+          </h4>
           <div className="flex items-end gap-2 mt-1">
             <span className="text-2xl font-bold text-foreground">{value}</span>
             <span

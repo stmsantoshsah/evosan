@@ -75,10 +75,7 @@ export default function InsightsPanel() {
             const isInfo = insight.toLowerCase().includes('insufficient data');
 
             return (
-              <div
-                key={idx}
-                className="flex gap-2 md:gap-3 items-start p-3 bg-muted rounded-lg"
-              >
+              <div key={idx} className="flex gap-2 md:gap-3 items-start p-3 bg-muted rounded-lg">
                 {isInfo ? (
                   <AlertCircle className="text-muted-foreground mt-1 shrink-0" size={14} />
                 ) : isPositive ? (
@@ -101,28 +98,41 @@ export default function InsightsPanel() {
             </span>
             <span className="text-[10px] text-muted-foreground font-mono">35% COMPLETE</span>
           </div>
-          
+
           <div className="h-1.5 w-full bg-muted rounded-full overflow-hidden relative">
             <div className="h-full bg-gradient-to-r from-teal-500 to-emerald-500 w-[35%] animate-pulse rounded-full"></div>
           </div>
 
           <div className="space-y-3 mt-4">
             <div className="flex items-center justify-between p-2.5 bg-muted rounded-xl">
-              <span className="text-[10px] text-foreground font-mono font-bold">🧠 SLEEP / BIOLOGICAL MATRIX</span>
-              <span className="text-[9px] text-yellow-500 bg-yellow-500/10 border border-yellow-500/20 px-2 py-0.5 rounded font-mono font-bold">MATCHING</span>
+              <span className="text-[10px] text-foreground font-mono font-bold">
+                🧠 SLEEP / BIOLOGICAL MATRIX
+              </span>
+              <span className="text-[9px] text-yellow-500 bg-yellow-500/10 border border-yellow-500/20 px-2 py-0.5 rounded font-mono font-bold">
+                MATCHING
+              </span>
             </div>
             <div className="flex items-center justify-between p-2.5 bg-muted rounded-xl">
-              <span className="text-[10px] text-foreground font-mono font-bold">⚡ CIRCADIAN FLOW SYNC</span>
-              <span className="text-[9px] text-teal-400 bg-teal-500/10 border border-teal-500/20 px-2 py-0.5 rounded font-mono font-bold">SYNTHESIZING</span>
+              <span className="text-[10px] text-foreground font-mono font-bold">
+                ⚡ CIRCADIAN FLOW SYNC
+              </span>
+              <span className="text-[9px] text-teal-400 bg-teal-500/10 border border-teal-500/20 px-2 py-0.5 rounded font-mono font-bold">
+                SYNTHESIZING
+              </span>
             </div>
             <div className="flex items-center justify-between p-2.5 bg-muted/60 rounded-xl opacity-60">
-              <span className="text-[10px] text-foreground font-mono font-bold">🎯 COGNITIVE DIRECTIVE</span>
-              <span className="text-[9px] text-zinc-500 bg-zinc-500/10 border border-zinc-500/20 px-2 py-0.5 rounded font-mono">STANDBY</span>
+              <span className="text-[10px] text-foreground font-mono font-bold">
+                🎯 COGNITIVE DIRECTIVE
+              </span>
+              <span className="text-[9px] text-zinc-500 bg-zinc-500/10 border border-zinc-500/20 px-2 py-0.5 rounded font-mono">
+                STANDBY
+              </span>
             </div>
           </div>
 
           <p className="text-[10px] text-muted-foreground text-center font-mono mt-3 leading-relaxed">
-            Correlation engine analyzing logs. Keep committing habits and logs daily to unlock complete neural patterns.
+            Correlation engine analyzing logs. Keep committing habits and logs daily to unlock
+            complete neural patterns.
           </p>
         </div>
       )}

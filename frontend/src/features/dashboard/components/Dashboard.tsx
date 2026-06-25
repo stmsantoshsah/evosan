@@ -214,9 +214,9 @@ export default function Dashboard() {
         className={`fixed bottom-6 right-6 z-50 w-14 h-14 rounded-full bg-gradient-to-tr from-emerald-500 to-teal-400 text-white shadow-[0_0_20px_rgba(16,185,129,0.45)] hover:shadow-[0_0_30px_rgba(16,185,129,0.6)] flex items-center justify-center hover:scale-110 active:scale-95 transition-all duration-300 border border-emerald-400/30 group`}
         aria-label="Toggle Neural Chat"
       >
-        <MessageSquare 
-          size={22} 
-          className={`transition-transform duration-500 ${isChatOpen ? 'rotate-180 scale-90' : 'group-hover:rotate-12'}`} 
+        <MessageSquare
+          size={22}
+          className={`transition-transform duration-500 ${isChatOpen ? 'rotate-180 scale-90' : 'group-hover:rotate-12'}`}
         />
         {/* Pulsing online status indicator */}
         <span className="absolute top-0 right-0 w-3 h-3 bg-emerald-300 rounded-full border-2 border-background animate-pulse"></span>

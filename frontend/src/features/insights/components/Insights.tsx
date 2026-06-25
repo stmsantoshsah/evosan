@@ -103,7 +103,9 @@ export default function Insights() {
             <div className="w-full md:w-2/3 bg-card border border-border rounded-xl p-6 flex flex-col justify-center shadow-md">
               <div className="flex items-center gap-2 mb-2">
                 <TrendingUp size={16} className="text-purple-500 dark:text-purple-400" />
-                <span className="text-purple-600 dark:text-purple-400 font-bold text-sm">MAJOR TREND IDENTIFIED</span>
+                <span className="text-purple-600 dark:text-purple-400 font-bold text-sm">
+                  MAJOR TREND IDENTIFIED
+                </span>
               </div>
               <p className="text-muted-foreground text-sm">
                 Your mood logic suggests a strong correlation with your consistency.{' '}
@@ -142,7 +144,9 @@ export default function Insights() {
               <h3 className="text-teal-600 dark:text-teal-400 font-bold font-mono text-lg mb-2">
                 🚀 TACTICAL DIRECTIVE
               </h3>
-              <p className="text-teal-900 dark:text-teal-100 text-lg font-medium mb-4">"{analysis.directive}"</p>
+              <p className="text-teal-900 dark:text-teal-100 text-lg font-medium mb-4">
+                "{analysis.directive}"
+              </p>
 
               <div className="flex gap-3">
                 <button

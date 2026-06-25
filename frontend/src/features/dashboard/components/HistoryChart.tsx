@@ -25,7 +25,10 @@ export default function HistoryChart({ data }: { data: any[] }) {
     : data;
 
   return (
-    <div className="h-64 w-full relative group/chart" style={{ width: '100%', height: 250, minHeight: 250 }}>
+    <div
+      className="h-64 w-full relative group/chart"
+      style={{ width: '100%', height: 250, minHeight: 250 }}
+    >
       {isPlaceholder && (
         <div className="absolute inset-0 bg-background/50 backdrop-blur-[2px] flex flex-col items-center justify-center text-center p-4 z-20 rounded-xl transition-all duration-300">
           <div className="flex items-center gap-2 mb-2">
@@ -42,7 +45,9 @@ export default function HistoryChart({ data }: { data: any[] }) {
           </p>
         </div>
       )}
-      <div className={`w-full h-full transition-all duration-500 ${isPlaceholder ? 'opacity-30 blur-[0.5px] select-none pointer-events-none' : ''}`}>
+      <div
+        className={`w-full h-full transition-all duration-500 ${isPlaceholder ? 'opacity-30 blur-[0.5px] select-none pointer-events-none' : ''}`}
+      >
         <ResponsiveContainer width="100%" height="100%" minHeight={250} minWidth={300}>
           <AreaChart data={chartData} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
             <defs>
@@ -86,7 +91,11 @@ export default function HistoryChart({ data }: { data: any[] }) {
                 boxShadow: '0 10px 25px -5px rgba(0, 0, 0, 0.1)',
               }}
               itemStyle={{ color: 'var(--foreground)', fontWeight: 500, fontSize: '12px' }}
-              labelStyle={{ color: 'var(--muted-foreground)', marginBottom: '4px', fontSize: '11px' }}
+              labelStyle={{
+                color: 'var(--muted-foreground)',
+                marginBottom: '4px',
+                fontSize: '11px',
+              }}
             />
             <Area
               type="monotone"

@@ -1,6 +1,5 @@
 import React from 'react';
 
-
 interface MuscleGroupProps {
   name: string;
   status: number; // 0-100
@@ -38,7 +37,9 @@ const MuscleGroup = ({ name, status, lastTrained }: MuscleGroupProps) => {
       </div>
 
       {/* Status Text */}
-      <div className="text-[10px] text-right mt-1 text-muted-foreground/80 font-mono">{statusText}</div>
+      <div className="text-[10px] text-right mt-1 text-muted-foreground/80 font-mono">
+        {statusText}
+      </div>
     </div>
   );
 };

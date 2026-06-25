@@ -11,7 +11,9 @@ interface PRCardProps {
 const PRCard = ({ title, value, date, icon }: PRCardProps) => (
   <div className="bg-muted/40 p-4 rounded-xl flex flex-col justify-between hover:bg-muted/70 transition-all duration-300">
     <div className="flex justify-between items-start mb-2">
-      <span className="text-xs font-mono text-muted-foreground uppercase tracking-wider">{title}</span>
+      <span className="text-xs font-mono text-muted-foreground uppercase tracking-wider">
+        {title}
+      </span>
       <span className="text-muted-foreground/60">{icon}</span>
     </div>
     <div>

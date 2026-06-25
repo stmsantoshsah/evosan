@@ -204,7 +204,9 @@ export default function Journal() {
             <h2 className="text-sm font-bold text-muted-foreground uppercase tracking-widest">
               Memory Stream
             </h2>
-            <span className="text-xs text-muted-foreground/60 font-mono">{entries.length} RECORDS</span>
+            <span className="text-xs text-muted-foreground/60 font-mono">
+              {entries.length} RECORDS
+            </span>
           </div>
 
           {/* NEURAL MEMORY SEARCH BAR */}
@@ -270,11 +272,15 @@ export default function Journal() {
                                 day: 'numeric',
                               })}
                             </span>
-                            <span className={`text-[10px] font-mono px-2 py-0.5 rounded-full ${
-                                match.mood >= 8 ? 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20' :
-                                match.mood <= 4 ? 'bg-amber-500/10 text-amber-600 dark:text-amber-400 border border-amber-500/20' :
-                                'bg-teal-500/10 text-teal-600 dark:text-teal-400 border border-teal-500/20'
-                            }`}>
+                            <span
+                              className={`text-[10px] font-mono px-2 py-0.5 rounded-full ${
+                                match.mood >= 8
+                                  ? 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20'
+                                  : match.mood <= 4
+                                    ? 'bg-amber-500/10 text-amber-600 dark:text-amber-400 border border-amber-500/20'
+                                    : 'bg-teal-500/10 text-teal-600 dark:text-teal-400 border border-teal-500/20'
+                              }`}
+                            >
                               MOOD: {match.mood}/10
                             </span>
                           </div>
@@ -296,10 +302,7 @@ export default function Journal() {
           {isFetchingEntries ? (
             <div className="space-y-4 animate-pulse">
               {[1, 2, 3].map((i) => (
-                <div
-                  key={i}
-                  className="h-32 bg-card rounded-xl border border-border"
-                ></div>
+                <div key={i} className="h-32 bg-card rounded-xl border border-border"></div>
               ))}
             </div>
           ) : (

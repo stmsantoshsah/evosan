@@ -153,9 +153,15 @@ export default function Habits() {
           className="bg-input border border-border rounded-lg px-4 py-3 text-sm outline-none text-muted-foreground"
           disabled={isLoading}
         >
-          <option value="health" className="bg-card text-foreground">Morning (Health)</option>
-          <option value="learning" className="bg-card text-foreground">Day (Learning)</option>
-          <option value="creation" className="bg-card text-foreground">Night (Disconnect)</option>
+          <option value="health" className="bg-card text-foreground">
+            Morning (Health)
+          </option>
+          <option value="learning" className="bg-card text-foreground">
+            Day (Learning)
+          </option>
+          <option value="creation" className="bg-card text-foreground">
+            Night (Disconnect)
+          </option>
         </select>
         <button
           type="submit"

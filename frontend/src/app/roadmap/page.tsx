@@ -74,26 +74,75 @@ const ROADMAP_DATA: QuarterData[] = [
     date: 'May - June 2026',
     focus: 'Mastering experiment logging, core backend syntax, and professional daily standups.',
     goals: [
-      { id: 'q2_eng_1', text: 'Daily Morning Sync: Apply Standup Script A or B from English Plan.', category: 'english' },
-      { id: 'q2_eng_2', text: 'Speaking practice: 5 minutes daily on ChatGPT Voice Mode at night.', category: 'english' },
-      { id: 'q2_stack_1', text: 'SQL Whiteboard drill: Recreate classic raw queries (Joins/Rank) from memory.', category: 'stack' },
-      { id: 'q2_stack_2', text: 'NestJS whiteboards: Mock controllers, services & dependency injection patterns.', category: 'stack' },
-      { id: 'q2_mlops_1', text: 'MLflow Logging: Track hyperparameters & accuracy locally.', category: 'mlops' },
-      { id: 'q2_mlops_2', text: 'MLflow Registry: Successfully train and register a Scikit-Learn model.', category: 'mlops' },
+      {
+        id: 'q2_eng_1',
+        text: 'Daily Morning Sync: Apply Standup Script A or B from English Plan.',
+        category: 'english',
+      },
+      {
+        id: 'q2_eng_2',
+        text: 'Speaking practice: 5 minutes daily on ChatGPT Voice Mode at night.',
+        category: 'english',
+      },
+      {
+        id: 'q2_stack_1',
+        text: 'SQL Whiteboard drill: Recreate classic raw queries (Joins/Rank) from memory.',
+        category: 'stack',
+      },
+      {
+        id: 'q2_stack_2',
+        text: 'NestJS whiteboards: Mock controllers, services & dependency injection patterns.',
+        category: 'stack',
+      },
+      {
+        id: 'q2_mlops_1',
+        text: 'MLflow Logging: Track hyperparameters & accuracy locally.',
+        category: 'mlops',
+      },
+      {
+        id: 'q2_mlops_2',
+        text: 'MLflow Registry: Successfully train and register a Scikit-Learn model.',
+        category: 'mlops',
+      },
     ],
   },
   {
     id: 'q3',
     title: 'Q3: Data Pipelines & Modern Frontend',
     date: 'July - September 2026',
-    focus: 'Automating workflows, mastering React/Next.js data flows, and thinking directly in English.',
+    focus:
+      'Automating workflows, mastering React/Next.js data flows, and thinking directly in English.',
     goals: [
-      { id: 'q3_eng_1', text: 'Narrative Coding: Describe your coding out loud in English to eliminate native translation.', category: 'english' },
-      { id: 'q3_eng_2', text: 'PR Writing formula: Draft all PR descriptions using Context ➔ Action ➔ Result.', category: 'english' },
-      { id: 'q3_stack_1', text: 'Next.js 14: Master Server vs Client Component boundaries and data hydration.', category: 'stack' },
-      { id: 'q3_stack_2', text: 'Explain Next.js SSR optimization out loud in English from a technical standpoint.', category: 'stack' },
-      { id: 'q3_mlops_1', text: 'DVC Setup: Version control a large dataset backed by AWS S3.', category: 'mlops' },
-      { id: 'q3_mlops_2', text: 'Workflow Orchestration: Create a Prefect pipeline triggered by database inserts.', category: 'mlops' },
+      {
+        id: 'q3_eng_1',
+        text: 'Narrative Coding: Describe your coding out loud in English to eliminate native translation.',
+        category: 'english',
+      },
+      {
+        id: 'q3_eng_2',
+        text: 'PR Writing formula: Draft all PR descriptions using Context ➔ Action ➔ Result.',
+        category: 'english',
+      },
+      {
+        id: 'q3_stack_1',
+        text: 'Next.js 14: Master Server vs Client Component boundaries and data hydration.',
+        category: 'stack',
+      },
+      {
+        id: 'q3_stack_2',
+        text: 'Explain Next.js SSR optimization out loud in English from a technical standpoint.',
+        category: 'stack',
+      },
+      {
+        id: 'q3_mlops_1',
+        text: 'DVC Setup: Version control a large dataset backed by AWS S3.',
+        category: 'mlops',
+      },
+      {
+        id: 'q3_mlops_2',
+        text: 'Workflow Orchestration: Create a Prefect pipeline triggered by database inserts.',
+        category: 'mlops',
+      },
     ],
   },
   {
@@ -102,11 +151,31 @@ const ROADMAP_DATA: QuarterData[] = [
     date: 'October - December 2026',
     focus: 'Scaling models, mastering Python microservices, and leading high-pressure meetings.',
     goals: [
-      { id: 'q4_eng_1', text: 'Blocker Management: Explain technical roadblocks using clear business analogies.', category: 'english' },
-      { id: 'q4_stack_1', text: 'FastAPI schemas: Whiteboard asynchronous endpoints with Pydantic validation.', category: 'stack' },
-      { id: 'q4_stack_2', text: 'Microservices: Explain asynchronous Python advantages for LLM execution.', category: 'stack' },
-      { id: 'q4_mlops_1', text: 'Model Packaging: Containerize trained model runners inside BentoML.', category: 'mlops' },
-      { id: 'q4_mlops_2', text: 'AWS Deployment: Write a multi-stage Dockerfile and push to AWS ECS.', category: 'mlops' },
+      {
+        id: 'q4_eng_1',
+        text: 'Blocker Management: Explain technical roadblocks using clear business analogies.',
+        category: 'english',
+      },
+      {
+        id: 'q4_stack_1',
+        text: 'FastAPI schemas: Whiteboard asynchronous endpoints with Pydantic validation.',
+        category: 'stack',
+      },
+      {
+        id: 'q4_stack_2',
+        text: 'Microservices: Explain asynchronous Python advantages for LLM execution.',
+        category: 'stack',
+      },
+      {
+        id: 'q4_mlops_1',
+        text: 'Model Packaging: Containerize trained model runners inside BentoML.',
+        category: 'mlops',
+      },
+      {
+        id: 'q4_mlops_2',
+        text: 'AWS Deployment: Write a multi-stage Dockerfile and push to AWS ECS.',
+        category: 'mlops',
+      },
     ],
   },
   {
@@ -115,28 +184,72 @@ const ROADMAP_DATA: QuarterData[] = [
     date: 'January - March 2027',
     focus: 'High availability, enterprise system design, and advanced technical presence.',
     goals: [
-      { id: 'q1_eng_1', text: 'Mock Interviews: Standard mock QA sessions under technical evaluation pressure.', category: 'english' },
-      { id: 'q1_stack_1', text: 'Distributed Patterns: Whiteboard Transactional Outbox & Saga design patterns.', category: 'stack' },
-      { id: 'q1_stack_2', text: 'Integrate QuickBooks sync details into microservice system design discussions.', category: 'stack' },
-      { id: 'q1_mlops_1', text: 'Production Drift: Set up Evidently AI calculations on input feature drifts.', category: 'mlops' },
-      { id: 'q1_mlops_2', text: 'Observability: Configure automated weekly quality PDF reports on AWS.', category: 'mlops' },
+      {
+        id: 'q1_eng_1',
+        text: 'Mock Interviews: Standard mock QA sessions under technical evaluation pressure.',
+        category: 'english',
+      },
+      {
+        id: 'q1_stack_1',
+        text: 'Distributed Patterns: Whiteboard Transactional Outbox & Saga design patterns.',
+        category: 'stack',
+      },
+      {
+        id: 'q1_stack_2',
+        text: 'Integrate QuickBooks sync details into microservice system design discussions.',
+        category: 'stack',
+      },
+      {
+        id: 'q1_mlops_1',
+        text: 'Production Drift: Set up Evidently AI calculations on input feature drifts.',
+        category: 'mlops',
+      },
+      {
+        id: 'q1_mlops_2',
+        text: 'Observability: Configure automated weekly quality PDF reports on AWS.',
+        category: 'mlops',
+      },
     ],
   },
 ];
 
 const WEEKLY_CHECKPOINTS = [
-  { id: 'chk_mon', text: 'Monday Standup: Execute clear Context ➔ Action ➔ Result update', day: 'Mon' },
+  {
+    id: 'chk_mon',
+    text: 'Monday Standup: Execute clear Context ➔ Action ➔ Result update',
+    day: 'Mon',
+  },
   { id: 'chk_wed', text: 'Wednesday Stack Drill: 15 mins paper whiteboard coding', day: 'Wed' },
   { id: 'chk_sat', text: 'Saturday Legacy Code: 2 hours MLOps project implementation', day: 'Sat' },
   { id: 'chk_sun', text: 'Sunday blueprint sync: Log metrics & review roadmap', day: 'Sun' },
 ];
 
 const TITAN_SCHEDULE = [
-  { time: '08:00 AM', label: 'Bus to Office', desc: 'Learning Lab: MLOps Podcasts / Deep Docs', icon: BookOpen },
-  { time: '09:30 AM', label: 'Office Hours', desc: 'High-Performance Coding / PR Writing', icon: Code },
-  { time: '06:30 PM', label: 'Bus to Home', desc: 'English Shadowing / Audiobooks', icon: MessageSquare },
+  {
+    time: '08:00 AM',
+    label: 'Bus to Office',
+    desc: 'Learning Lab: MLOps Podcasts / Deep Docs',
+    icon: BookOpen,
+  },
+  {
+    time: '09:30 AM',
+    label: 'Office Hours',
+    desc: 'High-Performance Coding / PR Writing',
+    icon: Code,
+  },
+  {
+    time: '06:30 PM',
+    label: 'Bus to Home',
+    desc: 'English Shadowing / Audiobooks',
+    icon: MessageSquare,
+  },
   { time: '09:00 PM', label: 'Legacy Block', desc: 'MLOps Coding & Stack whiteboards', icon: Cpu },
-  { time: '10:15 PM', label: 'Speech Polish', desc: 'ChatGPT Voice Mode Conversation', icon: Flame },
+  {
+    time: '10:15 PM',
+    label: 'Speech Polish',
+    desc: 'ChatGPT Voice Mode Conversation',
+    icon: Flame,
+  },
 ];
 
 const SYLLABUS_DATA: SubjectData[] = [
@@ -151,9 +264,15 @@ const SYLLABUS_DATA: SubjectData[] = [
         title: 'Topic 1: Experimentation & Model Registries (MLflow)',
         subtopics: [
           { id: 'mlops_s1_1', text: 'MLflow local server installation and dashboard setup' },
-          { id: 'mlops_s1_2', text: 'Logging hyperparameters, training logs, and artifacts (.pkl)' },
+          {
+            id: 'mlops_s1_2',
+            text: 'Logging hyperparameters, training logs, and artifacts (.pkl)',
+          },
           { id: 'mlops_s1_3', text: 'Model Versioning & Registry UI operations' },
-          { id: 'mlops_s1_4', text: 'Writing automated Python scripts to train and register models' },
+          {
+            id: 'mlops_s1_4',
+            text: 'Writing automated Python scripts to train and register models',
+          },
         ],
       },
       {
@@ -171,7 +290,10 @@ const SYLLABUS_DATA: SubjectData[] = [
         subtopics: [
           { id: 'mlops_s3_1', text: 'Defining structured Prefect tasks and flows' },
           { id: 'mlops_s3_2', text: 'Building weekly schedules for automated data fetching' },
-          { id: 'mlops_s3_3', text: 'Triggering model training pipelines via database insertion hooks' },
+          {
+            id: 'mlops_s3_3',
+            text: 'Triggering model training pipelines via database insertion hooks',
+          },
         ],
       },
       {
@@ -189,7 +311,10 @@ const SYLLABUS_DATA: SubjectData[] = [
         subtopics: [
           { id: 'mlops_s5_1', text: 'Setting up Evidently AI on production inference logs' },
           { id: 'mlops_s5_2', text: 'Calculating data drift and feature quality changes' },
-          { id: 'mlops_s5_3', text: 'Creating automated weekly model performance drift PDF reports' },
+          {
+            id: 'mlops_s5_3',
+            text: 'Creating automated weekly model performance drift PDF reports',
+          },
         ],
       },
     ],
@@ -204,8 +329,14 @@ const SYLLABUS_DATA: SubjectData[] = [
         id: 'eng_t1',
         title: 'Topic 1: Cognitive Speaking Drills',
         subtopics: [
-          { id: 'eng_s1_1', text: 'Narrative Coding: Narrating your code out loud in English while coding (5m/day)' },
-          { id: 'eng_s1_2', text: 'Thinking in English: Deleting the native-language translation lag' },
+          {
+            id: 'eng_s1_1',
+            text: 'Narrative Coding: Narrating your code out loud in English while coding (5m/day)',
+          },
+          {
+            id: 'eng_s1_2',
+            text: 'Thinking in English: Deleting the native-language translation lag',
+          },
         ],
       },
       {
@@ -213,15 +344,24 @@ const SYLLABUS_DATA: SubjectData[] = [
         title: 'Topic 2: AI Conversation Partners',
         subtopics: [
           { id: 'eng_s2_1', text: 'Practicing technical debates using ChatGPT Voice Mode' },
-          { id: 'eng_s2_2', text: 'Speaking daily morning sync updates with structured AI feedback prompts' },
+          {
+            id: 'eng_s2_2',
+            text: 'Speaking daily morning sync updates with structured AI feedback prompts',
+          },
         ],
       },
       {
         id: 'eng_t3',
         title: 'Topic 3: Technical Written Presence',
         subtopics: [
-          { id: 'eng_s3_1', text: 'Drafting Slack updates using the Context ➔ Action ➔ Result formula' },
-          { id: 'eng_s3_2', text: 'Writing pixel-perfect, structured PR documentation for team clarity' },
+          {
+            id: 'eng_s3_1',
+            text: 'Drafting Slack updates using the Context ➔ Action ➔ Result formula',
+          },
+          {
+            id: 'eng_s3_2',
+            text: 'Writing pixel-perfect, structured PR documentation for team clarity',
+          },
         ],
       },
       {
@@ -229,7 +369,10 @@ const SYLLABUS_DATA: SubjectData[] = [
         title: 'Topic 4: Professional Standup Mastery',
         subtopics: [
           { id: 'eng_s4_1', text: 'Standup Script A practice (for clean, on-track deliveries)' },
-          { id: 'eng_s4_2', text: 'Standup Script B practice (managing blockers & stepping in for peer support)' },
+          {
+            id: 'eng_s4_2',
+            text: 'Standup Script B practice (managing blockers & stepping in for peer support)',
+          },
         ],
       },
     ],
@@ -245,8 +388,14 @@ const SYLLABUS_DATA: SubjectData[] = [
         title: 'Topic 1: Whiteboard SQL Mastery',
         subtopics: [
           { id: 'st_s1_1', text: 'Writing raw SQL inner/left joins from memory once a week' },
-          { id: 'st_s1_2', text: 'Solving 2nd Highest Salary & Duplicate records whiteboard questions' },
-          { id: 'st_s1_3', text: 'Applying advanced analytical window functions (DENSE_RANK) without helpers' },
+          {
+            id: 'st_s1_2',
+            text: 'Solving 2nd Highest Salary & Duplicate records whiteboard questions',
+          },
+          {
+            id: 'st_s1_3',
+            text: 'Applying advanced analytical window functions (DENSE_RANK) without helpers',
+          },
         ],
       },
       {
@@ -261,16 +410,28 @@ const SYLLABUS_DATA: SubjectData[] = [
         id: 'st_t3',
         title: 'Topic 3: Modern Next.js Data Flow',
         subtopics: [
-          { id: 'st_s3_1', text: 'Understanding Next.js 14 Server vs Client Component rendering boundaries' },
-          { id: 'st_s3_2', text: 'Explaining SSR caching policies and data hydration architectures' },
+          {
+            id: 'st_s3_1',
+            text: 'Understanding Next.js 14 Server vs Client Component rendering boundaries',
+          },
+          {
+            id: 'st_s3_2',
+            text: 'Explaining SSR caching policies and data hydration architectures',
+          },
         ],
       },
       {
         id: 'st_t4',
         title: 'Topic 4: High-Performance Distributed Patterns',
         subtopics: [
-          { id: 'st_s4_1', text: 'Mastering Transactional Outbox pattern design for messaging safety' },
-          { id: 'st_s4_2', text: 'Designing Saga Orchestrations for complex integrations (like QuickBooks Sync)' },
+          {
+            id: 'st_s4_1',
+            text: 'Mastering Transactional Outbox pattern design for messaging safety',
+          },
+          {
+            id: 'st_s4_2',
+            text: 'Designing Saga Orchestrations for complex integrations (like QuickBooks Sync)',
+          },
         ],
       },
     ],
@@ -283,7 +444,13 @@ const SCENARIOS_DATA: ScenarioData[] = [
     title: '1-Minute elevator Pitch',
     desc: 'Perfect for quick introductions with new team members, engineers, or cross-functional departments in casual slack or standup syncs.',
     script: `Hey everyone, I'm Santosh Sah. I'm a Senior Backend and AI Platform Engineer at Go Brilliant. For the past four years, I've focused heavily on building high-performance APIs and orchestrating scalable backend architectures—mostly leveraging NestJS, Next.js, and Python. I love solving complex data flow challenges and ensuring our production servers run smoothly. Really excited to collaborate with you all!`,
-    powerWords: ['Senior Backend', 'AI Platform Engineer', 'orchestrating', 'leveraging', 'data flow challenges'],
+    powerWords: [
+      'Senior Backend',
+      'AI Platform Engineer',
+      'orchestrating',
+      'leveraging',
+      'data flow challenges',
+    ],
     chatgptPrompt: `Act as an engineering coach. I want to practice my senior software developer 1-minute elevator introduction. Ask me to introduce myself, listen carefully to my vocal clarity, and give me highly specific feedback on my transition pacing, tone, and confidence.`,
   },
   {
@@ -293,7 +460,15 @@ const SCENARIOS_DATA: ScenarioData[] = [
     script: `Good morning. I'm Santosh, a Senior Software Engineer with over four years of production experience specializing in scalable backend systems and AI architectures. Throughout my career, I've successfully designed and delivered robust microservice platforms using NestJS, Next.js, and Python. 
 
 For instance, at Go Brilliant, I independently architected the entire QuickBooks invoice sync integration, which handled thousands of complex financial transactions seamlessly. I also spearheaded multiple AI integrations—moving beyond simple API wrappers to write core agentic pipelines. I'm really looking forward to discussing how I can leverage my architectural expertise and MLOps learnings to add massive value to your team.`,
-    powerWords: ['production experience', 'scalable backend systems', 'successfully designed and delivered', 'independently architected', 'financial transactions seamlessly', 'spearheaded multiple AI integrations', 'leverage my architectural expertise'],
+    powerWords: [
+      'production experience',
+      'scalable backend systems',
+      'successfully designed and delivered',
+      'independently architected',
+      'financial transactions seamlessly',
+      'spearheaded multiple AI integrations',
+      'leverage my architectural expertise',
+    ],
     chatgptPrompt: `Act as a senior engineering hiring director conducting a technical WebEx interview. Ask me the opening question: "Tell me about yourself and walk me through your technical highlights." Evaluate my answer on architectural depth, structural clarity, and executive presence.`,
   },
   {
@@ -303,7 +478,15 @@ For instance, at Go Brilliant, I independently architected the entire QuickBooks
     script: `Hello team. I'm Santosh Sah, the Senior Backend Architect. My primary objective on this project is to ensure that our platform's infrastructure is built for maximum scalability, absolute security, and perfect alignment with your core business requirements. 
 
 We are leveraging a modular NestJS framework alongside Next.js Server Components to deliver an incredibly fast, highly optimized user experience. I will keep you updated on all technical milestones and potential blockers proactively, ensuring a transparent and highly successful delivery.`,
-    powerWords: ['Senior Backend Architect', 'maximum scalability', 'perfect alignment', 'core business requirements', 'highly optimized user experience', 'technical milestones', 'highly successful delivery'],
+    powerWords: [
+      'Senior Backend Architect',
+      'maximum scalability',
+      'perfect alignment',
+      'core business requirements',
+      'highly optimized user experience',
+      'technical milestones',
+      'highly successful delivery',
+    ],
     chatgptPrompt: `Act as a non-technical product owner or business client in a project kickoff meeting. Ask me: "Santosh, what is your architectural strategy for this rollout, and how will it protect our release timeline?" Judge my answer on how well I bridge technical choices to business value.`,
   },
 ];
@@ -332,7 +515,7 @@ export default function RoadmapPage() {
 
   // Time-based auto quarter detector
   const getActiveQuarterId = (): string => {
-    const month = new Date().getMonth(); 
+    const month = new Date().getMonth();
     if (month >= 4 && month <= 5) return 'q2';
     if (month >= 6 && month <= 8) return 'q3';
     if (month >= 9 && month <= 11) return 'q4';
@@ -345,7 +528,7 @@ export default function RoadmapPage() {
     const dayNum = date.getUTCDay() || 7;
     date.setUTCDate(date.getUTCDate() + 4 - dayNum);
     const yearStart = new Date(Date.UTC(date.getUTCFullYear(), 0, 1));
-    return Math.ceil((((date.getTime() - yearStart.getTime()) / 86400000) + 1) / 7);
+    return Math.ceil(((date.getTime() - yearStart.getTime()) / 86400000 + 1) / 7);
   };
 
   useEffect(() => {
@@ -445,9 +628,9 @@ export default function RoadmapPage() {
     window.speechSynthesis.cancel();
     const utterance = new SpeechSynthesisUtterance(text);
     const voices = window.speechSynthesis.getVoices();
-    
+
     // Choose a high-quality professional US/UK voice
-    const engVoice = voices.find(v => v.lang.startsWith('en-US') || v.lang.startsWith('en-GB'));
+    const engVoice = voices.find((v) => v.lang.startsWith('en-US') || v.lang.startsWith('en-GB'));
     if (engVoice) {
       utterance.voice = engVoice;
     }
@@ -479,32 +662,50 @@ export default function RoadmapPage() {
   // Math metrics helper (Quarterly Goals)
   const allGoals = ROADMAP_DATA.flatMap((q) => q.goals);
   const completedTotalCount = allGoals.filter((g) => checkedGoals[g.id]).length;
-  const overallPercentage = allGoals.length > 0 ? Math.round((completedTotalCount / allGoals.length) * 100) : 0;
+  const overallPercentage =
+    allGoals.length > 0 ? Math.round((completedTotalCount / allGoals.length) * 100) : 0;
 
   // Math metrics helper (Syllabus subtopics)
   const allSubtopics = SYLLABUS_DATA.flatMap((s) => s.topics.flatMap((t) => t.subtopics));
   const completedSubtopicsCount = allSubtopics.filter((sub) => checkedSubtopics[sub.id]).length;
-  const overallSyllabusPercentage = allSubtopics.length > 0 ? Math.round((completedSubtopicsCount / allSubtopics.length) * 100) : 0;
+  const overallSyllabusPercentage =
+    allSubtopics.length > 0 ? Math.round((completedSubtopicsCount / allSubtopics.length) * 100) : 0;
 
   const currentQuarterData = ROADMAP_DATA.find((q) => q.id === selectedQuarter) || ROADMAP_DATA[0];
   const quarterCompletedCount = currentQuarterData.goals.filter((g) => checkedGoals[g.id]).length;
-  const quarterPercentage = currentQuarterData.goals.length > 0 ? Math.round((quarterCompletedCount / currentQuarterData.goals.length) * 100) : 0;
+  const quarterPercentage =
+    currentQuarterData.goals.length > 0
+      ? Math.round((quarterCompletedCount / currentQuarterData.goals.length) * 100)
+      : 0;
 
-  const currentSubjectData = SYLLABUS_DATA.find((s) => s.id === selectedSubject) || SYLLABUS_DATA[0];
+  const currentSubjectData =
+    SYLLABUS_DATA.find((s) => s.id === selectedSubject) || SYLLABUS_DATA[0];
   const subjectSubtopics = currentSubjectData.topics.flatMap((t) => t.subtopics);
   const subjectCompletedCount = subjectSubtopics.filter((sub) => checkedSubtopics[sub.id]).length;
-  const subjectPercentage = subjectSubtopics.length > 0 ? Math.round((subjectCompletedCount / subjectSubtopics.length) * 100) : 0;
+  const subjectPercentage =
+    subjectSubtopics.length > 0
+      ? Math.round((subjectCompletedCount / subjectSubtopics.length) * 100)
+      : 0;
 
   // Practice tab scenario picker
-  const activeScenarioData = SCENARIOS_DATA.find((s) => s.id === selectedScenario) || SCENARIOS_DATA[0];
+  const activeScenarioData =
+    SCENARIOS_DATA.find((s) => s.id === selectedScenario) || SCENARIOS_DATA[0];
 
   const highlightPowerWords = (text: string, words: string[]) => {
     let highlighted = text;
     words.forEach((word) => {
       const regex = new RegExp(`(${word})`, 'gi');
-      highlighted = highlighted.replace(regex, '<span class="text-rose-500 font-extrabold underline decoration-rose-500/40">$1</span>');
+      highlighted = highlighted.replace(
+        regex,
+        '<span class="text-rose-500 font-extrabold underline decoration-rose-500/40">$1</span>'
+      );
     });
-    return <p className="text-xs md:text-sm leading-relaxed text-foreground bg-card p-4 rounded-xl border border-border/40 italic" dangerouslySetInnerHTML={{ __html: highlighted }} />;
+    return (
+      <p
+        className="text-xs md:text-sm leading-relaxed text-foreground bg-card p-4 rounded-xl border border-border/40 italic"
+        dangerouslySetInnerHTML={{ __html: highlighted }}
+      />
+    );
   };
 
   if (!mounted) {
@@ -522,7 +723,9 @@ export default function RoadmapPage() {
         <div>
           <div className="flex items-center gap-2 text-primary mb-1">
             <Compass size={18} className="animate-spin-slow" />
-            <span className="text-[10px] font-bold uppercase tracking-widest text-primary/80">Career GPS</span>
+            <span className="text-[10px] font-bold uppercase tracking-widest text-primary/80">
+              Career GPS
+            </span>
           </div>
           <h1 className="text-xl md:text-2xl font-bold text-foreground">
             2026 Career Transformation Roadmap
@@ -547,16 +750,35 @@ export default function RoadmapPage() {
           <div className="flex items-center gap-3 bg-card px-3.5 py-2 rounded-xl border border-border/80 shadow-sm">
             <div className="relative w-10 h-10 flex items-center justify-center">
               <svg className="absolute w-full h-full transform -rotate-90">
-                <circle cx="20" cy="20" r="16" stroke="currentColor" className="text-muted/30" strokeWidth="2.5" fill="transparent" />
-                <circle cx="20" cy="20" r="16" stroke="currentColor" className="text-primary transition-all duration-700" strokeWidth="3" fill="transparent"
+                <circle
+                  cx="20"
+                  cy="20"
+                  r="16"
+                  stroke="currentColor"
+                  className="text-muted/30"
+                  strokeWidth="2.5"
+                  fill="transparent"
+                />
+                <circle
+                  cx="20"
+                  cy="20"
+                  r="16"
+                  stroke="currentColor"
+                  className="text-primary transition-all duration-700"
+                  strokeWidth="3"
+                  fill="transparent"
                   strokeDasharray={2 * Math.PI * 16}
                   strokeDashoffset={2 * Math.PI * 16 * (1 - overallPercentage / 100)}
                 />
               </svg>
-              <span className="text-[10px] font-mono font-bold text-foreground">{overallPercentage}%</span>
+              <span className="text-[10px] font-mono font-bold text-foreground">
+                {overallPercentage}%
+              </span>
             </div>
             <div>
-              <div className="text-[8px] uppercase tracking-widest text-muted-foreground font-bold">Milestones</div>
+              <div className="text-[8px] uppercase tracking-widest text-muted-foreground font-bold">
+                Milestones
+              </div>
               <div className="text-xs font-extrabold text-foreground">
                 {completedTotalCount}/{allGoals.length} Done
               </div>
@@ -567,16 +789,35 @@ export default function RoadmapPage() {
           <div className="flex items-center gap-3 bg-card px-3.5 py-2 rounded-xl border border-border/80 shadow-sm">
             <div className="relative w-10 h-10 flex items-center justify-center">
               <svg className="absolute w-full h-full transform -rotate-90">
-                <circle cx="20" cy="20" r="16" stroke="currentColor" className="text-muted/30" strokeWidth="2.5" fill="transparent" />
-                <circle cx="20" cy="20" r="16" stroke="currentColor" className="text-secondary transition-all duration-700" strokeWidth="3" fill="transparent"
+                <circle
+                  cx="20"
+                  cy="20"
+                  r="16"
+                  stroke="currentColor"
+                  className="text-muted/30"
+                  strokeWidth="2.5"
+                  fill="transparent"
+                />
+                <circle
+                  cx="20"
+                  cy="20"
+                  r="16"
+                  stroke="currentColor"
+                  className="text-secondary transition-all duration-700"
+                  strokeWidth="3"
+                  fill="transparent"
                   strokeDasharray={2 * Math.PI * 16}
                   strokeDashoffset={2 * Math.PI * 16 * (1 - overallSyllabusPercentage / 100)}
                 />
               </svg>
-              <span className="text-[10px] font-mono font-bold text-foreground">{overallSyllabusPercentage}%</span>
+              <span className="text-[10px] font-mono font-bold text-foreground">
+                {overallSyllabusPercentage}%
+              </span>
             </div>
             <div>
-              <div className="text-[8px] uppercase tracking-widest text-muted-foreground font-bold">Syllabus Mastered</div>
+              <div className="text-[8px] uppercase tracking-widest text-muted-foreground font-bold">
+                Syllabus Mastered
+              </div>
               <div className="text-xs font-extrabold text-foreground">
                 {completedSubtopicsCount}/{allSubtopics.length} Skills
               </div>
@@ -659,10 +900,15 @@ export default function RoadmapPage() {
                     </div>
                     {/* Micro Progress Bar */}
                     <div className="w-full bg-muted h-1 rounded-full overflow-hidden">
-                      <div className="bg-primary h-full transition-all duration-500" style={{ width: `${pct}%` }}></div>
+                      <div
+                        className="bg-primary h-full transition-all duration-500"
+                        style={{ width: `${pct}%` }}
+                      ></div>
                     </div>
                   </div>
-                  <div className={`absolute bottom-0 left-0 w-full h-0.5 transition-all duration-500 ${isActive ? 'bg-primary' : 'bg-transparent'}`} />
+                  <div
+                    className={`absolute bottom-0 left-0 w-full h-0.5 transition-all duration-500 ${isActive ? 'bg-primary' : 'bg-transparent'}`}
+                  />
                 </button>
               );
             })}
@@ -675,7 +921,9 @@ export default function RoadmapPage() {
               <div className="bg-card rounded-xl p-4 md:p-6 border border-border shadow-sm">
                 <div className="flex flex-col md:flex-row md:items-center justify-between gap-3 mb-4 pb-4 border-b border-border/80">
                   <div>
-                    <span className="text-[9px] uppercase tracking-widest text-primary font-bold">{currentQuarterData.date}</span>
+                    <span className="text-[9px] uppercase tracking-widest text-primary font-bold">
+                      {currentQuarterData.date}
+                    </span>
                     <h2 className="text-base md:text-lg font-bold text-foreground flex items-center gap-1.5 mt-0.5">
                       <Calendar size={16} className="text-secondary" />
                       {currentQuarterData.title}
@@ -685,9 +933,14 @@ export default function RoadmapPage() {
                     </p>
                   </div>
                   <div className="bg-muted/50 px-3 py-1.5 rounded-lg border border-border flex items-center gap-2.5 self-start md:self-center">
-                    <span className="text-[10px] font-bold font-mono text-muted-foreground">{quarterPercentage}% Done</span>
+                    <span className="text-[10px] font-bold font-mono text-muted-foreground">
+                      {quarterPercentage}% Done
+                    </span>
                     <div className="w-16 bg-muted h-1.5 rounded-full overflow-hidden">
-                      <div className="bg-primary h-full transition-all duration-500" style={{ width: `${quarterPercentage}%` }}></div>
+                      <div
+                        className="bg-primary h-full transition-all duration-500"
+                        style={{ width: `${quarterPercentage}%` }}
+                      ></div>
                     </div>
                   </div>
                 </div>
@@ -698,38 +951,48 @@ export default function RoadmapPage() {
                       <MessageSquare size={13} /> English & Presence
                     </h3>
                     <div className="space-y-2">
-                      {currentQuarterData.goals.filter(g => g.category === 'english').map(goal => (
-                        <div
-                          key={goal.id}
-                          onClick={() => toggleGoal(goal.id)}
-                          className={`flex flex-col gap-1 p-3 rounded-lg border transition-all duration-300 cursor-pointer ${
-                            checkedGoals[goal.id]
-                              ? 'bg-rose-500/[0.02] border-rose-500/20 text-muted-foreground'
-                              : 'bg-muted/30 border-border hover:border-rose-500/20'
-                          }`}
-                        >
-                          <div className="flex items-start gap-3">
-                            <div className={`mt-0.5 flex-shrink-0 ${checkedGoals[goal.id] ? 'text-rose-500' : 'text-muted-foreground'}`}>
-                              <CheckCircle2 size={16} fill={checkedGoals[goal.id] ? 'currentColor' : 'none'} className={checkedGoals[goal.id] ? 'text-rose-500' : ''} />
+                      {currentQuarterData.goals
+                        .filter((g) => g.category === 'english')
+                        .map((goal) => (
+                          <div
+                            key={goal.id}
+                            onClick={() => toggleGoal(goal.id)}
+                            className={`flex flex-col gap-1 p-3 rounded-lg border transition-all duration-300 cursor-pointer ${
+                              checkedGoals[goal.id]
+                                ? 'bg-rose-500/[0.02] border-rose-500/20 text-muted-foreground'
+                                : 'bg-muted/30 border-border hover:border-rose-500/20'
+                            }`}
+                          >
+                            <div className="flex items-start gap-3">
+                              <div
+                                className={`mt-0.5 flex-shrink-0 ${checkedGoals[goal.id] ? 'text-rose-500' : 'text-muted-foreground'}`}
+                              >
+                                <CheckCircle2
+                                  size={16}
+                                  fill={checkedGoals[goal.id] ? 'currentColor' : 'none'}
+                                  className={checkedGoals[goal.id] ? 'text-rose-500' : ''}
+                                />
+                              </div>
+                              <span
+                                className={`text-xs md:text-sm font-medium leading-relaxed ${checkedGoals[goal.id] ? 'line-through text-muted-foreground/60' : 'text-foreground'}`}
+                              >
+                                {goal.text}
+                              </span>
                             </div>
-                            <span className={`text-xs md:text-sm font-medium leading-relaxed ${checkedGoals[goal.id] ? 'line-through text-muted-foreground/60' : 'text-foreground'}`}>
-                              {goal.text}
-                            </span>
+
+                            {goal.id === 'q2_eng_1' && (
+                              <button
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  setIsModalOpen(true);
+                                }}
+                                className="mt-2.5 px-2 py-1 rounded text-[10px] font-bold bg-rose-500/10 text-rose-500 hover:bg-rose-500/20 border border-rose-500/20 transition-all flex items-center gap-1.5 self-start animate-pulse"
+                              >
+                                <Flame size={11} /> Open Standup Scripts Playbook
+                              </button>
+                            )}
                           </div>
-                          
-                          {goal.id === 'q2_eng_1' && (
-                            <button
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                setIsModalOpen(true);
-                              }}
-                              className="mt-2.5 px-2 py-1 rounded text-[10px] font-bold bg-rose-500/10 text-rose-500 hover:bg-rose-500/20 border border-rose-500/20 transition-all flex items-center gap-1.5 self-start animate-pulse"
-                            >
-                              <Flame size={11} /> Open Standup Scripts Playbook
-                            </button>
-                          )}
-                        </div>
-                      ))}
+                        ))}
                     </div>
                   </div>
 
@@ -738,24 +1001,34 @@ export default function RoadmapPage() {
                       <Code size={13} /> Active Stack Mastery
                     </h3>
                     <div className="space-y-2">
-                      {currentQuarterData.goals.filter(g => g.category === 'stack').map(goal => (
-                        <div
-                          key={goal.id}
-                          onClick={() => toggleGoal(goal.id)}
-                          className={`flex items-start gap-3 p-3 rounded-lg border transition-all duration-300 cursor-pointer ${
-                            checkedGoals[goal.id]
-                              ? 'bg-cyan-500/[0.02] border-cyan-500/20 text-muted-foreground'
-                              : 'bg-muted/30 border-border hover:border-cyan-500/20'
-                          }`}
-                        >
-                          <div className={`mt-0.5 flex-shrink-0 ${checkedGoals[goal.id] ? 'text-cyan-500' : 'text-muted-foreground'}`}>
-                            <CheckCircle2 size={16} fill={checkedGoals[goal.id] ? 'currentColor' : 'none'} className={checkedGoals[goal.id] ? 'text-cyan-500' : ''} />
+                      {currentQuarterData.goals
+                        .filter((g) => g.category === 'stack')
+                        .map((goal) => (
+                          <div
+                            key={goal.id}
+                            onClick={() => toggleGoal(goal.id)}
+                            className={`flex items-start gap-3 p-3 rounded-lg border transition-all duration-300 cursor-pointer ${
+                              checkedGoals[goal.id]
+                                ? 'bg-cyan-500/[0.02] border-cyan-500/20 text-muted-foreground'
+                                : 'bg-muted/30 border-border hover:border-cyan-500/20'
+                            }`}
+                          >
+                            <div
+                              className={`mt-0.5 flex-shrink-0 ${checkedGoals[goal.id] ? 'text-cyan-500' : 'text-muted-foreground'}`}
+                            >
+                              <CheckCircle2
+                                size={16}
+                                fill={checkedGoals[goal.id] ? 'currentColor' : 'none'}
+                                className={checkedGoals[goal.id] ? 'text-cyan-500' : ''}
+                              />
+                            </div>
+                            <span
+                              className={`text-xs md:text-sm font-medium leading-relaxed ${checkedGoals[goal.id] ? 'line-through text-muted-foreground/60' : 'text-foreground'}`}
+                            >
+                              {goal.text}
+                            </span>
                           </div>
-                          <span className={`text-xs md:text-sm font-medium leading-relaxed ${checkedGoals[goal.id] ? 'line-through text-muted-foreground/60' : 'text-foreground'}`}>
-                            {goal.text}
-                          </span>
-                        </div>
-                      ))}
+                        ))}
                     </div>
                   </div>
 
@@ -764,24 +1037,34 @@ export default function RoadmapPage() {
                       <Cpu size={13} /> MLOps Platform Engineering
                     </h3>
                     <div className="space-y-2">
-                      {currentQuarterData.goals.filter(g => g.category === 'mlops').map(goal => (
-                        <div
-                          key={goal.id}
-                          onClick={() => toggleGoal(goal.id)}
-                          className={`flex items-start gap-3 p-3 rounded-lg border transition-all duration-300 cursor-pointer ${
-                            checkedGoals[goal.id]
-                              ? 'bg-violet-500/[0.02] border-violet-500/20 text-muted-foreground'
-                              : 'bg-muted/30 border-border hover:border-violet-500/20'
-                          }`}
-                        >
-                          <div className={`mt-0.5 flex-shrink-0 ${checkedGoals[goal.id] ? 'text-violet-500' : 'text-muted-foreground'}`}>
-                            <CheckCircle2 size={16} fill={checkedGoals[goal.id] ? 'currentColor' : 'none'} className={checkedGoals[goal.id] ? 'text-violet-500' : ''} />
+                      {currentQuarterData.goals
+                        .filter((g) => g.category === 'mlops')
+                        .map((goal) => (
+                          <div
+                            key={goal.id}
+                            onClick={() => toggleGoal(goal.id)}
+                            className={`flex items-start gap-3 p-3 rounded-lg border transition-all duration-300 cursor-pointer ${
+                              checkedGoals[goal.id]
+                                ? 'bg-violet-500/[0.02] border-violet-500/20 text-muted-foreground'
+                                : 'bg-muted/30 border-border hover:border-violet-500/20'
+                            }`}
+                          >
+                            <div
+                              className={`mt-0.5 flex-shrink-0 ${checkedGoals[goal.id] ? 'text-violet-500' : 'text-muted-foreground'}`}
+                            >
+                              <CheckCircle2
+                                size={16}
+                                fill={checkedGoals[goal.id] ? 'currentColor' : 'none'}
+                                className={checkedGoals[goal.id] ? 'text-violet-500' : ''}
+                              />
+                            </div>
+                            <span
+                              className={`text-xs md:text-sm font-medium leading-relaxed ${checkedGoals[goal.id] ? 'line-through text-muted-foreground/60' : 'text-foreground'}`}
+                            >
+                              {goal.text}
+                            </span>
                           </div>
-                          <span className={`text-xs md:text-sm font-medium leading-relaxed ${checkedGoals[goal.id] ? 'line-through text-muted-foreground/60' : 'text-foreground'}`}>
-                            {goal.text}
-                          </span>
-                        </div>
-                      ))}
+                        ))}
                     </div>
                   </div>
                 </div>
@@ -807,17 +1090,30 @@ export default function RoadmapPage() {
                       }`}
                     >
                       <div className="flex items-center gap-2">
-                        <span className={`w-8 h-8 rounded-lg flex items-center justify-center font-mono font-extrabold text-[10px] ${
-                          weeklyStates[chk.id] ? 'bg-primary/20 text-primary' : 'bg-muted text-muted-foreground'
-                        }`}>
+                        <span
+                          className={`w-8 h-8 rounded-lg flex items-center justify-center font-mono font-extrabold text-[10px] ${
+                            weeklyStates[chk.id]
+                              ? 'bg-primary/20 text-primary'
+                              : 'bg-muted text-muted-foreground'
+                          }`}
+                        >
                           {chk.day}
                         </span>
-                        <span className={`text-[11px] font-semibold ${weeklyStates[chk.id] ? 'line-through text-muted-foreground/60' : 'text-foreground'}`}>
+                        <span
+                          className={`text-[11px] font-semibold ${weeklyStates[chk.id] ? 'line-through text-muted-foreground/60' : 'text-foreground'}`}
+                        >
                           {chk.text}
                         </span>
                       </div>
-                      <div className={weeklyStates[chk.id] ? 'text-primary' : 'text-muted-foreground/50'}>
-                        <CheckCircle2 size={16} fill={weeklyStates[chk.id] ? 'currentColor' : 'none'} />
+                      <div
+                        className={
+                          weeklyStates[chk.id] ? 'text-primary' : 'text-muted-foreground/50'
+                        }
+                      >
+                        <CheckCircle2
+                          size={16}
+                          fill={weeklyStates[chk.id] ? 'currentColor' : 'none'}
+                        />
                       </div>
                     </div>
                   ))}
@@ -838,8 +1134,12 @@ export default function RoadmapPage() {
                         </div>
                         <div>
                           <div className="flex items-center gap-1.5">
-                            <span className="text-[10px] font-mono font-bold text-secondary">{item.time}</span>
-                            <span className="text-xs font-bold text-foreground">— {item.label}</span>
+                            <span className="text-[10px] font-mono font-bold text-secondary">
+                              {item.time}
+                            </span>
+                            <span className="text-xs font-bold text-foreground">
+                              — {item.label}
+                            </span>
                           </div>
                           <p className="text-[10px] text-muted-foreground mt-0.5 font-medium leading-relaxed">
                             {item.desc}
@@ -867,7 +1167,8 @@ export default function RoadmapPage() {
                 const isSelected = selectedSubject === sub.id;
                 const subTopics = sub.topics.flatMap((t) => t.subtopics);
                 const subDone = subTopics.filter((s) => checkedSubtopics[s.id]).length;
-                const subPct = subTopics.length > 0 ? Math.round((subDone / subTopics.length) * 100) : 0;
+                const subPct =
+                  subTopics.length > 0 ? Math.round((subDone / subTopics.length) * 100) : 0;
 
                 return (
                   <button
@@ -880,7 +1181,9 @@ export default function RoadmapPage() {
                     }`}
                   >
                     <div className="flex items-center gap-3">
-                      <div className={`w-8 h-8 rounded-lg flex items-center justify-center border ${sub.color}`}>
+                      <div
+                        className={`w-8 h-8 rounded-lg flex items-center justify-center border ${sub.color}`}
+                      >
                         <sub.icon size={15} />
                       </div>
                       <div>
@@ -891,7 +1194,9 @@ export default function RoadmapPage() {
                       </div>
                     </div>
                     <div className="flex items-center gap-2">
-                      <span className="text-[10px] font-mono font-bold text-primary">{subPct}%</span>
+                      <span className="text-[10px] font-mono font-bold text-primary">
+                        {subPct}%
+                      </span>
                       <ChevronRight size={14} className="text-muted-foreground" />
                     </div>
                   </button>
@@ -904,7 +1209,8 @@ export default function RoadmapPage() {
                 Syllabus Practice Tip
               </span>
               <p className="text-[11px] leading-relaxed text-muted-foreground">
-                Tackle one subtopic under **{currentSubjectData.name}** during your daily **Legacy Block (09:00 PM)**. Ticking it off builds permanent expertise.
+                Tackle one subtopic under **{currentSubjectData.name}** during your daily **Legacy
+                Block (09:00 PM)**. Ticking it off builds permanent expertise.
               </p>
             </div>
           </div>
@@ -913,7 +1219,9 @@ export default function RoadmapPage() {
             <div className="bg-card rounded-xl p-4 md:p-6 border border-border shadow-sm">
               <div className="flex flex-col md:flex-row md:items-center justify-between gap-3 mb-4 pb-4 border-b border-border/80">
                 <div className="flex items-center gap-3">
-                  <div className={`w-9 h-9 rounded-lg flex items-center justify-center border ${currentSubjectData.color}`}>
+                  <div
+                    className={`w-9 h-9 rounded-lg flex items-center justify-center border ${currentSubjectData.color}`}
+                  >
                     <currentSubjectData.icon size={16} />
                   </div>
                   <div>
@@ -926,9 +1234,14 @@ export default function RoadmapPage() {
                   </div>
                 </div>
                 <div className="bg-muted/50 px-3 py-1.5 rounded-lg border border-border flex items-center gap-2.5 self-start md:self-center">
-                  <span className="text-[10px] font-bold font-mono text-muted-foreground">{subjectPercentage}% Mastered</span>
+                  <span className="text-[10px] font-bold font-mono text-muted-foreground">
+                    {subjectPercentage}% Mastered
+                  </span>
                   <div className="w-16 bg-muted h-1.5 rounded-full overflow-hidden">
-                    <div className="bg-primary h-full transition-all duration-500" style={{ width: `${subjectPercentage}%` }}></div>
+                    <div
+                      className="bg-primary h-full transition-all duration-500"
+                      style={{ width: `${subjectPercentage}%` }}
+                    ></div>
                   </div>
                 </div>
               </div>
@@ -936,11 +1249,16 @@ export default function RoadmapPage() {
               <div className="space-y-6">
                 {currentSubjectData.topics.map((topic) => {
                   const topicSubCount = topic.subtopics.length;
-                  const topicCompletedCount = topic.subtopics.filter((sub) => checkedSubtopics[sub.id]).length;
+                  const topicCompletedCount = topic.subtopics.filter(
+                    (sub) => checkedSubtopics[sub.id]
+                  ).length;
                   const topicPercentage = Math.round((topicCompletedCount / topicSubCount) * 100);
 
                   return (
-                    <div key={topic.id} className="p-3 md:p-4 rounded-xl bg-muted/20 border border-border/60 space-y-3">
+                    <div
+                      key={topic.id}
+                      className="p-3 md:p-4 rounded-xl bg-muted/20 border border-border/60 space-y-3"
+                    >
                       <div className="flex items-center justify-between gap-2 border-b border-border/40 pb-2">
                         <h3 className="text-xs md:text-sm font-extrabold text-foreground flex items-center gap-1.5">
                           {topic.title}
@@ -961,10 +1279,18 @@ export default function RoadmapPage() {
                                 : 'bg-card/50 border-border hover:border-primary/20 hover:bg-card'
                             }`}
                           >
-                            <div className={`mt-0.5 flex-shrink-0 ${checkedSubtopics[sub.id] ? 'text-primary' : 'text-muted-foreground'}`}>
-                              <CheckCircle2 size={15} fill={checkedSubtopics[sub.id] ? 'currentColor' : 'none'} className={checkedSubtopics[sub.id] ? 'text-primary' : ''} />
+                            <div
+                              className={`mt-0.5 flex-shrink-0 ${checkedSubtopics[sub.id] ? 'text-primary' : 'text-muted-foreground'}`}
+                            >
+                              <CheckCircle2
+                                size={15}
+                                fill={checkedSubtopics[sub.id] ? 'currentColor' : 'none'}
+                                className={checkedSubtopics[sub.id] ? 'text-primary' : ''}
+                              />
                             </div>
-                            <span className={`text-[11px] md:text-xs font-semibold leading-relaxed ${checkedSubtopics[sub.id] ? 'line-through text-muted-foreground/60' : 'text-foreground'}`}>
+                            <span
+                              className={`text-[11px] md:text-xs font-semibold leading-relaxed ${checkedSubtopics[sub.id] ? 'line-through text-muted-foreground/60' : 'text-foreground'}`}
+                            >
                               {sub.text}
                             </span>
                           </div>
@@ -1002,7 +1328,9 @@ export default function RoadmapPage() {
                       }`}
                     >
                       <div className="flex items-center justify-between mb-1">
-                        <span className={`text-xs font-bold ${isSel ? 'text-rose-500' : 'text-foreground'}`}>
+                        <span
+                          className={`text-xs font-bold ${isSel ? 'text-rose-500' : 'text-foreground'}`}
+                        >
                           {sc.title}
                         </span>
                         {isSel && (
@@ -1026,13 +1354,19 @@ export default function RoadmapPage() {
                 ChatGPT Voice Commute Partner
               </h3>
               <p className="text-[10px] text-muted-foreground leading-relaxed">
-                Copy this engineered coaching prompt onto your phone to run high-value roleplays during your evening shadowing sessions on the bus:
+                Copy this engineered coaching prompt onto your phone to run high-value roleplays
+                during your evening shadowing sessions on the bus:
               </p>
               <div className="bg-muted p-2.5 rounded-lg border border-border/80 text-[10px] leading-relaxed text-foreground italic relative font-mono">
                 "{activeScenarioData.chatgptPrompt}"
               </div>
               <button
-                onClick={() => copyGenericText(activeScenarioData.chatgptPrompt, 'Coaching prompt copied! Ready for voice mode ⚡')}
+                onClick={() =>
+                  copyGenericText(
+                    activeScenarioData.chatgptPrompt,
+                    'Coaching prompt copied! Ready for voice mode ⚡'
+                  )
+                }
                 className="w-full flex items-center justify-center gap-2 py-2 rounded-lg bg-rose-500/10 hover:bg-rose-500/20 text-rose-500 border border-rose-500/20 text-xs font-bold transition-all"
               >
                 <Copy size={13} />
@@ -1048,7 +1382,9 @@ export default function RoadmapPage() {
                 <div className="flex items-center gap-2">
                   <Award size={18} className="text-rose-500" />
                   <div>
-                    <h2 className="text-base font-bold text-foreground">{activeScenarioData.title}</h2>
+                    <h2 className="text-base font-bold text-foreground">
+                      {activeScenarioData.title}
+                    </h2>
                     <p className="text-xs text-muted-foreground">{activeScenarioData.desc}</p>
                   </div>
                 </div>
@@ -1074,7 +1410,9 @@ export default function RoadmapPage() {
                   )}
 
                   <button
-                    onClick={() => copyGenericText(activeScenarioData.script, 'Introduction script copied!')}
+                    onClick={() =>
+                      copyGenericText(activeScenarioData.script, 'Introduction script copied!')
+                    }
                     className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-muted hover:bg-muted-foreground/10 text-muted-foreground hover:text-foreground text-xs font-semibold transition-all border border-border"
                   >
                     <Copy size={13} />
@@ -1086,7 +1424,9 @@ export default function RoadmapPage() {
               {/* Pitch Script displaying highlighted Power Words */}
               <div className="space-y-2">
                 <div className="flex items-center justify-between">
-                  <div className="text-[10px] uppercase font-bold tracking-widest text-rose-500">Practice Script</div>
+                  <div className="text-[10px] uppercase font-bold tracking-widest text-rose-500">
+                    Practice Script
+                  </div>
                   <span className="text-[9px] font-mono text-muted-foreground bg-muted px-2 py-0.5 rounded border border-border/60">
                     Shadow tempo: Clear & Articulate (0.88x speed)
                   </span>
@@ -1128,30 +1468,48 @@ export default function RoadmapPage() {
                 <Sparkles size={14} className="text-secondary" />
                 High-Presence Communication Frameworks
               </h3>
-              
+
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="p-3.5 rounded-xl bg-muted/20 border border-border/60 space-y-2">
-                  <div className="text-xs font-bold text-foreground">The 3-Step "CAR" Update Formula</div>
+                  <div className="text-xs font-bold text-foreground">
+                    The 3-Step "CAR" Update Formula
+                  </div>
                   <p className="text-[10px] text-muted-foreground leading-relaxed">
                     Always format your Slack messages, daily updates, or technical reviews using:
                   </p>
                   <ul className="text-[10px] space-y-1.5 text-foreground leading-relaxed">
-                    <li className="flex items-center gap-1.5"><span className="w-1.5 h-1.5 rounded-full bg-cyan-500"></span>**Context**: *"We had timeout drops on the QuickBooks pipeline."*</li>
-                    <li className="flex items-center gap-1.5"><span className="w-1.5 h-1.5 rounded-full bg-rose-500"></span>**Action**: *"I restructured the sync batches and added a local transaction."*</li>
-                    <li className="flex items-center gap-1.5"><span className="w-1.5 h-1.5 rounded-full bg-violet-500"></span>**Result**: *"Sync batch runs are now 40% faster with 0 failures."*</li>
+                    <li className="flex items-center gap-1.5">
+                      <span className="w-1.5 h-1.5 rounded-full bg-cyan-500"></span>**Context**:
+                      *"We had timeout drops on the QuickBooks pipeline."*
+                    </li>
+                    <li className="flex items-center gap-1.5">
+                      <span className="w-1.5 h-1.5 rounded-full bg-rose-500"></span>**Action**: *"I
+                      restructured the sync batches and added a local transaction."*
+                    </li>
+                    <li className="flex items-center gap-1.5">
+                      <span className="w-1.5 h-1.5 rounded-full bg-violet-500"></span>**Result**:
+                      *"Sync batch runs are now 40% faster with 0 failures."*
+                    </li>
                   </ul>
                 </div>
 
                 <div className="p-3.5 rounded-xl bg-muted/20 border border-border/60 space-y-2">
-                  <div className="text-xs font-bold text-foreground">Meeting Blocker Vocabulary</div>
+                  <div className="text-xs font-bold text-foreground">
+                    Meeting Blocker Vocabulary
+                  </div>
                   <p className="text-[10px] text-muted-foreground leading-relaxed">
                     Practice replacing simple, hesitate phrases with polished transitions:
                   </p>
                   <ul className="text-[10px] space-y-1.5 text-foreground leading-relaxed">
                     <li>❌ *"I have a problem with redis..."*</li>
-                    <li>👉 **Polished**: *"I've hit a slight blocker regarding Redis gateway timeouts..."*</li>
+                    <li>
+                      👉 **Polished**: *"I've hit a slight blocker regarding Redis gateway
+                      timeouts..."*
+                    </li>
                     <li>❌ *"Then I did this..."*</li>
-                    <li>👉 **Polished**: *"Following that, I focused on microservice integrations..."*</li>
+                    <li>
+                      👉 **Polished**: *"Following that, I focused on microservice integrations..."*
+                    </li>
                   </ul>
                 </div>
               </div>
@@ -1175,7 +1533,8 @@ export default function RoadmapPage() {
                     Standup Scripts Playbook
                   </h3>
                   <p className="text-[10px] text-muted-foreground">
-                    Copy and edit structures to deliver morning syncs with absolute executive authority.
+                    Copy and edit structures to deliver morning syncs with absolute executive
+                    authority.
                   </p>
                 </div>
               </div>
@@ -1199,7 +1558,11 @@ export default function RoadmapPage() {
                     onClick={() => copyScriptText(SCRIPT_A_TEXT, 'a')}
                     className="flex items-center gap-1 px-2 py-1 rounded text-[10px] font-bold bg-muted hover:bg-muted-foreground/10 text-muted-foreground hover:text-foreground transition-all"
                   >
-                    {copiedScript === 'a' ? <Check size={11} className="text-emerald-500" /> : <Copy size={11} />}
+                    {copiedScript === 'a' ? (
+                      <Check size={11} className="text-emerald-500" />
+                    ) : (
+                      <Copy size={11} />
+                    )}
                     <span>{copiedScript === 'a' ? 'Copied' : 'Copy'}</span>
                   </button>
                 </div>
@@ -1207,7 +1570,9 @@ export default function RoadmapPage() {
                   "{SCRIPT_A_TEXT}"
                 </p>
                 <div className="text-[10px] text-muted-foreground flex gap-3 mt-1">
-                  <span>🚀 **Focus**: Clarity, sequence transition words (following that, successfully).</span>
+                  <span>
+                    🚀 **Focus**: Clarity, sequence transition words (following that, successfully).
+                  </span>
                 </div>
               </div>
 
@@ -1221,7 +1586,11 @@ export default function RoadmapPage() {
                     onClick={() => copyScriptText(SCRIPT_B_TEXT, 'b')}
                     className="flex items-center gap-1 px-2 py-1 rounded text-[10px] font-bold bg-muted hover:bg-muted-foreground/10 text-muted-foreground hover:text-foreground transition-all"
                   >
-                    {copiedScript === 'b' ? <Check size={11} className="text-emerald-500" /> : <Copy size={11} />}
+                    {copiedScript === 'b' ? (
+                      <Check size={11} className="text-emerald-500" />
+                    ) : (
+                      <Copy size={11} />
+                    )}
                     <span>{copiedScript === 'b' ? 'Copied' : 'Copy'}</span>
                   </button>
                 </div>
@@ -1229,7 +1598,10 @@ export default function RoadmapPage() {
                   "{SCRIPT_B_TEXT}"
                 </p>
                 <div className="text-[10px] text-muted-foreground flex gap-3 mt-1">
-                  <span>⚡ **Focus**: Blocker vocabulary (hit a slight blocker regarding, sync with DevOps).</span>
+                  <span>
+                    ⚡ **Focus**: Blocker vocabulary (hit a slight blocker regarding, sync with
+                    DevOps).
+                  </span>
                 </div>
               </div>
             </div>

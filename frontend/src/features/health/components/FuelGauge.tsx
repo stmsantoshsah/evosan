@@ -61,7 +61,9 @@ export const FuelGauge = ({ calories, protein, carbs = 250, fats = 80 }: FuelGau
         {/* Center Text */}
         <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
           <span className="text-2xl font-bold text-foreground">{calories}</span>
-          <span className="text-[10px] text-muted-foreground font-mono tracking-wider">KCAL INPUT</span>
+          <span className="text-[10px] text-muted-foreground font-mono tracking-wider">
+            KCAL INPUT
+          </span>
         </div>
       </div>
 

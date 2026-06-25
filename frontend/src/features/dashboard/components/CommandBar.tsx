@@ -10,7 +10,7 @@ const PLACEHOLDERS = [
   'Logged 250g grilled chicken, 150g sweet potato...',
   'Completed a 45 min core and power workout...',
   'Drank 500ml water and took vitamins...',
-  'Finished afternoon deep work block, logged tasks...'
+  'Finished afternoon deep work block, logged tasks...',
 ];
 
 export default function CommandBar() {
@@ -55,7 +55,6 @@ export default function CommandBar() {
       });
     }
   };
-
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();

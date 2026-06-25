@@ -85,9 +85,7 @@ export default function HUD({ habitsDone, totalHabits, lastMood, streak, waterIn
               <div
                 key={i}
                 className={`h-1 flex-1 rounded-full transition-all duration-500 ${
-                  i < lastMood
-                    ? 'bg-secondary shadow-[0_0_8px_rgba(6,182,212,0.3)]'
-                    : 'bg-muted'
+                  i < lastMood ? 'bg-secondary shadow-[0_0_8px_rgba(6,182,212,0.3)]' : 'bg-muted'
                 }`}
               ></div>
             ))}

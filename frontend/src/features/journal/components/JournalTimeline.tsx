@@ -17,7 +17,8 @@ export function JournalTimeline({ entries }: JournalTimelineProps) {
   }
 
   const getMoodColor = (mood: number) => {
-    if (mood >= 8) return 'text-emerald-600 dark:text-emerald-400 bg-emerald-500/10 border-emerald-500/20';
+    if (mood >= 8)
+      return 'text-emerald-600 dark:text-emerald-400 bg-emerald-500/10 border-emerald-500/20';
     if (mood >= 5) return 'text-amber-600 dark:text-amber-400 bg-amber-500/10 border-amber-500/20';
     return 'text-rose-600 dark:text-rose-400 bg-rose-500/10 border-rose-500/20';
   };

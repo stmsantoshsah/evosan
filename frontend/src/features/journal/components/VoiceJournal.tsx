@@ -87,7 +87,9 @@ export default function VoiceJournal() {
             <Volume2 className="text-purple-500 dark:text-purple-400" size={20} />
             Voice Codex
           </h2>
-          <p className="text-muted-foreground text-sm mt-1">Speak in English. Master your presence.</p>
+          <p className="text-muted-foreground text-sm mt-1">
+            Speak in English. Master your presence.
+          </p>
         </div>
         <div className="flex items-center gap-2 bg-purple-500/10 px-3 py-1.5 rounded-full border border-purple-500/20">
           <ShieldCheck size={14} className="text-purple-600 dark:text-purple-400" />

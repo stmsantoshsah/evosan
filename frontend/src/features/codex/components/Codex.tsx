@@ -166,7 +166,9 @@ export default function Codex() {
       {isCreating && (
         <div className="mb-8 bg-card border border-border p-6 rounded-xl animate-in fade-in zoom-in-95 shadow-md">
           <div className="flex justify-between mb-4">
-            <h3 className="font-mono text-teal-600 dark:text-teal-400 text-sm">INPUT NEW PRINCIPLE</h3>
+            <h3 className="font-mono text-teal-600 dark:text-teal-400 text-sm">
+              INPUT NEW PRINCIPLE
+            </h3>
             <button onClick={() => setIsCreating(false)}>
               <X size={18} className="text-muted-foreground hover:text-foreground" />
             </button>

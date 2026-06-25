@@ -201,7 +201,9 @@ export default function Settings() {
   return (
     <div className="p-4 md:p-8 max-w-6xl mx-auto">
       <h1 className="text-3xl font-bold mb-2 text-foreground">System Configuration</h1>
-      <p className="text-muted-foreground mb-8">Manage global variables and operational protocols.</p>
+      <p className="text-muted-foreground mb-8">
+        Manage global variables and operational protocols.
+      </p>
 
       {/* 1. THE TABS HEADER */}
       <div className="flex gap-6 border-b border-border mb-8 overflow-x-auto">
@@ -388,7 +390,9 @@ export default function Settings() {
                 </p>
               </div>
               <div className="space-y-2">
-                <label className="text-xs uppercase text-muted-foreground font-bold">Username</label>
+                <label className="text-xs uppercase text-muted-foreground font-bold">
+                  Username
+                </label>
                 <input
                   className="bg-input border border-border rounded-xl p-2 w-full text-foreground outline-none focus:border-primary transition-all duration-200"
                   value={githubUser}
@@ -433,7 +437,9 @@ export default function Settings() {
                 <p className="text-sm">Pull exact coding hours into your dashboard.</p>
               </div>
               <div className="space-y-2">
-                <label className="text-xs uppercase text-muted-foreground font-bold">Secret API Key</label>
+                <label className="text-xs uppercase text-muted-foreground font-bold">
+                  Secret API Key
+                </label>
                 <input
                   type="password"
                   className="bg-input border border-border rounded-xl p-2 w-full text-foreground outline-none focus:border-indigo-500 transition-all duration-200"
