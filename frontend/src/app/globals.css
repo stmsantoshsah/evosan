@@ -74,3 +74,204 @@ h6 {
   font-family: var(--font-heading);
   font-weight: 600;
 }
+
+/* --- 3D PLUSH / FELT BUTTON STYLES --- */
+.btn-plush-base {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 24px;
+  font-family: var(--font-sans);
+  font-weight: 700;
+  transition: all 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  cursor: pointer;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+/* Light mode plush beige */
+.btn-plush-beige {
+  background-color: #f4f3ef;
+  color: #1e293b;
+  box-shadow: 
+    6px 6px 12px rgba(163, 177, 198, 0.5), 
+    -6px -6px 12px rgba(255, 255, 255, 0.9),
+    inset 2px 2px 5px rgba(255, 255, 255, 0.8),
+    inset -2px -2px 5px rgba(163, 177, 198, 0.2);
+}
+.btn-plush-beige::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 0.5 0 0 0 0 0.5 0 0 0 0 0.5 0.5 0 0 0 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.16'/%3E%3C/svg%3E");
+  opacity: 0.85;
+  pointer-events: none;
+  mix-blend-mode: overlay;
+}
+
+/* Light mode plush blue */
+.btn-plush-blue {
+  background-color: #7dd3fc;
+  color: #0369a1;
+  box-shadow: 
+    6px 6px 12px rgba(125, 211, 252, 0.4), 
+    -6px -6px 12px rgba(255, 255, 255, 0.9),
+    inset 2px 2px 5px rgba(255, 255, 255, 0.7),
+    inset -2px -2px 5px rgba(3, 105, 161, 0.2);
+}
+.btn-plush-blue::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 0.5 0 0 0 0 0.5 0 0 0 0 0.5 0.5 0 0 0 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.16'/%3E%3C/svg%3E");
+  opacity: 0.85;
+  pointer-events: none;
+  mix-blend-mode: overlay;
+}
+
+/* Dark mode overrides */
+.dark .btn-plush-beige {
+  background-color: #1e293b;
+  color: #f1f5f9;
+  border-color: rgba(255, 255, 255, 0.05);
+  box-shadow: 
+    6px 6px 14px rgba(0, 0, 0, 0.6), 
+    -6px -6px 14px rgba(255, 255, 255, 0.04),
+    inset 2px 2px 4px rgba(255, 255, 255, 0.05),
+    inset -2px -2px 4px rgba(0, 0, 0, 0.4);
+}
+.dark .btn-plush-blue {
+  background-color: #0c4a6e;
+  color: #e0f2fe;
+  border-color: rgba(255, 255, 255, 0.05);
+  box-shadow: 
+    6px 6px 14px rgba(0, 0, 0, 0.6), 
+    -6px -6px 14px rgba(255, 255, 255, 0.04),
+    inset 2px 2px 4px rgba(255, 255, 255, 0.1),
+    inset -2px -2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.btn-plush-base:hover {
+  transform: translateY(-2px);
+  filter: brightness(1.03);
+}
+
+.btn-plush-base:active {
+  transform: translateY(1px);
+  box-shadow: 
+    2px 2px 6px rgba(0, 0, 0, 0.3), 
+    -2px -2px 6px rgba(255, 255, 255, 0.1),
+    inset 4px 4px 10px rgba(0, 0, 0, 0.4),
+    inset -4px -4px 10px rgba(255, 255, 255, 0.05);
+}
+
+/* Recessed icon container */
+.icon-recessed {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.03);
+  border-radius: 50%;
+  box-shadow: 
+    inset 2px 2px 5px rgba(0, 0, 0, 0.15), 
+    inset -2px -2px 5px rgba(255, 255, 255, 0.8);
+}
+.dark .icon-recessed {
+  background: rgba(0, 0, 0, 0.2);
+  box-shadow: 
+    inset 2px 2px 5px rgba(0, 0, 0, 0.5), 
+    inset -2px -2px 5px rgba(255, 255, 255, 0.03);
+}
+
+/* --- SKEUOMORPHIC GEL GLASS BUTTONS --- */
+.btn-gel {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 28px;
+  font-family: var(--font-sans);
+  font-weight: 700;
+  cursor: pointer;
+  overflow: hidden;
+  transition: all 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  border: 1.5px solid rgba(255, 255, 255, 0.4);
+  box-shadow: 
+    0 8px 20px rgba(0, 0, 0, 0.15),
+    inset 0 4px 8px rgba(255, 255, 255, 0.6),
+    inset 0 -4px 8px rgba(0, 0, 0, 0.2);
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(8px);
+}
+
+/* Specular reflection gloss cap */
+.btn-gel::after {
+  content: "";
+  position: absolute;
+  top: 2px;
+  left: 5%;
+  right: 5%;
+  height: 40%;
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 0.75) 0%, rgba(255, 255, 255, 0) 100%);
+  border-radius: 20px 20px 10px 10px / 20px 20px 5px 5px;
+  pointer-events: none;
+  z-index: 2;
+}
+
+/* Gel Colors */
+.btn-gel-blue {
+  background: radial-gradient(circle at 50% 100%, rgba(14, 165, 233, 0.85) 20%, rgba(3, 105, 161, 0.4) 90%);
+  box-shadow: 
+    0 8px 20px rgba(14, 165, 233, 0.3),
+    inset 0 4px 8px rgba(255, 255, 255, 0.6),
+    inset 0 -6px 12px rgba(3, 105, 161, 0.6);
+  color: #ffffff;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.btn-gel-red {
+  background: radial-gradient(circle at 50% 100%, rgba(239, 68, 68, 0.85) 20%, rgba(185, 28, 28, 0.4) 90%);
+  box-shadow: 
+    0 8px 20px rgba(239, 68, 68, 0.3),
+    inset 0 4px 8px rgba(255, 255, 255, 0.6),
+    inset 0 -6px 12px rgba(185, 28, 28, 0.6);
+  color: #ffffff;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.btn-gel-green {
+  background: radial-gradient(circle at 50% 100%, rgba(16, 185, 129, 0.85) 20%, rgba(4, 120, 87, 0.4) 90%);
+  box-shadow: 
+    0 8px 20px rgba(16, 185, 129, 0.3),
+    inset 0 4px 8px rgba(255, 255, 255, 0.6),
+    inset 0 -6px 12px rgba(4, 120, 87, 0.6);
+  color: #ffffff;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.btn-gel-orange {
+  background: radial-gradient(circle at 50% 100%, rgba(249, 115, 22, 0.85) 20%, rgba(194, 65, 12, 0.4) 90%);
+  box-shadow: 
+    0 8px 20px rgba(249, 115, 22, 0.3),
+    inset 0 4px 8px rgba(255, 255, 255, 0.6),
+    inset 0 -6px 12px rgba(194, 65, 12, 0.6);
+  color: #ffffff;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.btn-gel:hover {
+  transform: translateY(-2px) scale(1.03);
+  filter: brightness(1.1);
+  box-shadow: 
+    0 12px 25px rgba(0, 0, 0, 0.2),
+    inset 0 6px 10px rgba(255, 255, 255, 0.8);
+}
+
+.btn-gel:active {
+  transform: translateY(1px) scale(0.98);
+  filter: brightness(0.95);
+  box-shadow: 
+    0 4px 10px rgba(0, 0, 0, 0.15),
+    inset 0 2px 5px rgba(0, 0, 0, 0.4);
+}
