@@ -145,7 +145,7 @@ export default function ChatPanel({ onClose }: ChatPanelProps) {
       formData.append('message', userMessageText);
       formData.append('user_id', 'santosh_sah');
 
-      const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:8000';
+      const apiUrl = (process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:8000').replace(/\/$/, '');
       const response = await fetch(`${apiUrl}/chat/stream`, {
         method: 'POST',
         body: formData,
@@ -252,7 +252,7 @@ export default function ChatPanel({ onClose }: ChatPanelProps) {
       formData.append('file', blob, 'audio_capture.webm');
       formData.append('user_id', 'santosh_sah');
 
-      const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:8000';
+      const apiUrl = (process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:8000').replace(/\/$/, '');
       const response = await fetch(`${apiUrl}/chat/voice`, {
         method: 'POST',
         body: formData,
