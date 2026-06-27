@@ -44,6 +44,7 @@
 .dark {
   /* Obsidian Tech Noir (Professional Midnight Tech Dark) */
   --background: #090d16; /* Deep Ocean Dark */
+  --foreground: #f8fafc;
   --card: #111726; /* Professional Dark Card Slate */
   --card-foreground: #f8fafc;
   --border: rgba(248, 250, 252, 0.04); /* Subtlest obsidian border */
