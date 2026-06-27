@@ -2,21 +2,19 @@
 import uuid
 from datetime import datetime
 
-from chromadb.utils import embedding_functions
+from fastembed import TextEmbedding
 
 from app.db.database import db
 from app.db.supabase_db import supabase_db
 
-print("Initializing local SentenceTransformers embedding function...")
+print("Initializing local FastEmbed embedding function...")
 try:
-    # Initialize local SentenceTransformers embedding function (all-MiniLM-L6-v2)
-    # This generates 384-dimensional dense vectors offline for 100% free
-    local_ef = embedding_functions.SentenceTransformerEmbeddingFunction(
-        model_name="all-MiniLM-L6-v2"
-    )
-    print("SentenceTransformers active")
+    # Initialize local FastEmbed embedding function (sentence-transformers/all-MiniLM-L6-v2)
+    # This generates 384-dimensional dense vectors offline for 100% free without PyTorch
+    local_ef = TextEmbedding(model_name="sentence-transformers/all-MiniLM-L6-v2")
+    print("FastEmbed active")
 except Exception as e:
-    print(f"FAILED TO INITIALIZE SENTENCETRANSFORMERS: {e}")
+    print(f"FAILED TO INITIALIZE FASTEMBED: {e}")
     local_ef = None
 
 
@@ -47,12 +45,12 @@ async def upsert_journal_vector(journal_id: str, content: str, mood: int, timest
         return
 
     if not local_ef:
-        print("WARNING: SentenceTransformers is uninitialized. Vector upsert skipped.")
+        print("WARNING: FastEmbed is uninitialized. Vector upsert skipped.")
         return
 
     try:
         # 1. Generate the 384-dimensional vector embedding offline
-        embedding = local_ef([content])[0]
+        embedding = list(local_ef.embed([content]))[0]
         # Convert embedding to a list of floats (if it's a numpy array)
         if hasattr(embedding, "tolist"):
             embedding = embedding.tolist()
@@ -85,12 +83,12 @@ async def query_journal_memory(query_text: str, n_results: int = 3):
         return {"ids": [[]], "documents": [[]], "metadatas": [[]], "distances": [[]]}
 
     if not local_ef:
-        print("WARNING: SentenceTransformers is uninitialized. Vector query skipped.")
+        print("WARNING: FastEmbed is uninitialized. Vector query skipped.")
         return {"ids": [[]], "documents": [[]], "metadatas": [[]], "distances": [[]]}
 
     try:
         # 1. Generate query embedding
-        embedding = local_ef([query_text])[0]
+        embedding = list(local_ef.embed([query_text]))[0]
         if hasattr(embedding, "tolist"):
             embedding = embedding.tolist()
         else:

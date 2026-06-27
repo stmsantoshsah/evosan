@@ -17,8 +17,7 @@ scipy
 email-validator
 resend
 ruff
-chromadb
-sentence-transformers
+fastembed
 langgraph
 langchain
 langchain-core
