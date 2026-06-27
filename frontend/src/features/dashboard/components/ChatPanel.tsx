@@ -335,7 +335,7 @@ export default function ChatPanel({ onClose }: ChatPanelProps) {
       </div>
 
       {/* Messages list container */}
-      <div className="flex-1 p-4 overflow-y-auto space-y-3 font-sans custom-scrollbar bg-card/10">
+      <div className="flex-1 p-4 overflow-y-auto space-y-4 font-sans custom-scrollbar bg-card/10">
         {messages.map((msg) => (
           <div
             key={msg.id}
@@ -344,10 +344,10 @@ export default function ChatPanel({ onClose }: ChatPanelProps) {
             }`}
           >
             <div
-              className={`p-3.5 rounded-xl border text-xs md:text-sm leading-relaxed shadow-sm transition-all ${
+              className={`btn-plush-base p-3.5 text-xs md:text-sm leading-relaxed transition-all cursor-default text-left items-start ${
                 msg.sender === 'user'
-                  ? 'bg-primary text-primary-foreground border-primary/20 rounded-tr-none'
-                  : 'bg-card/50 text-foreground border-border/40 rounded-tl-none font-sans'
+                  ? 'btn-plush-blue text-sky-900 dark:text-sky-100 border border-sky-400/20 rounded-tr-none'
+                  : 'btn-plush-beige text-foreground border border-border/20 rounded-tl-none font-sans'
               }`}
             >
               {msg.text ? (
@@ -376,10 +376,10 @@ export default function ChatPanel({ onClose }: ChatPanelProps) {
           <button
             onClick={isRecording ? stopRecording : startRecording}
             disabled={isProcessing}
-            className={`p-3 rounded-xl border transition-all duration-300 relative group flex-shrink-0 ${
+            className={`transition-all duration-300 relative group flex-shrink-0 flex items-center justify-center ${
               isRecording
-                ? 'bg-rose-500 text-white border-rose-500 animate-pulse scale-105'
-                : 'bg-card border-border hover:border-muted-foreground/30 text-muted-foreground hover:text-foreground'
+                ? 'btn-gel btn-gel-red w-11 h-11 animate-pulse'
+                : 'btn-plush-base btn-plush-beige w-11 h-11 border border-border/20'
             }`}
             title={isRecording ? 'Stop recording voice log' : 'Record voice practice session'}
           >
@@ -405,7 +405,7 @@ export default function ChatPanel({ onClose }: ChatPanelProps) {
           <button
             onClick={handleSendText}
             disabled={!inputText.trim() || isProcessing}
-            className="p-3 rounded-xl bg-primary text-primary-foreground hover:bg-primary/95 transition-all duration-300 disabled:opacity-40 disabled:cursor-not-allowed flex-shrink-0"
+            className="btn-gel btn-gel-blue w-11 h-11 flex-shrink-0 flex items-center justify-center disabled:opacity-40 disabled:cursor-not-allowed"
           >
             <Send size={16} />
           </button>

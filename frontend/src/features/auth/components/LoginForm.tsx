@@ -145,7 +145,7 @@ const LoginForm = () => {
               {/* Submit Button */}
               <button
                 type="submit"
-                className="w-full bg-teal-600 hover:bg-teal-500 text-white font-bold py-3 rounded-lg mt-6 transition-all flex items-center justify-center gap-2 group/btn disabled:opacity-50 disabled:cursor-not-allowed"
+                className="w-full btn-gel btn-gel-blue py-3.5 mt-6 flex items-center justify-center gap-2 group/btn disabled:opacity-50 disabled:cursor-not-allowed"
                 disabled={isLoading}
               >
                 {isLoading ? 'INITIALIZING...' : 'INITIALIZE SESSION'}

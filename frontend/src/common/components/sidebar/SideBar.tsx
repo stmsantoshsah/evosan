@@ -87,10 +87,10 @@ export default function Sidebar() {
                 key={item.href}
                 href={item.href}
                 onClick={closeMobileMenu}
-                className={`flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium transition-all ${
+                className={`flex items-center gap-3 px-4 py-3 text-sm font-semibold transition-all ${
                   isActive
-                    ? 'bg-muted text-primary border border-border'
-                    : 'text-muted-foreground hover:text-foreground hover:bg-muted/50'
+                    ? 'btn-plush-base btn-plush-blue text-sky-900 dark:text-sky-100 shadow-sm border border-sky-400/20'
+                    : 'text-muted-foreground hover:text-foreground hover:bg-muted/50 rounded-lg'
                 }`}
               >
                 <item.icon size={18} />
@@ -136,10 +136,10 @@ export default function Sidebar() {
               <Link
                 key={item.href}
                 href={item.href}
-                className={`flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium transition-all ${
+                className={`flex items-center gap-3 px-4 py-3 text-sm font-semibold transition-all ${
                   isActive
-                    ? 'bg-muted text-primary border border-border'
-                    : 'text-muted-foreground hover:text-foreground hover:bg-muted/50'
+                    ? 'btn-plush-base btn-plush-blue text-sky-900 dark:text-sky-100 shadow-sm border border-sky-400/20'
+                    : 'text-muted-foreground hover:text-foreground hover:bg-muted/50 rounded-lg'
                 }`}
               >
                 <item.icon size={18} />

@@ -134,7 +134,7 @@ const SignupForm = () => {
               {/* Submit Button */}
               <button
                 type="submit"
-                className="w-full bg-purple-600 hover:bg-purple-500 text-white font-bold py-3 rounded-lg mt-6 transition-all flex items-center justify-center gap-2 group/btn disabled:opacity-50 disabled:cursor-not-allowed"
+                className="w-full btn-gel btn-gel-green py-3.5 mt-6 flex items-center justify-center gap-2 group/btn disabled:opacity-50 disabled:cursor-not-allowed"
                 disabled={isLoading}
               >
                 {isLoading ? 'REGISTERING...' : 'CONFIRM IDENTITY'}

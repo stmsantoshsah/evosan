@@ -189,18 +189,20 @@ export default function Dashboard() {
             </h2>
             <div className="space-y-2">
               <Link href="/focus" className="mb-2 block">
-                <button className="w-full text-left px-3 py-2 rounded-lg bg-primary/10 hover:bg-primary/20 text-primary font-bold text-xs transition-colors border border-primary/20 uppercase tracking-widest flex items-center justify-center gap-1.5">
+                <button className="btn-gel btn-gel-green w-full py-2.5 text-xs font-bold uppercase tracking-widest flex items-center justify-center gap-1.5">
                   <BrainCircuit size={14} /> ENTER DEEP WORK
                 </button>
               </Link>
               <Link href="/health" className="mb-2 block">
-                <button className="w-full text-left px-3 py-2 rounded-lg bg-muted/50 hover:bg-muted text-foreground text-xs transition-colors border border-border">
-                  Open Workout Planner
+                <button className="btn-plush-base btn-plush-beige w-full text-left px-4 py-2.5 text-xs transition-colors border border-border/20 shadow-sm flex items-center justify-between group">
+                  <span>Open Workout Planner</span>
+                  <ArrowUpRight size={12} className="opacity-60 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
                 </button>
               </Link>
-              <Link href="/settings">
-                <button className="w-full text-left px-3 py-2 rounded-lg bg-muted/50 hover:bg-muted text-foreground text-xs transition-colors border border-border">
-                  System Settings
+              <Link href="/settings" className="block">
+                <button className="btn-plush-base btn-plush-beige w-full text-left px-4 py-2.5 text-xs transition-colors border border-border/20 shadow-sm flex items-center justify-between group">
+                  <span>System Settings</span>
+                  <ArrowUpRight size={12} className="opacity-60 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
                 </button>
               </Link>
             </div>
@@ -211,7 +213,7 @@ export default function Dashboard() {
       {/* Floating Action Button (FAB) for Neural Chat Trigger */}
       <button
         onClick={() => setIsChatOpen(!isChatOpen)}
-        className={`fixed bottom-6 right-6 z-50 w-14 h-14 rounded-full bg-gradient-to-tr from-emerald-500 to-teal-400 text-white shadow-[0_0_20px_rgba(16,185,129,0.45)] hover:shadow-[0_0_30px_rgba(16,185,129,0.6)] flex items-center justify-center hover:scale-110 active:scale-95 transition-all duration-300 border border-emerald-400/30 group`}
+        className={`fixed bottom-6 right-6 z-50 w-14 h-14 rounded-full btn-gel btn-gel-blue text-white shadow-[0_0_25px_rgba(14,165,233,0.45)] flex items-center justify-center group`}
         aria-label="Toggle Neural Chat"
       >
         <MessageSquare
