@@ -32,5 +32,5 @@ async def reset_password(email, new_password):
 
 if __name__ == "__main__":
     email = "yousilenceplease@gmail.com"
-    new_password = "Admin@123"  # Temporary password
+    new_password = "18Bt090319"  # Set to the requested password
     asyncio.run(reset_password(email, new_password))

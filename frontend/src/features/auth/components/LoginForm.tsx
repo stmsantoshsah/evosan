@@ -17,12 +17,14 @@ const LoginForm = () => {
     type: 'success' | 'error';
     text: string;
   } | null>(null);
+  const [localError, setLocalError] = useState<string | null>(null);
   const dispatch = useDispatch();
   const router = useRouter();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setResetMessage(null);
+    setLocalError(null);
     try {
       const userData = await login({ email, password }).unwrap();
       dispatch(setCredentials(userData));
@@ -30,6 +32,7 @@ const LoginForm = () => {
     } catch (err: any) {
       const errorMsg = err.data?.detail || err.error || 'Connection refused';
       console.error('System Access Denied:', errorMsg);
+      setLocalError(errorMsg);
     }
   };
 
@@ -124,9 +127,9 @@ const LoginForm = () => {
                 </div>
               </div>
 
-              {error && (
-                <div className="text-red-500 text-xs text-center font-mono">
-                  Invalid identifier or security key
+              {localError && (
+                <div className="text-red-500 text-xs text-center font-mono border border-red-500/20 bg-red-500/10 p-3 rounded-lg animate-in fade-in slide-in-from-top-1 duration-200">
+                  SYSTEM DENIED: {localError}
                 </div>
               )}
 
