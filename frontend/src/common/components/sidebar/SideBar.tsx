@@ -19,6 +19,7 @@ import {
   Moon,
   Target,
   Compass,
+  BookOpenCheck,
 } from 'lucide-react';
 import { useState } from 'react';
 import { useTheme } from '@/common/contexts/ThemeContext';
@@ -27,6 +28,9 @@ const navItems = [
   { name: 'Dashboard', href: '/', icon: LayoutDashboard },
   { name: 'Protocol', href: '/protocol', icon: Target },
   { name: 'Roadmap', href: '/roadmap', icon: Compass },
+  { name: 'Embodied AI', href: '/embodied-ai-roadmap', icon: Cpu },
+  { name: 'English Prep', href: '/english-roadmap', icon: BookOpenCheck },
+  { name: 'Interview Prep', href: '/interview-prep-roadmap', icon: Terminal },
   { name: 'Journal', href: '/journal', icon: BookOpen },
   { name: 'Habits', href: '/habits', icon: CheckSquare },
   { name: 'Insights', href: '/insights', icon: Sparkles },
